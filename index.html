@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volna — Fashion Intelligence. Data Driven.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080c10;
+    --surface: #0d1117;
+    --white: #f0f4f8;
+    --blue: #7eb8d4;
+    --blue-light: #b8d8e8;
+    --blue-dim: #3a6478;
+    --gray: #5a6470;
+    --gray-light: #9aaab8;
+    --border: rgba(126, 184, 212, 0.12);
+    --border-strong: rgba(126, 184, 212, 0.25);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    opacity: 0.022;
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  /* Ambient glows */
+  .glow-1 {
+    position: fixed;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(126,184,212,0.07) 0%, transparent 70%);
+    top: -250px; right: -150px;
+    pointer-events: none; z-index: 0;
+    animation: glowDrift 14s ease-in-out infinite alternate;
+  }
+
+  .glow-2 {
+    position: fixed;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(126,184,212,0.04) 0%, transparent 70%);
+    bottom: 5%; left: -150px;
+    pointer-events: none; z-index: 0;
+    animation: glowDrift 18s ease-in-out infinite alternate-reverse;
+  }
+
+  @keyframes glowDrift {
+    from { transform: translate(0,0) scale(1); }
+    to   { transform: translate(50px,70px) scale(1.12); }
+  }
+
+  /* Nav */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.5rem 4rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(8,12,16,0.88);
+    backdrop-filter: blur(20px);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 600;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--white); text-decoration: none;
+    position: relative;
+  }
+
+  .nav-logo::after {
+    content: ''; position: absolute; bottom: -3px; left: 0; width: 100%; height: 1px;
+    background: var(--blue); transform: scaleX(0); transform-origin: left; transition: transform 0.4s;
+  }
+  .nav-logo:hover::after { transform: scaleX(1); }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gray-light); text-decoration: none; transition: color 0.3s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -3px; left: 0; width: 100%; height: 1px;
+    background: var(--blue); transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+  }
+  .nav-links a:hover { color: var(--blue-light); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 8rem 4rem 4rem;
+    position: relative; overflow: hidden;
+  }
+
+  .hero-bg-text {
+    position: absolute; right: -3rem; top: 50%;
+    transform: translateY(-50%);
+    font-size: 22vw; font-weight: 600;
+    background: linear-gradient(180deg, rgba(126,184,212,0.07) 0%, transparent 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    letter-spacing: -0.02em; line-height: 1;
+    pointer-events: none; white-space: nowrap;
+    animation: textDrift 22s ease-in-out infinite alternate;
+  }
+
+  @keyframes textDrift {
+    from { transform: translateY(-50%) translateX(0); }
+    to   { transform: translateY(-52%) translateX(-25px); }
+  }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 2rem;
+    opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.4,0,0.2,1) 0.2s forwards;
+    display: flex; align-items: center; gap: 1rem;
+  }
+
+  .hero-tag::before {
+    content: ''; display: inline-block; width: 32px; height: 1px; background: var(--blue);
+  }
+
+  .hero-headline {
+    font-size: clamp(3.2rem,7.5vw,7rem); font-weight: 300;
+    line-height: 1.02; letter-spacing: -0.015em; max-width: 950px;
+    opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.4,0,0.2,1) 0.4s forwards;
+  }
+
+  .hero-headline em { font-style: italic; color: var(--blue-light); }
+
+  .hero-sub {
+    margin-top: 2.5rem; font-size: 1.15rem; color: var(--gray-light);
+    max-width: 540px; font-weight: 300; line-height: 1.85;
+    opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.4,0,0.2,1) 0.6s forwards;
+  }
+
+  .hero-stats {
+    margin-top: 4rem; display: flex; gap: 3rem;
+    opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.4,0,0.2,1) 0.8s forwards;
+  }
+
+  .hero-stat { border-left: 1px solid var(--border-strong); padding-left: 1.5rem; }
+
+  .hero-stat-number { font-size: 2rem; font-weight: 300; color: var(--white); line-height: 1; margin-bottom: 0.25rem; }
+
+  .hero-stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--blue-dim);
+  }
+
+  .scroll-hint {
+    position: absolute; bottom: 2.5rem; left: 4rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray);
+    display: flex; align-items: center; gap: 0.8rem;
+    opacity: 0; animation: fadeUp 0.9s 1.2s forwards;
+  }
+
+  .scroll-line {
+    width: 40px; height: 1px; background: var(--border-strong); position: relative; overflow: hidden;
+  }
+
+  .scroll-line::after {
+    content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+    background: var(--blue); animation: scrollPulse 2.2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse { 0% { left: -100%; } 100% { left: 100%; } }
+
+  /* Sections */
+  section {
+    padding: 7rem 4rem;
+    border-top: 1px solid var(--border);
+    position: relative; z-index: 1;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 2.5rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+
+  .section-label::before {
+    content: ''; display: inline-block; width: 20px; height: 1px; background: var(--blue);
+  }
+
+  .section-title {
+    font-size: clamp(2rem,4vw,3.4rem); font-weight: 300;
+    line-height: 1.1; margin-bottom: 2rem; max-width: 700px;
+  }
+
+  .section-title em { font-style: italic; color: var(--blue-light); }
+
+  .section-body { font-size: 1.1rem; color: var(--gray-light); max-width: 580px; line-height: 1.95; }
+
+  /* About */
+  .about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 7rem; align-items: center; }
+
+  .about-visual {
+    display: flex; flex-direction: column;
+    border: 1px solid var(--border); padding: 2.5rem;
+    background: rgba(126,184,212,0.02); position: relative; overflow: hidden;
+  }
+
+  .about-visual::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--blue), transparent); opacity: 0.6;
+  }
+
+  .about-visual-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--blue-dim); margin-bottom: 2rem;
+  }
+
+  .about-bar-row {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 0.65rem 0; border-bottom: 1px solid rgba(255,255,255,0.03);
+    transition: background 0.2s;
+  }
+  .about-bar-row:hover { background: rgba(126,184,212,0.04); margin: 0 -2.5rem; padding-left: 2.5rem; padding-right: 2.5rem; }
+  .about-bar-row:last-child { border-bottom: none; }
+
+  .about-bar-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.05em; color: var(--gray-light); width: 110px; flex-shrink: 0;
+  }
+
+  .about-bar-track { flex: 1; height: 1px; background: rgba(255,255,255,0.05); position: relative; overflow: hidden; }
+
+  .about-bar-fill {
+    height: 100%; transform: scaleX(0); transform-origin: left;
+    animation: barFill 1.4s cubic-bezier(0.4,0,0.2,1) forwards;
+  }
+
+  .fill-buy  { background: linear-gradient(90deg, var(--blue-dim), var(--blue-light)); }
+  .fill-hold { background: linear-gradient(90deg, #3a4a5a, #6a8090); }
+  .fill-wind { background: linear-gradient(90deg, #1e2a34, #3a4a5a); }
+
+  .about-bar-row:nth-child(2) .about-bar-fill { animation-delay: 0.2s;  width: 95%; }
+  .about-bar-row:nth-child(3) .about-bar-fill { animation-delay: 0.35s; width: 88%; }
+  .about-bar-row:nth-child(4) .about-bar-fill { animation-delay: 0.5s;  width: 72%; }
+  .about-bar-row:nth-child(5) .about-bar-fill { animation-delay: 0.65s; width: 61%; }
+  .about-bar-row:nth-child(6) .about-bar-fill { animation-delay: 0.8s;  width: 44%; }
+  .about-bar-row:nth-child(7) .about-bar-fill { animation-delay: 0.95s; width: 30%; }
+
+  .about-bar-signal {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.1em; width: 72px; text-align: right; flex-shrink: 0;
+  }
+
+  .signal-buy  { color: var(--blue-light); }
+  .signal-hold { color: var(--gray-light); }
+  .signal-wind { color: var(--gray); }
+
+  /* Steps */
+  .steps {
+    display: grid; grid-template-columns: repeat(5,1fr);
+    border: 1px solid var(--border); margin-top: 4rem;
+    position: relative; overflow: hidden;
+  }
+
+  .steps::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--blue) 30%, var(--blue-light) 50%, var(--blue) 70%, transparent);
+    opacity: 0.5;
+  }
+
+  .step {
+    padding: 2.5rem 1.8rem; border-right: 1px solid var(--border);
+    position: relative; transition: background 0.4s; cursor: default;
+  }
+
+  .step::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+    background: var(--blue); transform: scaleX(0); transform-origin: left; transition: transform 0.4s;
+  }
+
+  .step:hover { background: rgba(126,184,212,0.04); }
+  .step:hover::after { transform: scaleX(1); }
+  .step:last-child { border-right: none; }
+
+  .step-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.25em; color: var(--blue); margin-bottom: 1.5rem; display: block;
+  }
+
+  .step-title { font-size: 1.05rem; font-weight: 400; margin-bottom: 0.8rem; line-height: 1.3; color: var(--white); }
+
+  .step-body {
+    font-size: 0.82rem; color: var(--gray); line-height: 1.75;
+    font-family: 'DM Mono', monospace; font-weight: 300;
+  }
+
+  /* Brands */
+  .brands-grid { display: flex; flex-wrap: wrap; border: 1px solid var(--border); margin-top: 3rem; }
+
+  .brand-item {
+    padding: 1.1rem 1.6rem;
+    border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--gray); font-family: 'DM Mono', monospace;
+    transition: color 0.25s, background 0.25s; cursor: default; position: relative;
+  }
+
+  .brand-item:hover { color: var(--blue-light); background: rgba(126,184,212,0.05); }
+
+  /* Sources */
+  .sources-row {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    border: 1px solid var(--border); margin-top: 3rem; position: relative; overflow: hidden;
+  }
+
+  .sources-row::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--blue), transparent); opacity: 0.4;
+  }
+
+  .source-item { padding: 2.5rem; border-right: 1px solid var(--border); transition: background 0.3s; }
+  .source-item:last-child { border-right: none; }
+  .source-item:hover { background: rgba(126,184,212,0.03); }
+
+  .source-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+
+  .source-name::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
+
+  .source-desc { font-size: 0.9rem; color: var(--gray); font-family: 'DM Mono', monospace; font-weight: 300; line-height: 1.8; }
+
+  /* Audience */
+  .audience-grid {
+    display: grid; grid-template-columns: repeat(2,1fr);
+    gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 3rem;
+  }
+
+  .audience-card {
+    background: var(--black); padding: 3rem; transition: background 0.3s; position: relative; overflow: hidden;
+  }
+
+  .audience-card::after {
+    content: ''; position: absolute; top: 0; left: 0; width: 1px; height: 100%;
+    background: linear-gradient(180deg, var(--blue), transparent); opacity: 0; transition: opacity 0.4s;
+  }
+
+  .audience-card:hover { background: rgba(126,184,212,0.03); }
+  .audience-card:hover::after { opacity: 1; }
+
+  .audience-icon {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 1.2rem; display: block;
+  }
+
+  .audience-title { font-size: 1.5rem; font-weight: 300; margin-bottom: 0.8rem; line-height: 1.25; }
+
+  .audience-body { font-size: 0.88rem; color: var(--gray); font-family: 'DM Mono', monospace; font-weight: 300; line-height: 1.85; }
+
+  /* Project */
+  .project-layout { display: grid; grid-template-columns: 280px 1fr; gap: 7rem; align-items: start; }
+
+  .project-stats { display: flex; flex-direction: column; border: 1px solid var(--border); }
+
+  .stat { padding: 1.8rem 2rem; border-bottom: 1px solid var(--border); transition: background 0.3s; }
+  .stat:last-child { border-bottom: none; }
+  .stat:hover { background: rgba(126,184,212,0.03); }
+
+  .stat-number { font-size: 2.8rem; font-weight: 300; color: var(--blue-light); line-height: 1; margin-bottom: 0.3rem; }
+
+  .stat-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); }
+
+  /* Footer */
+  footer {
+    padding: 2.5rem 4rem; border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    position: relative; z-index: 1;
+  }
+
+  footer::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--blue) 30%, var(--blue) 70%, transparent); opacity: 0.3;
+  }
+
+  .footer-logo { font-size: 1rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--white); }
+
+  .footer-links { display: flex; gap: 2rem; list-style: none; }
+
+  .footer-links a {
+    font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--gray); text-decoration: none; transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--blue-light); }
+
+  .footer-copy { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; color: var(--gray); opacity: 0.4; }
+
+  .footer-disclaimer {
+    padding: 1.5rem 4rem 2.5rem;
+    font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.05em;
+    color: var(--gray); opacity: 0.35; line-height: 1.9; text-align: center;
+    position: relative; z-index: 1;
+  }
+
+  /* Animations */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes barFill { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+
+  .reveal { opacity:0; transform:translateY(32px); transition: opacity 0.9s cubic-bezier(0.4,0,0.2,1), transform 0.9s cubic-bezier(0.4,0,0.2,1); }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+
+  /* Responsive */
+  @media (max-width: 960px) {
+    nav { padding: 1.2rem 2rem; }
+    .nav-links { display: none; }
+    section { padding: 5rem 2rem; }
+    .hero { padding: 7rem 2rem 4rem; }
+    .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
+    .about-layout { grid-template-columns: 1fr; gap: 3rem; }
+    .steps { grid-template-columns: 1fr 1fr; }
+    .step:nth-child(2n) { border-right: none; }
+    .sources-row { grid-template-columns: 1fr; }
+    .source-item { border-right: none; border-bottom: 1px solid var(--border); }
+    .audience-grid { grid-template-columns: 1fr; }
+    .project-layout { grid-template-columns: 1fr; gap: 3rem; }
+    footer { flex-direction: column; gap: 1.5rem; text-align: center; padding: 2rem; }
+    .footer-disclaimer { padding: 1rem 2rem 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="glow-1"></div>
+<div class="glow-2"></div>
+
+<nav>
+  <a href="#" class="nav-logo">Volna</a>
+  <ul class="nav-links">
+    <li><a href="#how">Method</a></li>
+    <li><a href="#brands">Brands</a></li>
+    <li><a href="#audience">Audience</a></li>
+    <li><a href="#project">About</a></li>
+    <li><a href="privacy.html">Privacy</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg-text">ВОЛНА</div>
+  <p class="hero-tag">Fashion Intelligence — Data Driven</p>
+  <h1 class="hero-headline">Track the <em>Wave.</em><br>Know What's Next.</h1>
+  <p class="hero-sub">Volna combines Google Trends and Pinterest data to forecast the rise and fall of luxury fashion brands — giving buyers, brands, and researchers a data-driven edge.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><p class="hero-stat-number">21</p><p class="hero-stat-label">Brands Tracked</p></div>
+    <div class="hero-stat"><p class="hero-stat-number">5yr</p><p class="hero-stat-label">Data History</p></div>
+    <div class="hero-stat"><p class="hero-stat-number">2</p><p class="hero-stat-label">Signal Sources</p></div>
+    <div class="hero-stat"><p class="hero-stat-number">6mo</p><p class="hero-stat-label">Forecast Window</p></div>
+  </div>
+  <div class="scroll-hint"><div class="scroll-line"></div>Scroll</div>
+</section>
+
+<section id="about">
+  <div class="about-layout">
+    <div>
+      <p class="section-label reveal">About Volna</p>
+      <h2 class="section-title reveal reveal-delay-1">Fashion moves in <em>waves.</em></h2>
+      <p class="section-body reveal reveal-delay-2">Some brands are rising. Others are peaking. Some are fading. Knowing the difference before it happens is what separates reactive buying from strategic buying.<br><br>Volna tracks search interest and consumer intent signals across 21 luxury fashion brands, applies time series forecasting, and generates clear investment signals so you can make confident, data-backed decisions.</p>
+    </div>
+    <div class="about-visual reveal reveal-delay-1">
+      <p class="about-visual-title">Live signal preview — current brand momentum</p>
+      <div class="about-bar-row"><span class="about-bar-label">Prada</span><div class="about-bar-track"><div class="about-bar-fill fill-buy"></div></div><span class="about-bar-signal signal-buy">BUY ↑</span></div>
+      <div class="about-bar-row"><span class="about-bar-label">Miu Miu</span><div class="about-bar-track"><div class="about-bar-fill fill-buy"></div></div><span class="about-bar-signal signal-buy">BUY ↑</span></div>
+      <div class="about-bar-row"><span class="about-bar-label">Valentino</span><div class="about-bar-track"><div class="about-bar-fill fill-buy"></div></div><span class="about-bar-signal signal-buy">BUY ↑</span></div>
+      <div class="about-bar-row"><span class="about-bar-label">Louis Vuitton</span><div class="about-bar-track"><div class="about-bar-fill fill-hold"></div></div><span class="about-bar-signal signal-hold">HOLD →</span></div>
+      <div class="about-bar-row"><span class="about-bar-label">Balenciaga</span><div class="about-bar-track"><div class="about-bar-fill fill-hold"></div></div><span class="about-bar-signal signal-hold">HOLD →</span></div>
+      <div class="about-bar-row"><span class="about-bar-label">Sacai</span><div class="about-bar-track"><div class="about-bar-fill fill-wind"></div></div><span class="about-bar-signal signal-wind">WIND ↓</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <p class="section-label reveal">Methodology</p>
+  <h2 class="section-title reveal reveal-delay-1">How <em>Volna</em> Works</h2>
+  <div class="steps reveal reveal-delay-2">
+    <div class="step"><span class="step-number">01</span><p class="step-title">Data Collection</p><p class="step-body">Weekly trend data pulled from Google Trends and Pinterest, capturing both search intent and aspirational consumer behavior across the US market.</p></div>
+    <div class="step"><span class="step-number">02</span><p class="step-title">Forecasting</p><p class="step-body">Holt-Winters exponential smoothing projects each brand's interest trajectory 6 months forward, accounting for momentum and seasonal patterns.</p></div>
+    <div class="step"><span class="step-number">03</span><p class="step-title">Lifecycle Classification</p><p class="step-body">Each brand is classified into one of four stages — Rising, Peaking, Stable, or Declining — based on recent momentum and historical performance.</p></div>
+    <div class="step"><span class="step-number">04</span><p class="step-title">Investment Signals</p><p class="step-body">Google and Pinterest signals are cross-validated to produce a combined Buy, Hold, or Wind Down signal with upgraded conviction when both platforms agree.</p></div>
+    <div class="step"><span class="step-number">05</span><p class="step-title">AI Interpretation</p><p class="step-body">Plain-language brand interpretations grounded in consumer psychology research and cultural context, generated fresh from live data each run.</p></div>
+  </div>
+</section>
+
+<section id="brands">
+  <p class="section-label reveal">Coverage</p>
+  <h2 class="section-title reveal reveal-delay-1">21 Luxury <em>Brands</em> Tracked</h2>
+  <div class="brands-grid reveal reveal-delay-2">
+    <div class="brand-item">Gucci</div><div class="brand-item">Prada</div><div class="brand-item">Balenciaga</div>
+    <div class="brand-item">Saint Laurent</div><div class="brand-item">Versace</div><div class="brand-item">Bottega Veneta</div>
+    <div class="brand-item">Alexander McQueen</div><div class="brand-item">Burberry</div><div class="brand-item">Dior</div>
+    <div class="brand-item">Louis Vuitton</div><div class="brand-item">Givenchy</div><div class="brand-item">Valentino</div>
+    <div class="brand-item">Fendi</div><div class="brand-item">Dsquared2</div><div class="brand-item">Rick Owens</div>
+    <div class="brand-item">Sacai</div><div class="brand-item">Vivienne Westwood</div><div class="brand-item">Miu Miu</div>
+    <div class="brand-item">ERD</div><div class="brand-item">Jean Paul Gaultier</div><div class="brand-item">Comme des Garcons</div>
+  </div>
+</section>
+
+<section id="data">
+  <p class="section-label reveal">Data Sources</p>
+  <h2 class="section-title reveal reveal-delay-1">Built on <em>Real</em> Signal Data</h2>
+  <div class="sources-row reveal reveal-delay-2">
+    <div class="source-item"><span class="source-name">Google Trends</span><p class="source-desc">Weekly aggregate search interest for fashion brand keywords in the US market via pytrends. Captures active consumer research and purchase intent.</p></div>
+    <div class="source-item"><span class="source-name">Pinterest Trends API</span><p class="source-desc">Weekly aggregate pin and save counts per brand keyword. Captures aspirational consumer behavior and forward-looking purchase planning intent.</p></div>
+    <div class="source-item"><span class="source-name">Groq AI</span><p class="source-desc">AI-generated brand interpretations using Llama 3.3 70B, grounded in consumer psychology research, cultural theory, and cited academic sources.</p></div>
+  </div>
+</section>
+
+<section id="audience">
+  <p class="section-label reveal">Who It's For</p>
+  <h2 class="section-title reveal reveal-delay-1">Built for the <em>Industry</em></h2>
+  <div class="audience-grid reveal reveal-delay-2">
+    <div class="audience-card"><span class="audience-icon">01 — Retail Buyers</span><h3 class="audience-title">Make data-backed purchasing decisions.</h3><p class="audience-body">Know which brands are gaining momentum before the market catches up. Replace intuition with quantified trend signals and 6-month forecasts.</p></div>
+    <div class="audience-card"><span class="audience-icon">02 — Fashion Brands</span><h3 class="audience-title">Monitor your market positioning.</h3><p class="audience-body">Track your own search trajectory alongside competitors. Understand where you sit in your lifecycle and what the data says about the months ahead.</p></div>
+    <div class="audience-card"><span class="audience-icon">03 — Investors</span><h3 class="audience-title">Track consumer interest as a leading indicator.</h3><p class="audience-body">Identify rising brands early and spot declining ones before they peak. Cross-platform signal validation adds conviction to investment decisions.</p></div>
+    <div class="audience-card"><span class="audience-icon">04 — Researchers &amp; Students</span><h3 class="audience-title">Explore fashion at the intersection of data science.</h3><p class="audience-body">A working platform demonstrating applied machine learning, time series forecasting, and AI-powered analysis in the context of luxury fashion.</p></div>
+  </div>
+</section>
+
+<section id="project">
+  <div class="project-layout">
+    <div class="project-stats reveal">
+      <div class="stat"><p class="stat-number">21</p><p class="stat-label">Brands Tracked</p></div>
+      <div class="stat"><p class="stat-number">5yr</p><p class="stat-label">Data History</p></div>
+      <div class="stat"><p class="stat-number">2</p><p class="stat-label">Data Platforms</p></div>
+      <div class="stat"><p class="stat-number">6mo</p><p class="stat-label">Forecast Horizon</p></div>
+    </div>
+    <div>
+      <p class="section-label reveal">About the Project</p>
+      <h2 class="section-title reveal reveal-delay-1">An <em>independent</em> data science project.</h2>
+      <p class="section-body reveal reveal-delay-2">Volna is developed independently to demonstrate applied machine learning and trend forecasting in the luxury fashion industry. The platform uses Google Trends, the Pinterest Trends API, and the Groq AI API to collect, analyze, and interpret brand interest data.<br><br>No personal user data is collected or stored at any point. All analysis is performed on aggregate, anonymized trend signals only.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-logo">Volna</span>
+  <ul class="footer-links">
+    <li><a href="privacy.html">Privacy Notice</a></li>
+    <li><a href="mailto:rj.j.newton@gmail.com">Contact</a></li>
+  </ul>
+  <span class="footer-copy">© 2026 Volna</span>
+</footer>
+<p class="footer-disclaimer">Volna is an independent research project and is not affiliated with, endorsed by, or connected to any of the fashion brands analyzed within the platform. All brand names are trademarks of their respective owners and are used solely for identification and analytical purposes.</p>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // Parallax on hero bg text
+  const bgText = document.querySelector('.hero-bg-text');
+  window.addEventListener('scroll', () => {
+    if (bgText) bgText.style.transform = `translateY(calc(-50% + ${window.scrollY * 0.15}px))`;
+  }, { passive: true });
+</script>
+</body>
+</html>
