@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Volna — Fashion Intelligence. Data Driven.</title>
+<title>Volna — Fashion Intelligence for Independent Designers</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
@@ -32,35 +32,24 @@
     overflow-x: hidden;
   }
 
-  /* Grain overlay */
   body::before {
     content: '';
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
-    opacity: 0.022;
-    pointer-events: none;
-    z-index: 999;
+    opacity: 0.022; pointer-events: none; z-index: 999;
   }
 
-  /* Ambient glows */
   .glow-1 {
-    position: fixed;
-    width: 700px; height: 700px;
-    border-radius: 50%;
+    position: fixed; width: 700px; height: 700px; border-radius: 50%;
     background: radial-gradient(circle, rgba(126,184,212,0.07) 0%, transparent 70%);
-    top: -250px; right: -150px;
-    pointer-events: none; z-index: 0;
+    top: -250px; right: -150px; pointer-events: none; z-index: 0;
     animation: glowDrift 14s ease-in-out infinite alternate;
   }
 
   .glow-2 {
-    position: fixed;
-    width: 500px; height: 500px;
-    border-radius: 50%;
+    position: fixed; width: 500px; height: 500px; border-radius: 50%;
     background: radial-gradient(circle, rgba(126,184,212,0.04) 0%, transparent 70%);
-    bottom: 5%; left: -150px;
-    pointer-events: none; z-index: 0;
+    bottom: 5%; left: -150px; pointer-events: none; z-index: 0;
     animation: glowDrift 18s ease-in-out infinite alternate-reverse;
   }
 
@@ -69,7 +58,6 @@
     to   { transform: translate(50px,70px) scale(1.12); }
   }
 
-  /* Nav */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; justify-content: space-between; align-items: center;
@@ -81,9 +69,8 @@
 
   .nav-logo {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.4rem; font-weight: 600;
-    letter-spacing: 0.3em; text-transform: uppercase;
-    color: var(--white); text-decoration: none;
+    font-size: 1.4rem; font-weight: 600; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--white); text-decoration: none;
     position: relative;
   }
 
@@ -109,22 +96,17 @@
   .nav-links a:hover { color: var(--blue-light); }
   .nav-links a:hover::after { transform: scaleX(1); }
 
-  /* Hero */
   .hero {
-    min-height: 100vh;
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 8rem 4rem 4rem;
-    position: relative; overflow: hidden;
+    min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+    padding: 8rem 4rem 4rem; position: relative; overflow: hidden;
   }
 
   .hero-bg-text {
-    position: absolute; right: -3rem; top: 50%;
-    transform: translateY(-50%);
+    position: absolute; right: -3rem; top: 50%; transform: translateY(-50%);
     font-size: 22vw; font-weight: 600;
     background: linear-gradient(180deg, rgba(126,184,212,0.07) 0%, transparent 100%);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    letter-spacing: -0.02em; line-height: 1;
-    pointer-events: none; white-space: nowrap;
+    letter-spacing: -0.02em; line-height: 1; pointer-events: none; white-space: nowrap;
     animation: textDrift 22s ease-in-out infinite alternate;
   }
 
@@ -141,9 +123,7 @@
     display: flex; align-items: center; gap: 1rem;
   }
 
-  .hero-tag::before {
-    content: ''; display: inline-block; width: 32px; height: 1px; background: var(--blue);
-  }
+  .hero-tag::before { content: ''; display: inline-block; width: 32px; height: 1px; background: var(--blue); }
 
   .hero-headline {
     font-size: clamp(3.2rem,7.5vw,7rem); font-weight: 300;
@@ -154,8 +134,8 @@
   .hero-headline em { font-style: italic; color: var(--blue-light); }
 
   .hero-sub {
-    margin-top: 2.5rem; font-size: 1.15rem; color: var(--gray-light);
-    max-width: 540px; font-weight: 300; line-height: 1.85;
+    margin-top: 2.5rem; font-size: 1.2rem; color: var(--gray-light);
+    max-width: 580px; font-weight: 300; line-height: 1.85;
     opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.4,0,0.2,1) 0.6s forwards;
   }
 
@@ -165,26 +145,18 @@
   }
 
   .hero-stat { border-left: 1px solid var(--border-strong); padding-left: 1.5rem; }
-
   .hero-stat-number { font-size: 2rem; font-weight: 300; color: var(--white); line-height: 1; margin-bottom: 0.25rem; }
-
-  .hero-stat-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--blue-dim);
-  }
+  .hero-stat-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--blue-dim); }
 
   .scroll-hint {
     position: absolute; bottom: 2.5rem; left: 4rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray);
+    font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gray);
     display: flex; align-items: center; gap: 0.8rem;
     opacity: 0; animation: fadeUp 0.9s 1.2s forwards;
   }
 
-  .scroll-line {
-    width: 40px; height: 1px; background: var(--border-strong); position: relative; overflow: hidden;
-  }
-
+  .scroll-line { width: 40px; height: 1px; background: var(--border-strong); position: relative; overflow: hidden; }
   .scroll-line::after {
     content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
     background: var(--blue); animation: scrollPulse 2.2s ease-in-out infinite;
@@ -192,31 +164,17 @@
 
   @keyframes scrollPulse { 0% { left: -100%; } 100% { left: 100%; } }
 
-  /* Sections */
-  section {
-    padding: 7rem 4rem;
-    border-top: 1px solid var(--border);
-    position: relative; z-index: 1;
-  }
+  section { padding: 7rem 4rem; border-top: 1px solid var(--border); position: relative; z-index: 1; }
 
   .section-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase;
-    color: var(--blue); margin-bottom: 2.5rem;
+    font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--blue); margin-bottom: 2.5rem;
     display: flex; align-items: center; gap: 0.8rem;
   }
+  .section-label::before { content: ''; display: inline-block; width: 20px; height: 1px; background: var(--blue); }
 
-  .section-label::before {
-    content: ''; display: inline-block; width: 20px; height: 1px; background: var(--blue);
-  }
-
-  .section-title {
-    font-size: clamp(2rem,4vw,3.4rem); font-weight: 300;
-    line-height: 1.1; margin-bottom: 2rem; max-width: 700px;
-  }
-
+  .section-title { font-size: clamp(2rem,4vw,3.4rem); font-weight: 300; line-height: 1.1; margin-bottom: 2rem; max-width: 700px; }
   .section-title em { font-style: italic; color: var(--blue-light); }
-
   .section-body { font-size: 1.1rem; color: var(--gray-light); max-width: 580px; line-height: 1.95; }
 
   /* About */
@@ -233,203 +191,111 @@
     background: linear-gradient(90deg, transparent, var(--blue), transparent); opacity: 0.6;
   }
 
-  .about-visual-title {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
-    color: var(--blue-dim); margin-bottom: 2rem;
-  }
+  .about-visual-title { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--blue-dim); margin-bottom: 2rem; }
 
   .about-bar-row {
-    display: flex; align-items: center; gap: 1rem;
-    padding: 0.65rem 0; border-bottom: 1px solid rgba(255,255,255,0.03);
-    transition: background 0.2s;
+    display: flex; align-items: center; gap: 1rem; padding: 0.65rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.03); transition: background 0.2s;
   }
-  .about-bar-row:hover { background: rgba(126,184,212,0.04); margin: 0 -2.5rem; padding-left: 2.5rem; padding-right: 2.5rem; }
   .about-bar-row:last-child { border-bottom: none; }
-
-  .about-bar-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem; letter-spacing: 0.05em; color: var(--gray-light); width: 110px; flex-shrink: 0;
-  }
-
+  .about-bar-label { font-family: 'DM Mono', monospace; font-size: 0.62rem; color: var(--gray-light); width: 110px; flex-shrink: 0; }
   .about-bar-track { flex: 1; height: 1px; background: rgba(255,255,255,0.05); position: relative; overflow: hidden; }
-
-  .about-bar-fill {
-    height: 100%; transform: scaleX(0); transform-origin: left;
-    animation: barFill 1.4s cubic-bezier(0.4,0,0.2,1) forwards;
-  }
-
+  .about-bar-fill { height: 100%; transform: scaleX(0); transform-origin: left; animation: barFill 1.4s cubic-bezier(0.4,0,0.2,1) forwards; }
   .fill-buy  { background: linear-gradient(90deg, var(--blue-dim), var(--blue-light)); }
   .fill-hold { background: linear-gradient(90deg, #3a4a5a, #6a8090); }
   .fill-wind { background: linear-gradient(90deg, #1e2a34, #3a4a5a); }
-
   .about-bar-row:nth-child(2) .about-bar-fill { animation-delay: 0.2s;  width: 95%; }
   .about-bar-row:nth-child(3) .about-bar-fill { animation-delay: 0.35s; width: 88%; }
   .about-bar-row:nth-child(4) .about-bar-fill { animation-delay: 0.5s;  width: 72%; }
   .about-bar-row:nth-child(5) .about-bar-fill { animation-delay: 0.65s; width: 61%; }
   .about-bar-row:nth-child(6) .about-bar-fill { animation-delay: 0.8s;  width: 44%; }
   .about-bar-row:nth-child(7) .about-bar-fill { animation-delay: 0.95s; width: 30%; }
-
-  .about-bar-signal {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.58rem; letter-spacing: 0.1em; width: 72px; text-align: right; flex-shrink: 0;
-  }
-
+  .about-bar-signal { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; width: 72px; text-align: right; flex-shrink: 0; }
   .signal-buy  { color: var(--blue-light); }
   .signal-hold { color: var(--gray-light); }
   .signal-wind { color: var(--gray); }
 
-  /* Steps */
-  .steps {
-    display: grid; grid-template-columns: repeat(5,1fr);
-    border: 1px solid var(--border); margin-top: 4rem;
-    position: relative; overflow: hidden;
+  /* Features */
+  .features-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 4rem; }
+
+  .feature-card {
+    background: var(--black); padding: 2.5rem 2rem;
+    position: relative; overflow: hidden; transition: background 0.3s;
   }
+  .feature-card:hover { background: rgba(126,184,212,0.03); }
+
+  .feature-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--blue), transparent); opacity: 0; transition: opacity 0.4s;
+  }
+  .feature-card:hover::before { opacity: 0.5; }
+
+  .feature-number { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.25em; color: var(--blue); margin-bottom: 1.2rem; display: block; }
+  .feature-title { font-size: 1.3rem; font-weight: 400; margin-bottom: 0.8rem; line-height: 1.2; }
+  .feature-title em { font-style: italic; color: var(--blue-light); }
+  .feature-body { font-size: 0.88rem; color: var(--gray); font-family: 'DM Mono', monospace; font-weight: 300; line-height: 1.8; }
+
+  /* How it works */
+  .steps { display: grid; grid-template-columns: repeat(5,1fr); border: 1px solid var(--border); margin-top: 4rem; position: relative; overflow: hidden; }
 
   .steps::before {
     content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--blue) 30%, var(--blue-light) 50%, var(--blue) 70%, transparent);
-    opacity: 0.5;
+    background: linear-gradient(90deg, transparent, var(--blue) 30%, var(--blue-light) 50%, var(--blue) 70%, transparent); opacity: 0.5;
   }
 
-  .step {
-    padding: 2.5rem 1.8rem; border-right: 1px solid var(--border);
-    position: relative; transition: background 0.4s; cursor: default;
-  }
-
-  .step::after {
-    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
-    background: var(--blue); transform: scaleX(0); transform-origin: left; transition: transform 0.4s;
-  }
-
+  .step { padding: 2.5rem 1.8rem; border-right: 1px solid var(--border); position: relative; transition: background 0.4s; cursor: default; }
+  .step::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: var(--blue); transform: scaleX(0); transform-origin: left; transition: transform 0.4s; }
   .step:hover { background: rgba(126,184,212,0.04); }
   .step:hover::after { transform: scaleX(1); }
   .step:last-child { border-right: none; }
-
-  .step-number {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.58rem; letter-spacing: 0.25em; color: var(--blue); margin-bottom: 1.5rem; display: block;
-  }
-
+  .step-number { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.25em; color: var(--blue); margin-bottom: 1.5rem; display: block; }
   .step-title { font-size: 1.05rem; font-weight: 400; margin-bottom: 0.8rem; line-height: 1.3; color: var(--white); }
+  .step-body { font-size: 0.82rem; color: var(--gray); line-height: 1.75; font-family: 'DM Mono', monospace; font-weight: 300; }
 
-  .step-body {
-    font-size: 0.82rem; color: var(--gray); line-height: 1.75;
-    font-family: 'DM Mono', monospace; font-weight: 300;
-  }
+  /* Audience */
+  .audience-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 3rem; }
+
+  .audience-card { background: var(--black); padding: 2.5rem; transition: background 0.3s; position: relative; overflow: hidden; }
+  .audience-card::after { content: ''; position: absolute; top: 0; left: 0; width: 1px; height: 100%; background: linear-gradient(180deg, var(--blue), transparent); opacity: 0; transition: opacity 0.4s; }
+  .audience-card:hover { background: rgba(126,184,212,0.03); }
+  .audience-card:hover::after { opacity: 1; }
+  .audience-icon { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--blue); margin-bottom: 1.2rem; display: block; }
+  .audience-title { font-size: 1.4rem; font-weight: 300; margin-bottom: 0.8rem; line-height: 1.25; }
+  .audience-body { font-size: 0.88rem; color: var(--gray); font-family: 'DM Mono', monospace; font-weight: 300; line-height: 1.85; }
 
   /* Brands */
   .brands-grid { display: flex; flex-wrap: wrap; border: 1px solid var(--border); margin-top: 3rem; }
-
-  .brand-item {
-    padding: 1.1rem 1.6rem;
-    border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
-    font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--gray); font-family: 'DM Mono', monospace;
-    transition: color 0.25s, background 0.25s; cursor: default; position: relative;
-  }
-
+  .brand-item { padding: 1rem 1.4rem; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gray); font-family: 'DM Mono', monospace; transition: color 0.25s, background 0.25s; cursor: default; }
   .brand-item:hover { color: var(--blue-light); background: rgba(126,184,212,0.05); }
 
   /* Sources */
-  .sources-row {
-    display: grid; grid-template-columns: repeat(3,1fr);
-    border: 1px solid var(--border); margin-top: 3rem; position: relative; overflow: hidden;
-  }
-
-  .sources-row::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--blue), transparent); opacity: 0.4;
-  }
-
+  .sources-row { display: grid; grid-template-columns: repeat(3,1fr); border: 1px solid var(--border); margin-top: 3rem; position: relative; overflow: hidden; }
+  .sources-row::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--blue), transparent); opacity: 0.4; }
   .source-item { padding: 2.5rem; border-right: 1px solid var(--border); transition: background 0.3s; }
   .source-item:last-child { border-right: none; }
   .source-item:hover { background: rgba(126,184,212,0.03); }
-
-  .source-name {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--blue); margin-bottom: 1.2rem;
-    display: flex; align-items: center; gap: 0.6rem;
-  }
-
+  .source-name { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--blue); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.6rem; }
   .source-name::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
-
   .source-desc { font-size: 0.9rem; color: var(--gray); font-family: 'DM Mono', monospace; font-weight: 300; line-height: 1.8; }
-
-  /* Audience */
-  .audience-grid {
-    display: grid; grid-template-columns: repeat(2,1fr);
-    gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 3rem;
-  }
-
-  .audience-card {
-    background: var(--black); padding: 3rem; transition: background 0.3s; position: relative; overflow: hidden;
-  }
-
-  .audience-card::after {
-    content: ''; position: absolute; top: 0; left: 0; width: 1px; height: 100%;
-    background: linear-gradient(180deg, var(--blue), transparent); opacity: 0; transition: opacity 0.4s;
-  }
-
-  .audience-card:hover { background: rgba(126,184,212,0.03); }
-  .audience-card:hover::after { opacity: 1; }
-
-  .audience-icon {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem; letter-spacing: 0.28em; text-transform: uppercase;
-    color: var(--blue); margin-bottom: 1.2rem; display: block;
-  }
-
-  .audience-title { font-size: 1.5rem; font-weight: 300; margin-bottom: 0.8rem; line-height: 1.25; }
-
-  .audience-body { font-size: 0.88rem; color: var(--gray); font-family: 'DM Mono', monospace; font-weight: 300; line-height: 1.85; }
 
   /* Project */
   .project-layout { display: grid; grid-template-columns: 280px 1fr; gap: 7rem; align-items: start; }
-
   .project-stats { display: flex; flex-direction: column; border: 1px solid var(--border); }
-
   .stat { padding: 1.8rem 2rem; border-bottom: 1px solid var(--border); transition: background 0.3s; }
   .stat:last-child { border-bottom: none; }
   .stat:hover { background: rgba(126,184,212,0.03); }
-
   .stat-number { font-size: 2.8rem; font-weight: 300; color: var(--blue-light); line-height: 1; margin-bottom: 0.3rem; }
-
   .stat-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); }
 
-  /* Footer */
-  footer {
-    padding: 2.5rem 4rem; border-top: 1px solid var(--border);
-    display: flex; justify-content: space-between; align-items: center;
-    position: relative; z-index: 1;
-  }
-
-  footer::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--blue) 30%, var(--blue) 70%, transparent); opacity: 0.3;
-  }
-
+  footer { padding: 2.5rem 4rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 1; }
+  footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--blue) 30%, var(--blue) 70%, transparent); opacity: 0.3; }
   .footer-logo { font-size: 1rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--white); }
-
   .footer-links { display: flex; gap: 2rem; list-style: none; }
-
-  .footer-links a {
-    font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--gray); text-decoration: none; transition: color 0.3s;
-  }
+  .footer-links a { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); text-decoration: none; transition: color 0.3s; }
   .footer-links a:hover { color: var(--blue-light); }
-
   .footer-copy { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; color: var(--gray); opacity: 0.4; }
+  .footer-disclaimer { padding: 1.5rem 4rem 2.5rem; font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.05em; color: var(--gray); opacity: 0.35; line-height: 1.9; text-align: center; position: relative; z-index: 1; }
 
-  .footer-disclaimer {
-    padding: 1.5rem 4rem 2.5rem;
-    font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.05em;
-    color: var(--gray); opacity: 0.35; line-height: 1.9; text-align: center;
-    position: relative; z-index: 1;
-  }
-
-  /* Animations */
   @keyframes fadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
   @keyframes barFill { from { transform:scaleX(0); } to { transform:scaleX(1); } }
 
@@ -438,7 +304,6 @@
   .reveal-delay-1 { transition-delay: 0.1s; }
   .reveal-delay-2 { transition-delay: 0.2s; }
 
-  /* Responsive */
   @media (max-width: 960px) {
     nav { padding: 1.2rem 2rem; }
     .nav-links { display: none; }
@@ -446,11 +311,12 @@
     .hero { padding: 7rem 2rem 4rem; }
     .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
     .about-layout { grid-template-columns: 1fr; gap: 3rem; }
+    .features-grid { grid-template-columns: 1fr; }
     .steps { grid-template-columns: 1fr 1fr; }
     .step:nth-child(2n) { border-right: none; }
+    .audience-grid { grid-template-columns: 1fr; }
     .sources-row { grid-template-columns: 1fr; }
     .source-item { border-right: none; border-bottom: 1px solid var(--border); }
-    .audience-grid { grid-template-columns: 1fr; }
     .project-layout { grid-template-columns: 1fr; gap: 3rem; }
     footer { flex-direction: column; gap: 1.5rem; text-align: center; padding: 2rem; }
     .footer-disclaimer { padding: 1rem 2rem 2rem; }
@@ -465,9 +331,10 @@
 <nav>
   <a href="#" class="nav-logo">Volna</a>
   <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
     <li><a href="#how">Method</a></li>
     <li><a href="#brands">Brands</a></li>
-    <li><a href="#audience">Audience</a></li>
+    <li><a href="#audience">Who It's For</a></li>
     <li><a href="#project">About</a></li>
     <li><a href="privacy.html">Privacy</a></li>
   </ul>
@@ -475,14 +342,14 @@
 
 <section class="hero">
   <div class="hero-bg-text">ВОЛНА</div>
-  <p class="hero-tag">Fashion Intelligence — Data Driven</p>
-  <h1 class="hero-headline">Track the <em>Wave.</em><br>Know What's Next.</h1>
-  <p class="hero-sub">Volna combines Google Trends and Pinterest data to forecast the rise and fall of luxury fashion brands — giving buyers, brands, and researchers a data-driven edge.</p>
+  <p class="hero-tag">Intelligence for Independent Fashion</p>
+  <h1 class="hero-headline">The data advantage<br>large brands <em>already have.</em></h1>
+  <p class="hero-sub">Volna gives independent designers and emerging labels the same market intelligence as major fashion houses — trend forecasting, consumer profiling, collaboration matching, and launch timing, powered by Google Trends and Pinterest data.</p>
   <div class="hero-stats">
-    <div class="hero-stat"><p class="hero-stat-number">21</p><p class="hero-stat-label">Brands Tracked</p></div>
+    <div class="hero-stat"><p class="hero-stat-number">65+</p><p class="hero-stat-label">Brands Tracked</p></div>
     <div class="hero-stat"><p class="hero-stat-number">5yr</p><p class="hero-stat-label">Data History</p></div>
+    <div class="hero-stat"><p class="hero-stat-number">11</p><p class="hero-stat-label">Analysis Modules</p></div>
     <div class="hero-stat"><p class="hero-stat-number">2</p><p class="hero-stat-label">Signal Sources</p></div>
-    <div class="hero-stat"><p class="hero-stat-number">6mo</p><p class="hero-stat-label">Forecast Window</p></div>
   </div>
   <div class="scroll-hint"><div class="scroll-line"></div>Scroll</div>
 </section>
@@ -490,19 +357,63 @@
 <section id="about">
   <div class="about-layout">
     <div>
-      <p class="section-label reveal">About Volna</p>
-      <h2 class="section-title reveal reveal-delay-1">Fashion moves in <em>waves.</em></h2>
-      <p class="section-body reveal reveal-delay-2">Some brands are rising. Others are peaking. Some are fading. Knowing the difference before it happens is what separates reactive buying from strategic buying.<br><br>Volna tracks search interest and consumer intent signals across 21 luxury fashion brands, applies time series forecasting, and generates clear investment signals so you can make confident, data-backed decisions.</p>
+      <p class="section-label reveal">The Problem</p>
+      <h2 class="section-title reveal reveal-delay-1">Large brands have <em>data teams.</em> You don't.</h2>
+      <p class="section-body reveal reveal-delay-2">Chanel knows which aesthetics are rising six months before the market does. Prada has consumer psychologists mapping purchase intent. Independent designers and small labels make the same decisions — what to design, when to launch, who to collaborate with — but without any of that infrastructure.<br><br>Volna changes that. It tracks 65+ luxury brands across Google Trends and Pinterest, identifies the aesthetic clusters that are gaining momentum, and translates that signal into specific, actionable intelligence for independent creatives.</p>
     </div>
     <div class="about-visual reveal reveal-delay-1">
-      <p class="about-visual-title">Live signal preview — current brand momentum</p>
-      <div class="about-bar-row"><span class="about-bar-label">Prada</span><div class="about-bar-track"><div class="about-bar-fill fill-buy"></div></div><span class="about-bar-signal signal-buy">BUY ↑</span></div>
-      <div class="about-bar-row"><span class="about-bar-label">Miu Miu</span><div class="about-bar-track"><div class="about-bar-fill fill-buy"></div></div><span class="about-bar-signal signal-buy">BUY ↑</span></div>
-      <div class="about-bar-row"><span class="about-bar-label">Valentino</span><div class="about-bar-track"><div class="about-bar-fill fill-buy"></div></div><span class="about-bar-signal signal-buy">BUY ↑</span></div>
-      <div class="about-bar-row"><span class="about-bar-label">Louis Vuitton</span><div class="about-bar-track"><div class="about-bar-fill fill-hold"></div></div><span class="about-bar-signal signal-hold">HOLD →</span></div>
-      <div class="about-bar-row"><span class="about-bar-label">Balenciaga</span><div class="about-bar-track"><div class="about-bar-fill fill-hold"></div></div><span class="about-bar-signal signal-hold">HOLD →</span></div>
-      <div class="about-bar-row"><span class="about-bar-label">Sacai</span><div class="about-bar-track"><div class="about-bar-fill fill-wind"></div></div><span class="about-bar-signal signal-wind">WIND ↓</span></div>
+      <p class="about-visual-title">Current luxury market signals</p>
+      <div class="about-bar-row"><span class="about-bar-label">Prada</span><div class="about-bar-track"><div class="about-bar-fill fill-buy"></div></div><span class="about-bar-signal signal-buy">STRONG BUY</span></div>
+      <div class="about-bar-row"><span class="about-bar-label">Miu Miu</span><div class="about-bar-track"><div class="about-bar-fill fill-buy"></div></div><span class="about-bar-signal signal-buy">STRONG BUY</span></div>
+      <div class="about-bar-row"><span class="about-bar-label">Jacquemus</span><div class="about-bar-track"><div class="about-bar-fill fill-buy"></div></div><span class="about-bar-signal signal-buy">CAUTIOUS BUY</span></div>
+      <div class="about-bar-row"><span class="about-bar-label">Louis Vuitton</span><div class="about-bar-track"><div class="about-bar-fill fill-hold"></div></div><span class="about-bar-signal signal-hold">CONF. HOLD</span></div>
+      <div class="about-bar-row"><span class="about-bar-label">Balenciaga</span><div class="about-bar-track"><div class="about-bar-fill fill-hold"></div></div><span class="about-bar-signal signal-hold">WATCH</span></div>
+      <div class="about-bar-row"><span class="about-bar-label">Sacai</span><div class="about-bar-track"><div class="about-bar-fill fill-wind"></div></div><span class="about-bar-signal signal-wind">WIND DOWN</span></div>
     </div>
+  </div>
+</section>
+
+<section id="features">
+  <p class="section-label reveal">Modules</p>
+  <h2 class="section-title reveal reveal-delay-1">Six tools built for <em>independent creatives</em></h2>
+  <div class="features-grid reveal reveal-delay-2">
+
+    <div class="feature-card">
+      <span class="feature-number">01</span>
+      <h3 class="feature-title">Consumer <em>Intelligence</em> Report</h3>
+      <p class="feature-body">A complete consumer profile for the audience most likely to discover and buy from brands in your aesthetic cluster. Demographics, psychographics, purchase triggers, platform behavior, and cultural influences — grounded in academic research and real signal data.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-number">02</span>
+      <h3 class="feature-title">Aesthetic <em>Positioning</em> Map</h3>
+      <p class="feature-body">UMAP clustering places 65+ luxury brands in 2D space based on their behavioral fingerprint across Google and Pinterest. See exactly where your aesthetic sits in the current market, which clusters are rising, and where the white space is for an independent brand to gain traction.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-number">03</span>
+      <h3 class="feature-title">Cross-Platform <em>Signal</em> Analysis</h3>
+      <p class="feature-body">Google Trends captures search intent. Pinterest captures aspirational saving. When they agree, the conviction is strong. When they diverge, there is a gap between what consumers dream about and what they pursue — a gap that represents a strategic opportunity for independent designers.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-number">04</span>
+      <h3 class="feature-title"><em>Collaboration</em> Finder</h3>
+      <p class="feature-body">Enter your brand name and receive a ranked shortlist of luxury brands whose consumer base most behaviorally overlaps with yours. Each match comes with a five-part collaboration brief covering shared audience, what each brand brings, optimal format, timing, and how to initiate outreach.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-number">05</span>
+      <h3 class="feature-title">Launch <em>Timing</em> Engine</h3>
+      <p class="feature-body">Uses seasonal peak analysis, 6-month Holt-Winters forecasts, and the Google-leads-Pinterest lag to calculate your optimal launch window, announcement date, production deadline, and Pinterest content timing — with a personalised calendar built from your aesthetic cluster's data.</p>
+    </div>
+
+    <div class="feature-card">
+      <span class="feature-number">06</span>
+      <h3 class="feature-title">Luxury <em>Market</em> Context</h3>
+      <p class="feature-body">Track 65+ luxury brands across four categories — Established Luxury, French and Italian Houses, American and British Designers, and Avant-Garde and Emerging — as the macro signal backdrop that sets the aesthetic agenda your independent brand operates within.</p>
+    </div>
+
   </div>
 </section>
 
@@ -510,25 +421,31 @@
   <p class="section-label reveal">Methodology</p>
   <h2 class="section-title reveal reveal-delay-1">How <em>Volna</em> Works</h2>
   <div class="steps reveal reveal-delay-2">
-    <div class="step"><span class="step-number">01</span><p class="step-title">Data Collection</p><p class="step-body">Weekly trend data pulled from Google Trends and Pinterest, capturing both search intent and aspirational consumer behavior across the US market.</p></div>
-    <div class="step"><span class="step-number">02</span><p class="step-title">Forecasting</p><p class="step-body">Holt-Winters exponential smoothing projects each brand's interest trajectory 6 months forward, accounting for momentum and seasonal patterns.</p></div>
-    <div class="step"><span class="step-number">03</span><p class="step-title">Lifecycle Classification</p><p class="step-body">Each brand is classified into one of four stages — Rising, Peaking, Stable, or Declining — based on recent momentum and historical performance.</p></div>
-    <div class="step"><span class="step-number">04</span><p class="step-title">Investment Signals</p><p class="step-body">Google and Pinterest signals are cross-validated to produce a combined Buy, Hold, or Wind Down signal with upgraded conviction when both platforms agree.</p></div>
-    <div class="step"><span class="step-number">05</span><p class="step-title">AI Interpretation</p><p class="step-body">Plain-language brand interpretations grounded in consumer psychology research and cultural context, generated fresh from live data each run.</p></div>
+    <div class="step"><span class="step-number">01</span><p class="step-title">Data Collection</p><p class="step-body">Weekly trend data fetched from Google Trends and Pinterest across 65+ luxury brands, capturing both search intent and aspirational consumer behavior in the US market.</p></div>
+    <div class="step"><span class="step-number">02</span><p class="step-title">Forecasting</p><p class="step-body">Holt-Winters exponential smoothing projects each brand's interest trajectory 6 months forward, accounting for long-run momentum and annual seasonal patterns.</p></div>
+    <div class="step"><span class="step-number">03</span><p class="step-title">UMAP Clustering</p><p class="step-body">Dimensionality reduction maps all brands into 2D aesthetic clusters based on their combined Google and Pinterest behavioral fingerprint — revealing the hidden structure of the luxury market.</p></div>
+    <div class="step"><span class="step-number">04</span><p class="step-title">Cross-Validation</p><p class="step-body">Google and Pinterest signals are correlated and lead/lag analyzed to identify the aspiration-intent gap — where consumers dream more than they search, and vice versa.</p></div>
+    <div class="step"><span class="step-number">05</span><p class="step-title">AI Intelligence</p><p class="step-body">Groq AI synthesizes all data into consumer profiles, cultural analyses, collaboration briefs, launch calendars, and positioning strategies — cited, specific, and grounded in real signal data.</p></div>
   </div>
 </section>
 
 <section id="brands">
   <p class="section-label reveal">Coverage</p>
-  <h2 class="section-title reveal reveal-delay-1">21 Luxury <em>Brands</em> Tracked</h2>
-  <div class="brands-grid reveal reveal-delay-2">
-    <div class="brand-item">Gucci</div><div class="brand-item">Prada</div><div class="brand-item">Balenciaga</div>
-    <div class="brand-item">Saint Laurent</div><div class="brand-item">Versace</div><div class="brand-item">Bottega Veneta</div>
-    <div class="brand-item">Alexander McQueen</div><div class="brand-item">Burberry</div><div class="brand-item">Dior</div>
-    <div class="brand-item">Louis Vuitton</div><div class="brand-item">Givenchy</div><div class="brand-item">Valentino</div>
-    <div class="brand-item">Fendi</div><div class="brand-item">Dsquared2</div><div class="brand-item">Rick Owens</div>
-    <div class="brand-item">Sacai</div><div class="brand-item">Vivienne Westwood</div><div class="brand-item">Miu Miu</div>
-    <div class="brand-item">ERD</div><div class="brand-item">Jean Paul Gaultier</div><div class="brand-item">Comme des Garcons</div>
+  <h2 class="section-title reveal reveal-delay-1">65+ Luxury Brands as <em>Market Context</em></h2>
+  <p class="section-body reveal">Volna tracks the full luxury landscape so independent designers can see the macro signals that set the aesthetic agenda — from the established houses to the avant-garde labels shaping tomorrow's consumer taste.</p>
+  <div class="brands-grid reveal" style="margin-top:2rem;">
+    <div class="brand-item">Chanel</div><div class="brand-item">Prada</div><div class="brand-item">Miu Miu</div>
+    <div class="brand-item">Dior</div><div class="brand-item">Jacquemus</div><div class="brand-item">Bottega Veneta</div>
+    <div class="brand-item">Maison Margiela</div><div class="brand-item">Balenciaga</div><div class="brand-item">Celine</div>
+    <div class="brand-item">Saint Laurent</div><div class="brand-item">Valentino</div><div class="brand-item">Hermes</div>
+    <div class="brand-item">Rick Owens</div><div class="brand-item">Comme des Garcons</div><div class="brand-item">Dries Van Noten</div>
+    <div class="brand-item">Ann Demeulemeester</div><div class="brand-item">Raf Simons</div><div class="brand-item">JW Anderson</div>
+    <div class="brand-item">Simone Rocha</div><div class="brand-item">Issey Miyake</div><div class="brand-item">Yohji Yamamoto</div>
+    <div class="brand-item">Kiko Kostadinov</div><div class="brand-item">Y/Project</div><div class="brand-item">Mugler</div>
+    <div class="brand-item">Balmain</div><div class="brand-item">Isabel Marant</div><div class="brand-item">Marni</div>
+    <div class="brand-item">Jil Sander</div><div class="brand-item">Brunello Cucinelli</div><div class="brand-item">Loro Piana</div>
+    <div class="brand-item">Thom Browne</div><div class="brand-item">Proenza Schouler</div><div class="brand-item">Tom Ford</div>
+    <div class="brand-item">Marc Jacobs</div><div class="brand-item">Stella McCartney</div><div class="brand-item">+ many more</div>
   </div>
 </section>
 
@@ -536,35 +453,68 @@
   <p class="section-label reveal">Data Sources</p>
   <h2 class="section-title reveal reveal-delay-1">Built on <em>Real</em> Signal Data</h2>
   <div class="sources-row reveal reveal-delay-2">
-    <div class="source-item"><span class="source-name">Google Trends</span><p class="source-desc">Weekly aggregate search interest for fashion brand keywords in the US market via pytrends. Captures active consumer research and purchase intent.</p></div>
-    <div class="source-item"><span class="source-name">Pinterest Trends API</span><p class="source-desc">Weekly aggregate pin and save counts per brand keyword. Captures aspirational consumer behavior and forward-looking purchase planning intent.</p></div>
-    <div class="source-item"><span class="source-name">Groq AI</span><p class="source-desc">AI-generated brand interpretations using Llama 3.3 70B, grounded in consumer psychology research, cultural theory, and cited academic sources.</p></div>
+    <div class="source-item"><span class="source-name">Google Trends</span><p class="source-desc">Weekly aggregate search interest for luxury brand keywords in the US market via pytrends. Captures active consumer research and purchase intent — what people are actively looking for.</p></div>
+    <div class="source-item"><span class="source-name">Pinterest Trends API</span><p class="source-desc">Weekly aggregate pin and save counts per brand keyword. Captures aspirational consumer behavior — what people are saving, mood boarding, and planning to incorporate into their wardrobe.</p></div>
+    <div class="source-item"><span class="source-name">Groq AI</span><p class="source-desc">AI-generated intelligence using Llama 3.3 70B, grounded in consumer psychology research, cultural theory, and cited academic sources — translating raw data into specific, actionable designer guidance.</p></div>
   </div>
 </section>
 
 <section id="audience">
   <p class="section-label reveal">Who It's For</p>
-  <h2 class="section-title reveal reveal-delay-1">Built for the <em>Industry</em></h2>
+  <h2 class="section-title reveal reveal-delay-1">Built for <em>independent creatives</em></h2>
   <div class="audience-grid reveal reveal-delay-2">
-    <div class="audience-card"><span class="audience-icon">01 — Retail Buyers</span><h3 class="audience-title">Make data-backed purchasing decisions.</h3><p class="audience-body">Know which brands are gaining momentum before the market catches up. Replace intuition with quantified trend signals and 6-month forecasts.</p></div>
-    <div class="audience-card"><span class="audience-icon">02 — Fashion Brands</span><h3 class="audience-title">Monitor your market positioning.</h3><p class="audience-body">Track your own search trajectory alongside competitors. Understand where you sit in your lifecycle and what the data says about the months ahead.</p></div>
-    <div class="audience-card"><span class="audience-icon">03 — Investors</span><h3 class="audience-title">Track consumer interest as a leading indicator.</h3><p class="audience-body">Identify rising brands early and spot declining ones before they peak. Cross-platform signal validation adds conviction to investment decisions.</p></div>
-    <div class="audience-card"><span class="audience-icon">04 — Researchers &amp; Students</span><h3 class="audience-title">Explore fashion at the intersection of data science.</h3><p class="audience-body">A working platform demonstrating applied machine learning, time series forecasting, and AI-powered analysis in the context of luxury fashion.</p></div>
+
+    <div class="audience-card">
+      <span class="audience-icon">01 — Independent Designers</span>
+      <h3 class="audience-title">Make data-backed creative decisions.</h3>
+      <p class="audience-body">Know which aesthetic directions have consumer momentum before you commit to a collection. Use the Launch Timing Engine to hit the market at the exact right moment. Find collaboration partners whose consumer base overlaps with yours.</p>
+    </div>
+
+    <div class="audience-card">
+      <span class="audience-icon">02 — Small Fashion Brands</span>
+      <h3 class="audience-title">Compete with a data advantage.</h3>
+      <p class="audience-body">Understand where your brand sits in the broader luxury aesthetic landscape. Identify the white space your competitors haven't occupied. Build a positioning strategy grounded in what consumers are actually saving and searching for.</p>
+    </div>
+
+    <div class="audience-card">
+      <span class="audience-icon">03 — Emerging Labels</span>
+      <h3 class="audience-title">Find your market before it finds you.</h3>
+      <p class="audience-body">The Aesthetic Positioning Map places your brand within the UMAP cluster of luxury brands you most closely resemble — revealing your natural consumer audience, your nearest collaboration partners, and your optimal timing window.</p>
+    </div>
+
+    <div class="audience-card">
+      <span class="audience-icon">04 — Fashion Students</span>
+      <h3 class="audience-title">Build real analytical skills.</h3>
+      <p class="audience-body">Volna demonstrates applied machine learning, time series forecasting, dimensionality reduction, and AI-powered analysis in the context of fashion — a working portfolio project that bridges data science and creative industry practice.</p>
+    </div>
+
+    <div class="audience-card">
+      <span class="audience-icon">05 — Researchers</span>
+      <h3 class="audience-title">Explore consumer behavior at scale.</h3>
+      <p class="audience-body">A quantitative framework for studying fashion trend cycles, cross-platform consumer behavior, and the relationship between search intent and aspirational saving — grounded in academic consumer psychology research with full citations.</p>
+    </div>
+
+    <div class="audience-card">
+      <span class="audience-icon">06 — Fashion Investors</span>
+      <h3 class="audience-title">Track brand momentum as a signal.</h3>
+      <p class="audience-body">Cross-platform investment signals — STRONG BUY through CONFIRMED WIND DOWN — updated from live data. The aspiration-intent gap identifies brands where consumer desire is outpacing active pursuit, a leading indicator of emerging demand.</p>
+    </div>
+
   </div>
 </section>
 
 <section id="project">
   <div class="project-layout">
     <div class="project-stats reveal">
-      <div class="stat"><p class="stat-number">21</p><p class="stat-label">Brands Tracked</p></div>
+      <div class="stat"><p class="stat-number">65+</p><p class="stat-label">Brands Tracked</p></div>
+      <div class="stat"><p class="stat-number">11</p><p class="stat-label">Analysis Modules</p></div>
       <div class="stat"><p class="stat-number">5yr</p><p class="stat-label">Data History</p></div>
-      <div class="stat"><p class="stat-number">2</p><p class="stat-label">Data Platforms</p></div>
-      <div class="stat"><p class="stat-number">6mo</p><p class="stat-label">Forecast Horizon</p></div>
+      <div class="stat"><p class="stat-number">6mo</p><p class="stat-label">Forecast Window</p></div>
     </div>
     <div>
       <p class="section-label reveal">About the Project</p>
       <h2 class="section-title reveal reveal-delay-1">An <em>independent</em> data science project.</h2>
-      <p class="section-body reveal reveal-delay-2">Volna is developed independently to demonstrate applied machine learning and trend forecasting in the luxury fashion industry. The platform uses Google Trends, the Pinterest Trends API, and the Groq AI API to collect, analyze, and interpret brand interest data.<br><br>No personal user data is collected or stored at any point. All analysis is performed on aggregate, anonymized trend signals only.</p>
+      <p class="section-body reveal reveal-delay-2">Volna is developed independently to demonstrate applied machine learning, time series forecasting, UMAP dimensionality reduction, and AI-powered market intelligence in the context of independent fashion.<br><br>The platform uses Google Trends, the Pinterest Trends API, and the Groq AI API to collect, analyze, and interpret brand interest data. No personal user data is collected or stored at any point. All analysis is performed on aggregate, anonymized trend signals only.</p>
     </div>
   </div>
 </section>
@@ -573,7 +523,7 @@
   <span class="footer-logo">Volna</span>
   <ul class="footer-links">
     <li><a href="privacy.html">Privacy Notice</a></li>
-    <li><a href="mailto:rj.j.newton@gmail.com">Contact</a></li>
+    <li><a href="mailto:hello@volnatrends.com">Contact</a></li>
   </ul>
   <span class="footer-copy">© 2026 Volna</span>
 </footer>
@@ -588,7 +538,6 @@
   }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
   reveals.forEach(el => observer.observe(el));
 
-  // Parallax on hero bg text
   const bgText = document.querySelector('.hero-bg-text');
   window.addEventListener('scroll', () => {
     if (bgText) bgText.style.transform = `translateY(calc(-50% + ${window.scrollY * 0.15}px))`;
