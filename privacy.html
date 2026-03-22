@@ -1,107 +1,628 @@
-#VOLNA PRIVACY NOTICE
-#Last updated: March 2026
-#1. Introduction
-#Volna ("we", "us", "our") is a fashion trend analytics platform developed and operated by a single independent developer. This privacy notice explains how Volna collects, uses, and protects information when you use our platform.
-#We are committed to protecting your privacy and handling any personal data in accordance with applicable data protection laws, including the General Data Protection Regulation (GDPR), the UK GDPR, and applicable US privacy laws.
-#If you have any questions about this notice, please contact us at: hello@volnatrends.com
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Notice — Volna</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080c10;
+    --white: #f0f4f8;
+    --blue: #7eb8d4;
+    --blue-light: #b8d8e8;
+    --blue-dim: #3a6478;
+    --gray: #5a6470;
+    --gray-light: #9aaab8;
+    --border: rgba(126, 184, 212, 0.12);
+    --border-strong: rgba(126, 184, 212, 0.25);
+  }
 
-#2. What Data We Collect
-#Volna is designed to minimize personal data collection. The platform operates primarily on aggregate, anonymized trend data from third-party sources. Specifically:
-#Data we do NOT collect:
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
 
-#Your name, email address, or contact details (unless you contact us directly)
-#Your location data
-#Your browsing history or behavioral data
-#Any Pinterest user data, personal boards, or private content
-#Any Google account data or search history
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
 
-#Data we may collect depending on final app design:
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    opacity: 0.022;
+    pointer-events: none; z-index: 999;
+  }
 
-#Account registration details (name and email) if user accounts are implemented
-#Usage data such as which brands or features you interact with, collected in aggregate and anonymized form
-#Technical data such as browser type, device type, and IP address for security and performance monitoring
+  /* Ambient glow */
+  .glow-1 {
+    position: fixed; width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(126,184,212,0.06) 0%, transparent 70%);
+    top: -200px; right: -100px;
+    pointer-events: none; z-index: 0;
+    animation: glowDrift 14s ease-in-out infinite alternate;
+  }
 
-#Third-party data sources we query:
+  @keyframes glowDrift {
+    from { transform: translate(0,0) scale(1); }
+    to   { transform: translate(40px,60px) scale(1.1); }
+  }
 
-#Google Trends (via the pytrends library): We query aggregate, anonymized search interest data for fashion brand keywords. No personal Google user data is accessed.
-#Pinterest Trends API: We query aggregate, anonymized weekly pin/save count data for fashion brand keywords in the US market. No Pinterest user data, personal boards, private content, or individual user information is accessed at any point.
-#Groq AI API: We send aggregated, anonymized trend data to the Groq API to generate analytical interpretations. No personal user data is included in these requests.
+  /* Nav */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.5rem 4rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(8,12,16,0.88);
+    backdrop-filter: blur(20px);
+  }
 
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 600;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--white); text-decoration: none;
+    position: relative;
+  }
 
-#3. How We Use Data
-#Any data collected is used solely for the following purposes:
+  .nav-logo::after {
+    content: ''; position: absolute; bottom: -3px; left: 0; width: 100%; height: 1px;
+    background: var(--blue); transform: scaleX(0); transform-origin: left; transition: transform 0.4s;
+  }
+  .nav-logo:hover::after { transform: scaleX(1); }
 
-#To provide trend analysis and forecasting functionality within the Volna platform
-#To generate AI-powered brand interpretations using aggregated trend signals
-#To improve and maintain the performance of the platform
-#To respond to enquiries if you contact us directly
+  .nav-back {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gray-light); text-decoration: none; transition: color 0.3s;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
 
-#We do not use your data for advertising, profiling, or any commercial purpose beyond operating the platform.
+  .nav-back::before {
+    content: '←';
+    transition: transform 0.3s;
+  }
 
-#4. Legal Basis for Processing (GDPR and UK GDPR)
-#For users in the European Union and United Kingdom, we process data on the following legal bases under Article 6 of the GDPR:
+  .nav-back:hover { color: var(--blue-light); }
+  .nav-back:hover::before { transform: translateX(-4px); }
 
-#Legitimate interests (Article 6(1)(f)): Processing aggregate trend data to provide the core analytical functionality of the platform
-#Contract performance (Article 6(1)(b)): If you create an account, processing your registration details to provide you access to the platform
-#Consent (Article 6(1)(a)): For any optional data collection beyond what is strictly necessary to operate the platform
+  /* Hero */
+  .hero {
+    padding: 10rem 4rem 5rem;
+    border-bottom: 1px solid var(--border);
+    position: relative; z-index: 1;
+  }
 
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 2rem;
+    display: flex; align-items: center; gap: 1rem;
+    opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.4,0,0.2,1) 0.2s forwards;
+  }
 
-#5. Data Sharing and Third Parties
-#We do not sell your personal data to any third party under any circumstances.
-#We share data with the following third-party services solely to operate the platform:
+  .hero-tag::before {
+    content: ''; display: inline-block; width: 32px; height: 1px; background: var(--blue);
+  }
 
-#Google (pytrends): Aggregate keyword trend queries only. Google's privacy policy applies to their services: policies.google.com/privacy
-#Pinterest: Aggregate keyword trend queries via the Pinterest Trends API. Pinterest's privacy policy applies: policy.pinterest.com/privacy-policy
-#Groq: Aggregated, anonymized trend data is sent to the Groq API for AI-generated analysis. No personal user data is included. Groq's privacy policy applies: groq.com/privacy-policy
+  .hero-headline {
+    font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 300;
+    line-height: 1.05; letter-spacing: -0.01em; max-width: 700px;
+    opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.4,0,0.2,1) 0.4s forwards;
+  }
 
-#No personal data is transferred to these third parties as part of normal platform operation.
+  .hero-headline em { font-style: italic; color: var(--blue-light); }
 
-#6. International Data Transfers
-#Volna operates from the United States. If you are accessing the platform from the European Union or United Kingdom, please be aware that data may be processed in countries outside the EEA or UK, including the United States, where our third-party API providers operate.
-#Where such transfers occur, we ensure appropriate safeguards are in place in accordance with GDPR Chapter V, including reliance on Standard Contractual Clauses or adequacy decisions where applicable.
+  .hero-meta {
+    margin-top: 2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gray);
+    opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.4,0,0.2,1) 0.6s forwards;
+    display: flex; align-items: center; gap: 1.5rem;
+  }
 
-#7. Data Retention
+  .hero-meta span { display: flex; align-items: center; gap: 0.4rem; }
+  .hero-meta span::before { content: '·'; color: var(--blue); }
+  .hero-meta span:first-child::before { display: none; }
 
-#Aggregate trend data fetched from Google Trends and Pinterest is stored locally in CSV format for analysis purposes and is not linked to any individual user
-#If user accounts are implemented, account data will be retained for as long as your account remains active, and deleted within 30 days of account closure upon request
-#If you contact us directly, any correspondence will be retained for up to 12 months and then securely deleted
+  /* Main content */
+  .content {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 5rem 4rem 8rem;
+    position: relative; z-index: 1;
+  }
 
+  /* Section */
+  .privacy-section {
+    margin-bottom: 4rem;
+    padding-bottom: 4rem;
+    border-bottom: 1px solid var(--border);
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1), transform 0.8s cubic-bezier(0.4,0,0.2,1);
+  }
 
-#8. Your Rights
-#Depending on your location, you may have the following rights regarding your personal data:
-#EU and UK users (GDPR / UK GDPR):
+  .privacy-section.visible { opacity: 1; transform: translateY(0); }
+  .privacy-section:last-child { border-bottom: none; margin-bottom: 0; }
 
-#Right of access: Request a copy of any personal data we hold about you
-#Right to rectification: Request correction of inaccurate personal data
-#Right to erasure: Request deletion of your personal data ("right to be forgotten")
-#Right to restrict processing: Request that we limit how we use your data
-#Right to data portability: Request your data in a machine-readable format
-#Right to object: Object to processing based on legitimate interests
-#Right to withdraw consent: Where processing is based on consent, withdraw it at any time
+  .section-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
 
-#US users:
-#Depending on your state, you may have rights under applicable state privacy laws including the California Consumer Privacy Act (CCPA). These may include the right to know what data is collected, the right to delete personal data, and the right to opt out of the sale of personal data. Volna does not sell personal data.
-#To exercise any of these rights, contact us at: [your email address]. We will respond within 30 days.
+  .section-number::before {
+    content: ''; display: inline-block; width: 20px; height: 1px; background: var(--blue);
+  }
 
-#9. Cookies and Tracking
-#At present Volna does not use cookies or tracking technologies beyond what is strictly necessary to operate the platform. If this changes, this privacy notice will be updated and users will be informed.
+  .section-title {
+    font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 300;
+    line-height: 1.2; margin-bottom: 1.5rem;
+    color: var(--white);
+  }
 
-#10. Security
-#We take reasonable technical and organizational measures to protect any data processed by the platform, including secure storage of API credentials as environment variables rather than hardcoded values, and limiting data collection to only what is necessary for the platform to function.
+  .section-title em { font-style: italic; color: var(--blue-light); }
 
-#11. Children's Privacy
-#Volna is not directed at children under the age of 13 (or under 16 in the EU). We do not knowingly collect personal data from children. If you believe a child has provided personal data through the platform, please contact us and we will delete it promptly.
+  .section-body {
+    font-size: 1.05rem; color: var(--gray-light);
+    line-height: 1.95; margin-bottom: 1.2rem;
+  }
 
-#12. Changes to This Notice
-#We may update this privacy notice from time to time to reflect changes in the platform or applicable law. The date at the top of this notice indicates when it was last updated. Continued use of the platform after updates constitutes acceptance of the revised notice.
+  .section-body:last-child { margin-bottom: 0; }
 
-#13. Contact and Complaints
-#For any privacy-related questions or to exercise your rights, contact:
-#Volna
-#Developer: RJ Newton
-#Email: hello@volnatrends.com
-#Website: http://volnatrends.com
-#If you are in the EU or UK and are not satisfied with our response, you have the right to lodge a complaint with your local data protection authority:
+  /* Lists */
+  .privacy-list {
+    list-style: none; margin: 1.2rem 0;
+  }
 
-#EU: Your national data protection authority (find yours at edpb.europa.eu)
-#UK: The Information Commissioner's Office (ICO) at ico.org.uk
+  .privacy-list li {
+    font-size: 1rem; color: var(--gray-light);
+    line-height: 1.85; padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(126,184,212,0.06);
+    display: flex; align-items: flex-start; gap: 0.8rem;
+  }
+
+  .privacy-list li:last-child { border-bottom: none; }
+
+  .privacy-list li::before {
+    content: '·'; color: var(--blue); flex-shrink: 0;
+    font-size: 1.2rem; line-height: 1.6;
+  }
+
+  /* NOT collect list — muted styling */
+  .list-muted li { opacity: 0.6; }
+  .list-muted li::before { content: '×'; color: var(--gray); font-size: 0.9rem; }
+
+  /* Sub-list */
+  .sub-section {
+    margin: 1.5rem 0;
+    padding: 1.5rem 2rem;
+    border: 1px solid var(--border);
+    background: rgba(126,184,212,0.02);
+    position: relative;
+  }
+
+  .sub-section::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--blue), transparent); opacity: 0.4;
+  }
+
+  .sub-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+
+  .sub-title::before {
+    content: ''; width: 4px; height: 4px; border-radius: 50%;
+    background: var(--blue); flex-shrink: 0;
+  }
+
+  /* Legal basis table */
+  .legal-table {
+    width: 100%; border-collapse: collapse; margin: 1.2rem 0;
+  }
+
+  .legal-table tr { border-bottom: 1px solid var(--border); }
+  .legal-table tr:last-child { border-bottom: none; }
+
+  .legal-table td {
+    padding: 1rem 0.8rem; vertical-align: top;
+    font-size: 0.92rem; color: var(--gray-light); line-height: 1.7;
+  }
+
+  .legal-table td:first-child {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.1em;
+    color: var(--blue); width: 200px; padding-top: 1.1rem;
+  }
+
+  /* Rights grid */
+  .rights-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border); margin: 1.2rem 0;
+  }
+
+  .right-item {
+    background: var(--black); padding: 1.2rem 1.5rem;
+    transition: background 0.2s;
+  }
+
+  .right-item:hover { background: rgba(126,184,212,0.03); }
+
+  .right-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 0.4rem; display: block;
+  }
+
+  .right-desc {
+    font-size: 0.9rem; color: var(--gray-light); line-height: 1.7;
+  }
+
+  /* Contact card */
+  .contact-card {
+    border: 1px solid var(--border-strong);
+    padding: 2.5rem;
+    background: rgba(126,184,212,0.03);
+    position: relative; overflow: hidden;
+    margin-top: 1.5rem;
+  }
+
+  .contact-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--blue), transparent); opacity: 0.6;
+  }
+
+  .contact-row {
+    display: flex; gap: 2rem; align-items: flex-start;
+    padding: 0.8rem 0; border-bottom: 1px solid var(--border);
+  }
+
+  .contact-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .contact-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--blue-dim); width: 100px; flex-shrink: 0; padding-top: 0.1rem;
+  }
+
+  .contact-value {
+    font-size: 1rem; color: var(--gray-light); line-height: 1.6;
+  }
+
+  .contact-value a {
+    color: var(--blue-light); text-decoration: none; transition: color 0.2s;
+  }
+
+  .contact-value a:hover { color: var(--white); }
+
+  /* Authority links */
+  .authority-links {
+    display: flex; gap: 1px; background: var(--border);
+    border: 1px solid var(--border); margin-top: 1.2rem;
+  }
+
+  .authority-item {
+    flex: 1; padding: 1.5rem; background: var(--black);
+    transition: background 0.2s;
+  }
+
+  .authority-item:hover { background: rgba(126,184,212,0.03); }
+
+  .authority-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 0.5rem; display: block;
+  }
+
+  .authority-link {
+    font-size: 0.9rem; color: var(--gray-light); text-decoration: none; transition: color 0.2s;
+  }
+
+  .authority-link:hover { color: var(--blue-light); }
+
+  /* Footer */
+  footer {
+    padding: 2.5rem 4rem;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    position: relative; z-index: 1;
+  }
+
+  footer::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--blue) 30%, var(--blue) 70%, transparent);
+    opacity: 0.3;
+  }
+
+  .footer-logo { font-size: 1rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--white); }
+
+  .footer-links { display: flex; gap: 2rem; list-style: none; }
+
+  .footer-links a {
+    font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--gray); text-decoration: none; transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--blue-light); }
+
+  .footer-copy { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; color: var(--gray); opacity: 0.4; }
+
+  /* Animations */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+
+  /* Responsive */
+  @media (max-width: 760px) {
+    nav { padding: 1.2rem 2rem; }
+    .hero { padding: 8rem 2rem 3rem; }
+    .content { padding: 3rem 2rem 5rem; }
+    .rights-grid { grid-template-columns: 1fr; }
+    .authority-links { flex-direction: column; }
+    .legal-table td:first-child { width: 140px; }
+    footer { flex-direction: column; gap: 1.5rem; text-align: center; padding: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="glow-1"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">Volna</a>
+  <a href="index.html" class="nav-back">Back to Home</a>
+</nav>
+
+<div class="hero">
+  <p class="hero-tag">Legal</p>
+  <h1 class="hero-headline">Privacy <em>Notice</em></h1>
+  <div class="hero-meta">
+    <span>Volna</span>
+    <span>Last updated: March 2026</span>
+    <span>hello@volnatrends.com</span>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- 1. Introduction -->
+  <div class="privacy-section">
+    <p class="section-number">01</p>
+    <h2 class="section-title">Introduction</h2>
+    <p class="section-body">Volna ("we", "us", "our") is a fashion trend analytics platform developed and operated by a single independent developer. This privacy notice explains how Volna collects, uses, and protects information when you use our platform.</p>
+    <p class="section-body">We are committed to protecting your privacy and handling any personal data in accordance with applicable data protection laws, including the General Data Protection Regulation (GDPR), the UK GDPR, and applicable US privacy laws.</p>
+    <p class="section-body">If you have any questions about this notice, please contact us at: <a href="mailto:hello@volnatrends.com" style="color:var(--blue-light);text-decoration:none;">hello@volnatrends.com</a></p>
+  </div>
+
+  <!-- 2. What Data We Collect -->
+  <div class="privacy-section">
+    <p class="section-number">02</p>
+    <h2 class="section-title">What Data We <em>Collect</em></h2>
+    <p class="section-body">Volna is designed to minimize personal data collection. The platform operates primarily on aggregate, anonymized trend data from third-party sources.</p>
+
+    <div class="sub-section">
+      <p class="sub-title">Data we do NOT collect</p>
+      <ul class="privacy-list list-muted">
+        <li>Your name, email address, or contact details (unless you contact us directly)</li>
+        <li>Your location data</li>
+        <li>Your browsing history or behavioral data</li>
+        <li>Any Pinterest user data, personal boards, or private content</li>
+        <li>Any Google account data or search history</li>
+      </ul>
+    </div>
+
+    <div class="sub-section">
+      <p class="sub-title">Data we may collect depending on final app design</p>
+      <ul class="privacy-list">
+        <li>Account registration details (name and email) if user accounts are implemented</li>
+        <li>Usage data such as which brands or features you interact with, collected in aggregate and anonymized form</li>
+        <li>Technical data such as browser type, device type, and IP address for security and performance monitoring</li>
+      </ul>
+    </div>
+
+    <div class="sub-section">
+      <p class="sub-title">Third-party data sources we query</p>
+      <ul class="privacy-list">
+        <li><strong style="color:var(--white);font-weight:400;">Google Trends (via pytrends):</strong> We query aggregate, anonymized search interest data for fashion brand keywords. No personal Google user data is accessed.</li>
+        <li><strong style="color:var(--white);font-weight:400;">Pinterest Trends API:</strong> We query aggregate, anonymized weekly pin/save count data for fashion brand keywords in the US market. No Pinterest user data, personal boards, private content, or individual user information is accessed at any point.</li>
+        <li><strong style="color:var(--white);font-weight:400;">Groq AI API:</strong> We send aggregated, anonymized trend data to the Groq API to generate analytical interpretations. No personal user data is included in these requests.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3. How We Use Data -->
+  <div class="privacy-section">
+    <p class="section-number">03</p>
+    <h2 class="section-title">How We <em>Use</em> Data</h2>
+    <p class="section-body">Any data collected is used solely for the following purposes:</p>
+    <ul class="privacy-list">
+      <li>To provide trend analysis and forecasting functionality within the Volna platform</li>
+      <li>To generate AI-powered brand interpretations using aggregated trend signals</li>
+      <li>To improve and maintain the performance of the platform</li>
+      <li>To respond to enquiries if you contact us directly</li>
+    </ul>
+    <p class="section-body">We do not use your data for advertising, profiling, or any commercial purpose beyond operating the platform.</p>
+  </div>
+
+  <!-- 4. Legal Basis -->
+  <div class="privacy-section">
+    <p class="section-number">04</p>
+    <h2 class="section-title">Legal Basis for <em>Processing</em></h2>
+    <p class="section-body">For users in the European Union and United Kingdom, we process data on the following legal bases under Article 6 of the GDPR:</p>
+    <table class="legal-table">
+      <tr>
+        <td>Article 6(1)(f)</td>
+        <td><strong style="color:var(--white);font-weight:400;">Legitimate interests</strong> — Processing aggregate trend data to provide the core analytical functionality of the platform</td>
+      </tr>
+      <tr>
+        <td>Article 6(1)(b)</td>
+        <td><strong style="color:var(--white);font-weight:400;">Contract performance</strong> — If you create an account, processing your registration details to provide you access to the platform</td>
+      </tr>
+      <tr>
+        <td>Article 6(1)(a)</td>
+        <td><strong style="color:var(--white);font-weight:400;">Consent</strong> — For any optional data collection beyond what is strictly necessary to operate the platform</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 5. Data Sharing -->
+  <div class="privacy-section">
+    <p class="section-number">05</p>
+    <h2 class="section-title">Data Sharing and <em>Third Parties</em></h2>
+    <p class="section-body">We do not sell your personal data to any third party under any circumstances.</p>
+    <p class="section-body">We share data with the following third-party services solely to operate the platform:</p>
+    <ul class="privacy-list">
+      <li><strong style="color:var(--white);font-weight:400;">Google (pytrends):</strong> Aggregate keyword trend queries only. Google's privacy policy applies: <a href="https://policies.google.com/privacy" style="color:var(--blue-light);text-decoration:none;">policies.google.com/privacy</a></li>
+      <li><strong style="color:var(--white);font-weight:400;">Pinterest:</strong> Aggregate keyword trend queries via the Pinterest Trends API. Pinterest's privacy policy applies: <a href="https://policy.pinterest.com/privacy-policy" style="color:var(--blue-light);text-decoration:none;">policy.pinterest.com/privacy-policy</a></li>
+      <li><strong style="color:var(--white);font-weight:400;">Groq:</strong> Aggregated, anonymized trend data for AI-generated analysis. No personal user data is included. Groq's privacy policy applies: <a href="https://groq.com/privacy-policy" style="color:var(--blue-light);text-decoration:none;">groq.com/privacy-policy</a></li>
+    </ul>
+    <p class="section-body">No personal data is transferred to these third parties as part of normal platform operation.</p>
+  </div>
+
+  <!-- 6. International Transfers -->
+  <div class="privacy-section">
+    <p class="section-number">06</p>
+    <h2 class="section-title">International Data <em>Transfers</em></h2>
+    <p class="section-body">Volna operates from the United States. If you are accessing the platform from the European Union or United Kingdom, please be aware that data may be processed in countries outside the EEA or UK, including the United States, where our third-party API providers operate.</p>
+    <p class="section-body">Where such transfers occur, we ensure appropriate safeguards are in place in accordance with GDPR Chapter V, including reliance on Standard Contractual Clauses or adequacy decisions where applicable.</p>
+  </div>
+
+  <!-- 7. Data Retention -->
+  <div class="privacy-section">
+    <p class="section-number">07</p>
+    <h2 class="section-title">Data <em>Retention</em></h2>
+    <ul class="privacy-list">
+      <li>Aggregate trend data fetched from Google Trends and Pinterest is stored locally in CSV format for analysis purposes and is not linked to any individual user</li>
+      <li>If user accounts are implemented, account data will be retained for as long as your account remains active, and deleted within 30 days of account closure upon request</li>
+      <li>If you contact us directly, any correspondence will be retained for up to 12 months and then securely deleted</li>
+    </ul>
+  </div>
+
+  <!-- 8. Your Rights -->
+  <div class="privacy-section">
+    <p class="section-number">08</p>
+    <h2 class="section-title">Your <em>Rights</em></h2>
+    <p class="section-body">Depending on your location, you may have the following rights regarding your personal data:</p>
+
+    <div class="sub-section">
+      <p class="sub-title">EU and UK users — GDPR / UK GDPR</p>
+      <div class="rights-grid">
+        <div class="right-item"><span class="right-name">Right of access</span><p class="right-desc">Request a copy of any personal data we hold about you</p></div>
+        <div class="right-item"><span class="right-name">Right to rectification</span><p class="right-desc">Request correction of inaccurate personal data</p></div>
+        <div class="right-item"><span class="right-name">Right to erasure</span><p class="right-desc">Request deletion of your personal data ("right to be forgotten")</p></div>
+        <div class="right-item"><span class="right-name">Right to restrict</span><p class="right-desc">Request that we limit how we use your data</p></div>
+        <div class="right-item"><span class="right-name">Right to portability</span><p class="right-desc">Request your data in a machine-readable format</p></div>
+        <div class="right-item"><span class="right-name">Right to object</span><p class="right-desc">Object to processing based on legitimate interests</p></div>
+        <div class="right-item"><span class="right-name">Withdraw consent</span><p class="right-desc">Where processing is based on consent, withdraw it at any time</p></div>
+      </div>
+    </div>
+
+    <div class="sub-section">
+      <p class="sub-title">US users</p>
+      <p class="section-body" style="margin-bottom:0;">Depending on your state, you may have rights under applicable state privacy laws including the California Consumer Privacy Act (CCPA). These may include the right to know what data is collected, the right to delete personal data, and the right to opt out of the sale of personal data. Volna does not sell personal data.</p>
+    </div>
+
+    <p class="section-body" style="margin-top:1.5rem;">To exercise any of these rights, contact us at <a href="mailto:hello@volnatrends.com" style="color:var(--blue-light);text-decoration:none;">hello@volnatrends.com</a>. We will respond within 30 days.</p>
+  </div>
+
+  <!-- 9. Cookies -->
+  <div class="privacy-section">
+    <p class="section-number">09</p>
+    <h2 class="section-title">Cookies and <em>Tracking</em></h2>
+    <p class="section-body">At present Volna does not use cookies or tracking technologies beyond what is strictly necessary to operate the platform. If this changes, this privacy notice will be updated and users will be informed.</p>
+  </div>
+
+  <!-- 10. Security -->
+  <div class="privacy-section">
+    <p class="section-number">10</p>
+    <h2 class="section-title"><em>Security</em></h2>
+    <p class="section-body">We take reasonable technical and organizational measures to protect any data processed by the platform, including secure storage of API credentials as environment variables rather than hardcoded values, and limiting data collection to only what is necessary for the platform to function.</p>
+  </div>
+
+  <!-- 11. Children -->
+  <div class="privacy-section">
+    <p class="section-number">11</p>
+    <h2 class="section-title">Children's <em>Privacy</em></h2>
+    <p class="section-body">Volna is not directed at children under the age of 13 (or under 16 in the EU). We do not knowingly collect personal data from children. If you believe a child has provided personal data through the platform, please contact us and we will delete it promptly.</p>
+  </div>
+
+  <!-- 12. Changes -->
+  <div class="privacy-section">
+    <p class="section-number">12</p>
+    <h2 class="section-title">Changes to This <em>Notice</em></h2>
+    <p class="section-body">We may update this privacy notice from time to time to reflect changes in the platform or applicable law. The date at the top of this notice indicates when it was last updated. Continued use of the platform after updates constitutes acceptance of the revised notice.</p>
+  </div>
+
+  <!-- 13. Contact -->
+  <div class="privacy-section">
+    <p class="section-number">13</p>
+    <h2 class="section-title">Contact and <em>Complaints</em></h2>
+    <p class="section-body">For any privacy-related questions or to exercise your rights, contact:</p>
+
+    <div class="contact-card">
+      <div class="contact-row">
+        <span class="contact-label">Platform</span>
+        <span class="contact-value">Volna</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">Developer</span>
+        <span class="contact-value">RJ Newton</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">Email</span>
+        <span class="contact-value"><a href="mailto:hello@volnatrends.com">hello@volnatrends.com</a></span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-label">Website</span>
+        <span class="contact-value"><a href="https://volnatrends.com">volnatrends.com</a></span>
+      </div>
+    </div>
+
+    <p class="section-body" style="margin-top:2rem;">If you are in the EU or UK and are not satisfied with our response, you have the right to lodge a complaint with your local data protection authority:</p>
+
+    <div class="authority-links">
+      <div class="authority-item">
+        <span class="authority-name">European Union</span>
+        <a href="https://edpb.europa.eu" class="authority-link">Your national data protection authority — edpb.europa.eu</a>
+      </div>
+      <div class="authority-item">
+        <span class="authority-name">United Kingdom</span>
+        <a href="https://ico.org.uk" class="authority-link">Information Commissioner's Office — ico.org.uk</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span class="footer-logo">Volna</span>
+  <ul class="footer-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="mailto:hello@volnatrends.com">Contact</a></li>
+  </ul>
+  <span class="footer-copy">© 2026 Volna</span>
+</footer>
+
+<script>
+  const sections = document.querySelectorAll('.privacy-section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+  sections.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
