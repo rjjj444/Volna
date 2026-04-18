@@ -33,20 +33,77 @@
     overflow-x: hidden;
   }
 
-  /* Grain overlay */
+  /* ── Option C: Warm gradient wash ── */
+  /* Imperceptible shift — cool-white top-left, warm cream bottom-right,
+     with a faint radial warm breath at center. Adds atmospheric depth
+     without pattern. */
+  body {
+    background:
+      radial-gradient(ellipse 120% 80% at 30% 40%,
+        rgba(240,234,224,0.55) 0%, transparent 65%),
+      radial-gradient(ellipse 80% 60% at 80% 10%,
+        rgba(230,236,240,0.30) 0%, transparent 55%),
+      radial-gradient(ellipse 100% 80% at 10% 90%,
+        rgba(235,228,218,0.40) 0%, transparent 60%),
+      #f5f3f0;
+  }
+
+  /* ── Paper texture — two layers for depth ── */
+  /* Fine grain: high frequency, individual paper fibers */
   body::before {
     content: '';
     position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
-    opacity: 0.028; pointer-events: none; z-index: 999;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.35 0 0 0 0 0.28 0 0 0 0 0.20 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+    background-size: 256px 256px;
+    opacity: 0.10;
+    pointer-events: none; z-index: 998;
+    mix-blend-mode: multiply;
   }
 
-  /* Subtle vignette */
+  /* Coarse grain: low frequency, paper tooth and laid lines */
+  .paper-coarse {
+    position: fixed; inset: 0; pointer-events: none; z-index: 997;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='q'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.25' numOctaves='6' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.30 0 0 0 0 0.24 0 0 0 0 0.16 0 0 0 0.28 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23q)'/%3E%3C/svg%3E");
+    background-size: 512px 512px;
+    opacity: 0.07;
+    mix-blend-mode: multiply;
+  }
+
+  /* ── Option D: Print registration marks ── */
+  /* Faint crop-mark crosses at the four corners of the viewport,
+     like a fashion magazine press proof or editorial flat. */
   body::after {
     content: '';
     position: fixed; inset: 0;
-    background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.06) 100%);
-    pointer-events: none; z-index: 0;
+    pointer-events: none; z-index: 1;
+    background-image:
+      /* top-left H */
+      linear-gradient(90deg, rgba(10,10,10,0.18) 1px, transparent 1px),
+      /* top-left V */
+      linear-gradient(0deg,  rgba(10,10,10,0.18) 1px, transparent 1px),
+      /* top-right H */
+      linear-gradient(90deg, rgba(10,10,10,0.18) 1px, transparent 1px),
+      /* top-right V */
+      linear-gradient(0deg,  rgba(10,10,10,0.18) 1px, transparent 1px),
+      /* bottom-left H */
+      linear-gradient(90deg, rgba(10,10,10,0.18) 1px, transparent 1px),
+      /* bottom-left V */
+      linear-gradient(0deg,  rgba(10,10,10,0.18) 1px, transparent 1px),
+      /* bottom-right H */
+      linear-gradient(90deg, rgba(10,10,10,0.18) 1px, transparent 1px),
+      /* bottom-right V */
+      linear-gradient(0deg,  rgba(10,10,10,0.18) 1px, transparent 1px);
+    background-size:
+      28px 1px,  1px 28px,
+      28px 1px,  1px 28px,
+      28px 1px,  1px 28px,
+      28px 1px,  1px 28px;
+    background-position:
+      24px 24px,   24px 24px,
+      calc(100% - 24px) 24px,   calc(100% - 24px) 24px,
+      24px calc(100% - 24px),   24px calc(100% - 24px),
+      calc(100% - 24px) calc(100% - 24px),  calc(100% - 24px) calc(100% - 24px);
+    background-repeat: no-repeat;
   }
 
   /* ── Nav ── */
@@ -88,98 +145,143 @@
   .nav-links a:hover { color: var(--white); }
   .nav-links a:hover::after { transform: scaleX(1); }
 
-  /* ── Hero ── */
+  /* ── Hero — centered, Moon UltraLight inspired ── */
   .hero {
-    min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
-    padding: 8rem 4rem 4rem; position: relative; overflow: hidden;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 9rem 4rem 5rem;
+    position: relative; overflow: hidden;
+    text-align: center;
   }
 
-  .hero-bg-text {
-    position: absolute; right: -3rem; top: 50%; transform: translateY(-50%);
-    font-size: 22vw; font-weight: 600;
+  /* Faint VOLNA watermark behind hero content */
+  .hero-watermark {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .hero-watermark span {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(14rem, 28vw, 28rem);
+    font-weight: 600; letter-spacing: 0.04em;
+    text-transform: uppercase; white-space: nowrap;
     color: transparent;
-    -webkit-text-stroke: 1px rgba(10,10,10,0.04);
-    letter-spacing: -0.02em; line-height: 1; pointer-events: none; white-space: nowrap;
-    animation: textDrift 22s ease-in-out infinite alternate;
+    -webkit-text-stroke: 1px rgba(10,10,10,0.055);
+    line-height: 1; user-select: none;
+    animation: wmDrift 28s ease-in-out infinite alternate;
   }
-
-  @keyframes textDrift {
-    from { transform: translateY(-50%) translateX(0); }
-    to   { transform: translateY(-52%) translateX(-25px); }
-  }
-
-  .hero-rule {
-    position: absolute; top: 0; left: 4rem; right: 4rem; height: 1px;
-    background: var(--border); pointer-events: none;
+  @keyframes wmDrift {
+    from { transform: translateX(-8px); }
+    to   { transform: translateX(8px); }
   }
 
   .hero-tag {
     font-family: 'DM Mono', monospace;
-    font-size: 0.62rem; letter-spacing: 0.38em; text-transform: uppercase;
-    color: var(--white-muted); margin-bottom: 2.5rem;
+    font-size: 0.6rem; letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--white-muted); margin-bottom: 3rem;
     opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.4,0,0.2,1) 0.2s forwards;
     display: flex; align-items: center; gap: 1rem;
+    position: relative; z-index: 1;
   }
-
   .hero-tag::before {
-    content: ''; display: inline-block; width: 32px; height: 1px;
+    content: ''; display: inline-block; width: 24px; height: 1px;
+    background: var(--white-muted);
+  }
+  .hero-tag::after {
+    content: ''; display: inline-block; width: 24px; height: 1px;
     background: var(--white-muted);
   }
 
   .hero-headline {
-    font-size: clamp(3.2rem,7.5vw,7rem); font-weight: 300;
-    line-height: 1.02; letter-spacing: -0.015em; max-width: 950px;
-    opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.4,0,0.2,1) 0.4s forwards;
+    font-size: clamp(3rem, 7vw, 7.5rem); font-weight: 300;
+    line-height: 1.0; letter-spacing: -0.02em;
+    max-width: 880px;
+    opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.4,0,0.2,1) 0.35s forwards;
+    position: relative; z-index: 1;
   }
-
   .hero-headline em { font-style: italic; color: var(--white-dim); }
 
   .hero-sub {
-    margin-top: 2.5rem; font-size: 1.15rem; color: var(--white-muted);
-    max-width: 560px; font-weight: 300; line-height: 1.9;
-    opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.4,0,0.2,1) 0.6s forwards;
+    margin-top: 2.2rem; font-size: 1.1rem; color: var(--white-muted);
+    max-width: 500px; font-weight: 300; line-height: 1.95;
+    opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.4,0,0.2,1) 0.55s forwards;
+    position: relative; z-index: 1;
+  }
+
+  /* Hero visual — data panel as product shot */
+  .hero-visual {
+    margin-top: 4.5rem;
+    width: 100%; max-width: 680px;
+    border: 1px solid var(--border-strong);
+    background: rgba(245,243,240,0.7);
+    backdrop-filter: blur(8px);
+    padding: 2.5rem 3rem;
+    position: relative; z-index: 1;
+    opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.4,0,0.2,1) 0.75s forwards;
+    box-shadow: 0 2px 40px rgba(10,10,10,0.06), 0 1px 0 rgba(10,10,10,0.08);
+  }
+  .hero-visual::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(10,10,10,0.18), transparent);
+  }
+  .hero-visual-label {
+    font-family: 'DM Mono', monospace; font-size: 0.56rem;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--white-ghost); margin-bottom: 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .hero-visual-label span:last-child {
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .live-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--white-ghost);
+    animation: livePulse 2s ease-in-out infinite;
+  }
+  @keyframes livePulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50%       { opacity: 1;   transform: scale(1.3); }
   }
 
   .hero-stats {
-    margin-top: 4rem; display: flex; gap: 0;
-    opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.4,0,0.2,1) 0.8s forwards;
+    margin-top: 3rem;
+    display: flex; gap: 0; justify-content: center;
+    opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.4,0,0.2,1) 0.95s forwards;
     border: 1px solid var(--border);
-    width: fit-content;
+    width: fit-content; align-self: center;
+    position: relative; z-index: 1;
   }
-
   .hero-stat {
-    padding: 1.4rem 2.2rem;
+    padding: 1.2rem 2rem;
     border-right: 1px solid var(--border);
   }
   .hero-stat:last-child { border-right: none; }
-
   .hero-stat-number {
-    font-size: 1.9rem; font-weight: 300; color: var(--white);
-    line-height: 1; margin-bottom: 0.3rem; letter-spacing: -0.01em;
+    font-size: 1.75rem; font-weight: 300; color: var(--white);
+    line-height: 1; margin-bottom: 0.25rem; letter-spacing: -0.01em;
   }
   .hero-stat-label {
-    font-family: 'DM Mono', monospace; font-size: 0.58rem;
+    font-family: 'DM Mono', monospace; font-size: 0.56rem;
     letter-spacing: 0.2em; text-transform: uppercase; color: var(--white-ghost);
   }
 
   .scroll-hint {
-    position: absolute; bottom: 2.5rem; left: 4rem;
-    font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em;
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    font-family: 'DM Mono', monospace; font-size: 0.56rem; letter-spacing: 0.22em;
     text-transform: uppercase; color: var(--white-ghost);
-    display: flex; align-items: center; gap: 0.8rem;
-    opacity: 0; animation: fadeUp 0.9s 1.2s forwards;
+    display: flex; flex-direction: column; align-items: center; gap: 0.7rem;
+    opacity: 0; animation: fadeUp 0.9s 1.3s forwards;
   }
-
   .scroll-line {
-    width: 40px; height: 1px;
+    width: 1px; height: 36px;
     background: var(--white-ghost); position: relative; overflow: hidden;
   }
   .scroll-line::after {
-    content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+    content: ''; position: absolute; top: -100%; left: 0; width: 100%; height: 100%;
     background: var(--white); animation: scrollPulse 2.4s ease-in-out infinite;
   }
-
-  @keyframes scrollPulse { 0% { left: -100%; } 100% { left: 100%; } }
+  @keyframes scrollPulse { 0% { top: -100%; } 100% { top: 100%; } }
 
   /* ── Sections ── */
   section {
@@ -268,6 +370,37 @@
   .signal-rising { color: var(--white-dim); }
   .signal-stable { color: var(--white-muted); }
   .signal-fading { color: var(--white-ghost); }
+
+  /* ── About right panel ── */
+  .about-right { display: flex; flex-direction: column; gap: 2.5rem; }
+
+  .about-pull {
+    border-left: 1px solid var(--border-strong);
+    padding-left: 2rem;
+  }
+  .about-pull-quote {
+    font-size: 1.35rem; font-weight: 300; font-style: italic;
+    color: var(--white-dim); line-height: 1.6; letter-spacing: -0.005em;
+    margin-bottom: 1rem;
+  }
+  .about-pull-attr {
+    font-family: 'DM Mono', monospace; font-size: 0.58rem;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--white-ghost);
+  }
+
+  .about-platform-list { border: 1px solid var(--border); background: rgba(245,243,240,0.5); }
+  .about-platform-item {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 0.85rem 1.4rem; border-bottom: 1px solid var(--border);
+    font-family: 'DM Mono', monospace; font-size: 0.62rem;
+    letter-spacing: 0.08em; color: var(--white-muted);
+    transition: background 0.2s;
+  }
+  .about-platform-item:last-child { border-bottom: none; }
+  .about-platform-item:hover { background: rgba(10,10,10,0.03); }
+  .about-platform-item span:nth-child(2) { flex: 1; color: var(--white-dim); letter-spacing: 0.1em; }
+  .platform-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--white-ghost); flex-shrink: 0; }
+  .platform-type { font-size: 0.56rem; color: var(--white-ghost); letter-spacing: 0.14em; text-transform: uppercase; }
 
   /* ── Features ── */
   .features-grid {
@@ -530,7 +663,23 @@
 </head>
 <body>
 
-<div class="glow-1" style="display:none"></div>
+<div class="paper-coarse" aria-hidden="true"></div>
+
+<!-- Registration marks -->
+<svg aria-hidden="true" style="position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;">
+  <circle cx="24" cy="24" r="5" fill="none" stroke="rgba(10,10,10,0.12)" stroke-width="0.8"/>
+  <line x1="24" y1="14" x2="24" y2="34" stroke="rgba(10,10,10,0.10)" stroke-width="0.7"/>
+  <line x1="14" y1="24" x2="34" y2="24" stroke="rgba(10,10,10,0.10)" stroke-width="0.7"/>
+  <circle cx="calc(100% - 24)" cy="24" r="5" fill="none" stroke="rgba(10,10,10,0.12)" stroke-width="0.8"/>
+  <line x1="calc(100% - 24)" y1="14" x2="calc(100% - 24)" y2="34" stroke="rgba(10,10,10,0.10)" stroke-width="0.7"/>
+  <line x1="calc(100% - 34)" y1="24" x2="calc(100% - 14)" y2="24" stroke="rgba(10,10,10,0.10)" stroke-width="0.7"/>
+  <circle cx="24" cy="calc(100% - 24)" r="5" fill="none" stroke="rgba(10,10,10,0.12)" stroke-width="0.8"/>
+  <line x1="24" y1="calc(100% - 34)" x2="24" y2="calc(100% - 14)" stroke="rgba(10,10,10,0.10)" stroke-width="0.7"/>
+  <line x1="14" y1="calc(100% - 24)" x2="34" y2="calc(100% - 24)" stroke="rgba(10,10,10,0.10)" stroke-width="0.7"/>
+  <circle cx="calc(100% - 24)" cy="calc(100% - 24)" r="5" fill="none" stroke="rgba(10,10,10,0.12)" stroke-width="0.8"/>
+  <line x1="calc(100% - 24)" y1="calc(100% - 34)" x2="calc(100% - 24)" y2="calc(100% - 14)" stroke="rgba(10,10,10,0.10)" stroke-width="0.7"/>
+  <line x1="calc(100% - 34)" y1="calc(100% - 24)" x2="calc(100% - 14)" y2="calc(100% - 24)" stroke="rgba(10,10,10,0.10)" stroke-width="0.7"/>
+</svg>
 
 <nav>
   <a href="#" class="nav-logo">Volna</a>
@@ -546,16 +695,35 @@
 
 <!-- ── Hero ── -->
 <section class="hero">
-  <div class="hero-bg-text">VOLNA</div>
+
+  <!-- Faint watermark behind content -->
+  <div class="hero-watermark"><span>VOLNA</span></div>
+
   <p class="hero-tag">Intelligence for Independent Fashion</p>
   <h1 class="hero-headline">The data advantage<br>large brands <em>already have.</em></h1>
-  <p class="hero-sub">Volna gives independent designers, stylists, and creative professionals the same market intelligence as major fashion houses — trend forecasting, aesthetic positioning, cross-platform signal analysis, and launch timing across six data sources.</p>
+  <p class="hero-sub">Trend forecasting, aesthetic positioning, and cross-platform signal analysis across six data sources — built for independent designers, stylists, and creative professionals.</p>
+
+  <!-- Hero visual — momentum data panel as product shot -->
+  <div class="hero-visual">
+    <div class="hero-visual-label">
+      <span>Current luxury market momentum</span>
+      <span><span class="live-dot"></span>Live signal</span>
+    </div>
+    <div class="about-bar-row"><span class="about-bar-label">Prada</span><div class="about-bar-track"><div class="about-bar-fill fill-rising" style="animation-delay:0.9s"></div></div><span class="about-bar-signal signal-rising">RISING FAST</span></div>
+    <div class="about-bar-row"><span class="about-bar-label">Miu Miu</span><div class="about-bar-track"><div class="about-bar-fill fill-rising" style="animation-delay:1.05s"></div></div><span class="about-bar-signal signal-rising">RISING FAST</span></div>
+    <div class="about-bar-row"><span class="about-bar-label">Jacquemus</span><div class="about-bar-track"><div class="about-bar-fill fill-rising" style="animation-delay:1.2s"></div></div><span class="about-bar-signal signal-rising">EMERGING</span></div>
+    <div class="about-bar-row"><span class="about-bar-label">Louis Vuitton</span><div class="about-bar-track"><div class="about-bar-fill fill-stable" style="animation-delay:1.35s"></div></div><span class="about-bar-signal signal-stable">ESTABLISHED</span></div>
+    <div class="about-bar-row"><span class="about-bar-label">Balenciaga</span><div class="about-bar-track"><div class="about-bar-fill fill-stable" style="animation-delay:1.5s"></div></div><span class="about-bar-signal signal-stable">SHIFTING</span></div>
+    <div class="about-bar-row"><span class="about-bar-label">Sacai</span><div class="about-bar-track"><div class="about-bar-fill fill-fading" style="animation-delay:1.65s"></div></div><span class="about-bar-signal signal-fading">FADING</span></div>
+  </div>
+
   <div class="hero-stats">
     <div class="hero-stat"><p class="hero-stat-number">65+</p><p class="hero-stat-label">Brands Tracked</p></div>
     <div class="hero-stat"><p class="hero-stat-number">5yr</p><p class="hero-stat-label">Data History</p></div>
     <div class="hero-stat"><p class="hero-stat-number">6</p><p class="hero-stat-label">Platforms</p></div>
     <div class="hero-stat"><p class="hero-stat-number">6mo</p><p class="hero-stat-label">Forecast Window</p></div>
   </div>
+
   <div class="scroll-hint"><div class="scroll-line"></div>Scroll</div>
 </section>
 
@@ -567,14 +735,19 @@
       <h2 class="section-title reveal reveal-delay-1">Large brands have <em>data teams.</em> You don't.</h2>
       <p class="section-body reveal reveal-delay-2">Chanel knows which aesthetics are gaining momentum six months before the market does. Prada has researchers mapping consumer aspiration across platforms. Independent designers, stylists, and emerging labels make the same decisions — what to design, when to launch, which direction to lean into — but without any of that infrastructure.<br><br>Volna changes that. It tracks 65+ luxury brands across Google Trends, Pinterest, TikTok, Instagram, Substack, and YouTube, identifies the aesthetic clusters that are gaining cultural momentum, and translates those signals into specific, actionable intelligence for independent creatives.</p>
     </div>
-    <div class="about-visual reveal reveal-delay-1">
-      <p class="about-visual-title">Current luxury market momentum</p>
-      <div class="about-bar-row"><span class="about-bar-label">Prada</span><div class="about-bar-track"><div class="about-bar-fill fill-rising"></div></div><span class="about-bar-signal signal-rising">RISING FAST</span></div>
-      <div class="about-bar-row"><span class="about-bar-label">Miu Miu</span><div class="about-bar-track"><div class="about-bar-fill fill-rising"></div></div><span class="about-bar-signal signal-rising">RISING FAST</span></div>
-      <div class="about-bar-row"><span class="about-bar-label">Jacquemus</span><div class="about-bar-track"><div class="about-bar-fill fill-rising"></div></div><span class="about-bar-signal signal-rising">EMERGING</span></div>
-      <div class="about-bar-row"><span class="about-bar-label">Louis Vuitton</span><div class="about-bar-track"><div class="about-bar-fill fill-stable"></div></div><span class="about-bar-signal signal-stable">ESTABLISHED</span></div>
-      <div class="about-bar-row"><span class="about-bar-label">Balenciaga</span><div class="about-bar-track"><div class="about-bar-fill fill-stable"></div></div><span class="about-bar-signal signal-stable">SHIFTING</span></div>
-      <div class="about-bar-row"><span class="about-bar-label">Sacai</span><div class="about-bar-track"><div class="about-bar-fill fill-fading"></div></div><span class="about-bar-signal signal-fading">FADING</span></div>
+    <div class="about-right reveal reveal-delay-1">
+      <div class="about-pull">
+        <p class="about-pull-quote">"The gap between what consumers dream about and what they actively pursue — that is where independent designers win."</p>
+        <p class="about-pull-attr">— Volna Signal Intelligence</p>
+      </div>
+      <div class="about-platform-list">
+        <div class="about-platform-item"><span class="platform-dot"></span><span>Google Trends</span><span class="platform-type">Search intent</span></div>
+        <div class="about-platform-item"><span class="platform-dot"></span><span>Pinterest</span><span class="platform-type">Aspiration</span></div>
+        <div class="about-platform-item"><span class="platform-dot"></span><span>TikTok</span><span class="platform-type">Cultural moment</span></div>
+        <div class="about-platform-item"><span class="platform-dot"></span><span>Instagram</span><span class="platform-type">Commercial desire</span></div>
+        <div class="about-platform-item"><span class="platform-dot"></span><span>Substack</span><span class="platform-type">Discourse</span></div>
+        <div class="about-platform-item"><span class="platform-dot"></span><span>YouTube</span><span class="platform-type">Long-form engagement</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -745,18 +918,180 @@
 <p class="footer-disclaimer">Volna is an independent research project and is not affiliated with, endorsed by, or connected to any of the fashion brands analyzed within the platform. All brand names are trademarks of their respective owners and are used solely for identification and analytical purposes.</p>
 
 <script>
+  // ── Scroll reveal ──────────────────────────────────────────
   const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
+  const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
     });
   }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
-  reveals.forEach(el => observer.observe(el));
+  reveals.forEach(el => revealObserver.observe(el));
 
-  const bgText = document.querySelector('.hero-bg-text');
+  // ── Staggered child reveal for grids ──────────────────────
+  // Each card inside a revealed grid animates in sequentially
+  const grids = document.querySelectorAll(
+    '.features-grid, .audience-grid, .sources-grid, .steps, .brands-grid'
+  );
+  const gridObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const children = entry.target.querySelectorAll(
+        '.feature-card, .audience-card, .source-item, .step, .brand-item'
+      );
+      children.forEach((child, i) => {
+        child.style.opacity = '0';
+        child.style.transform = 'translateY(18px)';
+        child.style.transition = `opacity 0.6s ease ${i * 0.055}s, transform 0.6s ease ${i * 0.055}s`;
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            child.style.opacity = '1';
+            child.style.transform = 'translateY(0)';
+          }, 60);
+        });
+      });
+      gridObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.05 });
+  grids.forEach(g => gridObserver.observe(g));
+
+  // ── Nav shrink on scroll ───────────────────────────────────
+  const nav = document.querySelector('nav');
   window.addEventListener('scroll', () => {
-    if (bgText) bgText.style.transform = `translateY(calc(-50% + ${window.scrollY * 0.15}px))`;
+    if (window.scrollY > 60) {
+      nav.style.padding = '1rem 4rem';
+    } else {
+      nav.style.padding = '1.5rem 4rem';
+    }
   }, { passive: true });
+
+  // ── Momentum bar animation on scroll into view ─────────────
+  const barSection = document.querySelector('.about-visual');
+  if (barSection) {
+    const barObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const fills = entry.target.querySelectorAll('.about-bar-fill');
+        fills.forEach((fill, i) => {
+          fill.style.animationDelay = `${0.15 + i * 0.15}s`;
+          fill.style.animationPlayState = 'running';
+        });
+        barObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.3 });
+    barObserver.observe(barSection);
+  }
+
+  // ── Stat counter animation ─────────────────────────────────
+  function animateCount(el, target, suffix, duration) {
+    const isDecimal = target !== Math.floor(target);
+    let start = null;
+    const step = (ts) => {
+      if (!start) start = ts;
+      const progress = Math.min((ts - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = eased * target;
+      el.textContent = isDecimal
+        ? current.toFixed(1) + suffix
+        : Math.floor(current) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target + suffix;
+    };
+    requestAnimationFrame(step);
+  }
+
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const nums = entry.target.querySelectorAll('.stat-number, .hero-stat-number');
+      nums.forEach(el => {
+        const raw = el.textContent.trim();
+        const num = parseFloat(raw.replace(/[^0-9.]/g, ''));
+        const suffix = raw.replace(/[0-9.]/g, '');
+        if (!isNaN(num)) animateCount(el, num, suffix, 1200);
+      });
+      statObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.4 });
+
+  document.querySelectorAll('.hero-stats, .project-stats').forEach(
+    el => statObserver.observe(el)
+  );
+
+  // ── Section border reveal on scroll ───────────────────────
+  // Each section's top border draws in from left as it enters view
+  const sections = document.querySelectorAll('section:not(.hero)');
+  sections.forEach(sec => {
+    sec.style.backgroundImage =
+      'linear-gradient(90deg, var(--white) 0%, var(--white) 100%)';
+    sec.style.backgroundSize = '0% 1px';
+    sec.style.backgroundRepeat = 'no-repeat';
+    sec.style.backgroundPosition = 'top left';
+    sec.style.transition = 'background-size 0.8s cubic-bezier(0.4,0,0.2,1)';
+  });
+
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.backgroundSize = '100% 1px';
+        sectionObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.01 });
+  sections.forEach(s => sectionObserver.observe(s));
+
+  // ── Cursor dot ────────────────────────────────────────────
+  const dot = document.createElement('div');
+  dot.style.cssText = `
+    position: fixed; width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(10,10,10,0.5); pointer-events: none; z-index: 9999;
+    transform: translate(-50%,-50%); transition: transform 0.15s ease,
+    width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+    opacity: 0;
+  `;
+  document.body.appendChild(dot);
+
+  const ring = document.createElement('div');
+  ring.style.cssText = `
+    position: fixed; width: 28px; height: 28px; border-radius: 50%;
+    border: 1px solid rgba(10,10,10,0.18); pointer-events: none; z-index: 9998;
+    transform: translate(-50%,-50%); transition: transform 0.38s ease,
+    width 0.25s ease, height 0.25s ease, opacity 0.25s ease;
+    opacity: 0;
+  `;
+  document.body.appendChild(ring);
+
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.opacity = '1'; ring.style.opacity = '1';
+    dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+  });
+
+  (function trackRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(trackRing);
+  })();
+
+  document.querySelectorAll('a, button, .feature-card, .audience-card, .brand-item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      dot.style.transform = 'translate(-50%,-50%) scale(2.5)';
+      dot.style.opacity = '0.3';
+      ring.style.width = '44px'; ring.style.height = '44px';
+      ring.style.opacity = '0.5';
+    });
+    el.addEventListener('mouseleave', () => {
+      dot.style.transform = 'translate(-50%,-50%) scale(1)';
+      dot.style.opacity = '1';
+      ring.style.width = '28px'; ring.style.height = '28px';
+      ring.style.opacity = '1';
+    });
+  });
+
 </script>
 </body>
 </html>
