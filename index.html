@@ -806,6 +806,38 @@
     opacity: 0;
     animation: fadeUp 0.9s cubic-bezier(0.4,0,0.2,1) 1.1s forwards;
   }
+  .seal-hero-wrap img {
+    animation: heroSealFloat 4s ease-in-out infinite,
+               heroSealWave 9s ease-in-out 4s infinite;
+    transform-origin: bottom center;
+  }
+  .seal-hero-wrap-left {
+    position: absolute;
+    left: 5vw; bottom: 6rem;
+    --seal-size: 160px;
+    z-index: 2;
+    opacity: 0;
+    animation: fadeUp 0.9s cubic-bezier(0.4,0,0.2,1) 1.3s forwards;
+  }
+  .seal-hero-wrap-left img {
+    animation: heroSealFloat 5s ease-in-out 0.7s infinite,
+               heroSealNod 11s ease-in-out 2s infinite;
+    transform-origin: bottom center;
+  }
+  @keyframes heroSealFloat {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-12px); }
+  }
+  @keyframes heroSealWave {
+    0%, 12%, 100% { transform: translateY(-6px) rotate(0deg); }
+    4%            { transform: translateY(-6px) rotate(20deg); }
+    8%            { transform: translateY(-6px) rotate(-8deg); }
+  }
+  @keyframes heroSealNod {
+    0%, 12%, 100% { transform: translateY(-6px) rotate(0deg); }
+    4%            { transform: translateY(-6px) rotate(-14deg); }
+    8%            { transform: translateY(-6px) rotate(7deg); }
+  }
 
 </style>
 </head>
@@ -872,7 +904,8 @@
     <div class="hero-stat"><p class="hero-stat-number">6mo</p><p class="hero-stat-label">Forecast Window</p></div>
   </div>
 
-  <div class="seal-hero-wrap"><img class="seal seal-stand" src="Gemini_Generated_Image_mh42j8mh42j8mh42.png">
+  <div class="seal-hero-wrap"><img class="seal" src="Gemini_Generated_Image_mh42j8mh42j8mh42.png"></div>
+  <div class="seal-hero-wrap-left"><img class="seal" src="Gemini_Generated_Image_mh42j8mh42j8mh42.png"></div>
   <div class="scroll-hint"><div class="scroll-line"></div>Scroll</div>
 </section>
 
