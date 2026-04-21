@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volna — Find My Style</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:         #c8c9cc;
+    --black-deep:    #bdbec2;
+    --surface:       #c2c3c7;
+    --surface-raise: #b8b9bd;
+    --white:         #0f0f10;
+    --white-dim:     #252527;
+    --white-muted:   #52525a;
+    --white-ghost:   #8a8a92;
+    --border:        rgba(15,15,16,0.13);
+    --border-strong: rgba(15,15,16,0.26);
+    --accent:        #0f0f10;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background:
+      radial-gradient(ellipse 120% 80% at 30% 40%, rgba(210,212,218,0.55) 0%, transparent 65%),
+      radial-gradient(ellipse 80% 60% at 80% 10%,  rgba(195,198,205,0.35) 0%, transparent 55%),
+      radial-gradient(ellipse 100% 80% at 10% 90%, rgba(215,216,220,0.45) 0%, transparent 60%),
+      #c8c9cc;
+    color: var(--white);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.35 0 0 0 0 0.28 0 0 0 0 0.20 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+    background-size: 256px 256px;
+    opacity: 0.10;
+    pointer-events: none; z-index: 998;
+  }
+
+  .paper-coarse {
+    position: fixed; inset: 0; pointer-events: none; z-index: 997;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='q'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.25' numOctaves='6' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.30 0 0 0 0 0.24 0 0 0 0 0.16 0 0 0 0.28 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23q)'/%3E%3C/svg%3E");
+    background-size: 512px 512px;
+    opacity: 0.07;
+  }
+
+  /* ── Header ── */
+  .sf-header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.4rem 3rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(200,201,204,0.85);
+    backdrop-filter: blur(20px);
+  }
+  .sf-header-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem; font-weight: 600;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--white); text-decoration: none;
+  }
+  .sf-header-links {
+    display: flex; gap: 2rem; list-style: none; align-items: center;
+  }
+  .sf-header-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--white-muted); text-decoration: none; transition: color 0.25s;
+    position: relative;
+  }
+  .sf-header-links a::after {
+    content: ''; position: absolute; bottom: -3px; left: 0;
+    width: 100%; height: 1px; background: var(--white);
+    transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+  }
+  .sf-header-links a:hover { color: var(--white); }
+  .sf-header-links a:hover::after { transform: scaleX(1); }
+  .back-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--white-muted); text-decoration: none;
+    padding: 0.55rem 1.2rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 100px;
+    background: rgba(200,201,204,0.5);
+    backdrop-filter: blur(12px);
+    transition: all 0.3s ease;
+  }
+  .back-btn:hover {
+    color: var(--white); border-color: var(--accent);
+    background: rgba(15,15,16,0.08);
+  }
+
+  /* ── Page wrapper ── */
+  .sf-page {
+    position: relative; z-index: 10;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 8rem 2rem 4rem;
+  }
+
+  /* ── Progress bar ── */
+  .sf-progress-wrap {
+    position: fixed; top: 65px; left: 0; right: 0;
+    z-index: 99; height: 2px;
+    background: var(--border);
+  }
+  .sf-progress-bar {
+    height: 100%; background: var(--white);
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+    width: 0%;
+  }
+
+  /* ── Quiz container ── */
+  .sf-quiz {
+    width: 100%; max-width: 720px;
+    text-align: center;
+  }
+
+  .sf-step {
+    display: none;
+    animation: fadeUp 0.5s ease forwards;
+  }
+  .sf-step.active { display: block; }
+
+  .sf-step-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--white-ghost);
+    margin-bottom: 0.8rem;
+  }
+
+  .sf-question {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 300; line-height: 1.25;
+    color: var(--white-dim);
+    margin-bottom: 2.5rem;
+  }
+  .sf-question em { font-style: italic; color: var(--white); }
+
+  /* ── Option cards (visual/text) ── */
+  .sf-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+  .sf-options.two-col { grid-template-columns: repeat(2, 1fr); }
+  .sf-options.three-col { grid-template-columns: repeat(3, 1fr); }
+
+  .sf-option {
+    position: relative;
+    padding: 1.2rem 1rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+    background: rgba(200,201,204,0.45);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: left;
+  }
+  .sf-option:hover {
+    background: rgba(200,201,204,0.7);
+    border-color: var(--white-muted);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(15,15,16,0.1);
+  }
+  .sf-option.selected {
+    border-color: var(--accent);
+    background: rgba(15,15,16,0.07);
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+  .sf-option-emoji {
+    font-size: 1.6rem; margin-bottom: 0.5rem; display: block;
+    line-height: 1;
+  }
+  .sf-option-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; font-weight: 400;
+    color: var(--white-dim);
+    display: block; margin-bottom: 0.2rem;
+  }
+  .sf-option-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.52rem; letter-spacing: 0.1em;
+    color: var(--white-ghost);
+    display: block;
+  }
+  .sf-option-check {
+    position: absolute; top: 0.7rem; right: 0.8rem;
+    width: 16px; height: 16px;
+    border: 1px solid var(--border-strong);
+    border-radius: 50%;
+    background: transparent;
+    transition: all 0.2s;
+  }
+  .sf-option.selected .sf-option-check {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  /* ── Open text (last question) ── */
+  .sf-textarea {
+    width: 100%;
+    min-height: 140px;
+    padding: 1.2rem 1.4rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; font-weight: 300;
+    color: var(--white);
+    background: rgba(200,201,204,0.45);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.25s;
+    margin-bottom: 2rem;
+  }
+  .sf-textarea::placeholder { color: var(--white-ghost); }
+  .sf-textarea:focus { border-color: var(--white-muted); }
+
+  /* ── Nav buttons ── */
+  .sf-nav {
+    display: flex; gap: 1rem; justify-content: center;
+    margin-top: 1rem;
+  }
+  .sf-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--white-muted);
+    padding: 0.85rem 2rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 100px;
+    background: rgba(200,201,204,0.5);
+    backdrop-filter: blur(12px);
+    cursor: pointer; transition: all 0.3s ease;
+  }
+  .sf-btn:hover {
+    color: var(--white); border-color: var(--accent);
+    background: rgba(15,15,16,0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(15,15,16,0.12);
+  }
+  .sf-btn.primary {
+    background: var(--white); color: var(--black);
+    border-color: var(--white);
+  }
+  .sf-btn.primary:hover {
+    background: var(--white-dim); color: var(--black);
+    border-color: var(--white-dim);
+  }
+
+  /* ── Results screen ── */
+  .sf-results {
+    display: none;
+    width: 100%; max-width: 720px;
+    animation: fadeUp 0.6s ease forwards;
+  }
+  .sf-results.active { display: block; }
+
+  .sf-results-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem; letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--white-ghost); margin-bottom: 1rem; text-align: center;
+  }
+  .sf-results-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 300; line-height: 1.2;
+    color: var(--white); text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  .sf-results-title em { font-style: italic; }
+  .sf-results-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--white-ghost); text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .sf-profile-card {
+    background: rgba(200,201,204,0.45);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-strong);
+    border-radius: 16px;
+    padding: 2rem 2.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .sf-profile-section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.52rem; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--white-ghost); margin-bottom: 0.6rem;
+  }
+  .sf-profile-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; font-weight: 400;
+    color: var(--white-dim); margin-bottom: 1.5rem;
+  }
+  .sf-profile-value:last-child { margin-bottom: 0; }
+  .sf-profile-value em { font-style: italic; color: var(--white); }
+
+  .sf-brand-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+    margin-top: 0.8rem;
+  }
+  .sf-brand-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--white-muted);
+    padding: 0.5rem 0.8rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 100px;
+    text-align: center;
+    background: rgba(200,201,204,0.3);
+  }
+
+  .sf-summary-box {
+    background: rgba(200,201,204,0.3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
+  }
+  .sf-summary-row {
+    display: flex; justify-content: space-between;
+    align-items: baseline;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .sf-summary-row:last-child { border-bottom: none; }
+  .sf-summary-q {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.52rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--white-ghost); flex: 1;
+  }
+  .sf-summary-a {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; font-weight: 400;
+    color: var(--white-dim); text-align: right;
+    flex: 1;
+  }
+
+  .sf-results-nav {
+    display: flex; gap: 1rem; justify-content: center;
+    flex-wrap: wrap; margin-top: 2rem;
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="paper-coarse" aria-hidden="true"></div>
+
+<header class="sf-header">
+  <a href="home.html" class="sf-header-logo">Volna</a>
+  <ul class="sf-header-links">
+    <li><a href="home.html" class="back-btn">← Back</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="privacy.html">Privacy</a></li>
+  </ul>
+</header>
+
+<div class="sf-progress-wrap">
+  <div class="sf-progress-bar" id="progressBar"></div>
+</div>
+
+<main class="sf-page">
+
+  <!-- ── Quiz ── -->
+  <div class="sf-quiz" id="quizContainer">
+
+    <!-- Q1 -->
+    <div class="sf-step active" data-step="1">
+      <p class="sf-step-label">Question 1 of 9</p>
+      <h2 class="sf-question">How would you describe your <em>current</em> personal style?</h2>
+      <div class="sf-options two-col">
+        <div class="sf-option" data-q="1" data-v="Minimal &amp; Refined">
+          <span class="sf-option-emoji">🤍</span>
+          <span class="sf-option-label">Minimal &amp; Refined</span>
+          <span class="sf-option-sub">Clean lines, quiet luxury</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="1" data-v="Avant-garde &amp; Experimental">
+          <span class="sf-option-emoji">🖤</span>
+          <span class="sf-option-label">Avant-garde &amp; Experimental</span>
+          <span class="sf-option-sub">Conceptual, boundary-pushing</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="1" data-v="Romantic &amp; Editorial">
+          <span class="sf-option-emoji">🌹</span>
+          <span class="sf-option-label">Romantic &amp; Editorial</span>
+          <span class="sf-option-sub">Feminine, dramatic, storytelling</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="1" data-v="Streetwear &amp; Cultural">
+          <span class="sf-option-emoji">🔥</span>
+          <span class="sf-option-label">Streetwear &amp; Cultural</span>
+          <span class="sf-option-sub">Urban, bold, community-rooted</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="1" data-v="Classic &amp; Tailored">
+          <span class="sf-option-emoji">🪡</span>
+          <span class="sf-option-label">Classic &amp; Tailored</span>
+          <span class="sf-option-sub">Structured, timeless, precise</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="1" data-v="Eclectic &amp; Vintage">
+          <span class="sf-option-emoji">🧩</span>
+          <span class="sf-option-label">Eclectic &amp; Vintage</span>
+          <span class="sf-option-sub">Mixed eras, thrifted, layered</span>
+          <span class="sf-option-check"></span>
+        </div>
+      </div>
+      <div class="sf-nav">
+        <button class="sf-btn primary" onclick="nextStep(1)">Next →</button>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="sf-step" data-step="2">
+      <p class="sf-step-label">Question 2 of 9</p>
+      <h2 class="sf-question">Which <em>colour palette</em> feels most like you?</h2>
+      <div class="sf-options three-col">
+        <div class="sf-option" data-q="2" data-v="Neutrals &amp; Greige">
+          <span class="sf-option-emoji">🪨</span>
+          <span class="sf-option-label">Neutrals &amp; Greige</span>
+          <span class="sf-option-sub">Cream, sand, stone, white</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="2" data-v="All Black">
+          <span class="sf-option-emoji">⬛</span>
+          <span class="sf-option-label">All Black</span>
+          <span class="sf-option-sub">Monochrome, stark, sharp</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="2" data-v="Earthy &amp; Warm">
+          <span class="sf-option-emoji">🍂</span>
+          <span class="sf-option-label">Earthy &amp; Warm</span>
+          <span class="sf-option-sub">Rust, terracotta, olive, brown</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="2" data-v="Saturated &amp; Bold">
+          <span class="sf-option-emoji">🎨</span>
+          <span class="sf-option-label">Saturated &amp; Bold</span>
+          <span class="sf-option-sub">Electric, vivid, statement</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="2" data-v="Soft &amp; Muted">
+          <span class="sf-option-emoji">🌸</span>
+          <span class="sf-option-label">Soft &amp; Muted</span>
+          <span class="sf-option-sub">Dusty rose, lavender, sage</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="2" data-v="Mixed &amp; Unexpected">
+          <span class="sf-option-emoji">🌈</span>
+          <span class="sf-option-label">Mixed &amp; Unexpected</span>
+          <span class="sf-option-sub">Clashing, pattern-heavy, playful</span>
+          <span class="sf-option-check"></span>
+        </div>
+      </div>
+      <div class="sf-nav">
+        <button class="sf-btn" onclick="prevStep(2)">← Back</button>
+        <button class="sf-btn primary" onclick="nextStep(2)">Next →</button>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="sf-step" data-step="3">
+      <p class="sf-step-label">Question 3 of 9</p>
+      <h2 class="sf-question">What <em>silhouette</em> do you gravitate toward most?</h2>
+      <div class="sf-options two-col">
+        <div class="sf-option" data-q="3" data-v="Oversized &amp; Relaxed">
+          <span class="sf-option-emoji">🫧</span>
+          <span class="sf-option-label">Oversized &amp; Relaxed</span>
+          <span class="sf-option-sub">Volume, drape, ease</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="3" data-v="Fitted &amp; Sculpted">
+          <span class="sf-option-emoji">⚡</span>
+          <span class="sf-option-label">Fitted &amp; Sculpted</span>
+          <span class="sf-option-sub">Bodycon, precise, second-skin</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="3" data-v="Structured &amp; Architectural">
+          <span class="sf-option-emoji">🏛️</span>
+          <span class="sf-option-label">Structured &amp; Architectural</span>
+          <span class="sf-option-sub">Sharp shoulders, geometric form</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="3" data-v="Fluid &amp; Draped">
+          <span class="sf-option-emoji">🌊</span>
+          <span class="sf-option-label">Fluid &amp; Draped</span>
+          <span class="sf-option-sub">Soft movement, bias cut, flow</span>
+          <span class="sf-option-check"></span>
+        </div>
+      </div>
+      <div class="sf-nav">
+        <button class="sf-btn" onclick="prevStep(3)">← Back</button>
+        <button class="sf-btn primary" onclick="nextStep(3)">Next →</button>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="sf-step" data-step="4">
+      <p class="sf-step-label">Question 4 of 9</p>
+      <h2 class="sf-question">Which <em>materials</em> feel most aligned with you?</h2>
+      <div class="sf-options three-col">
+        <div class="sf-option" data-q="4" data-v="Cashmere &amp; Wool">
+          <span class="sf-option-emoji">🐑</span>
+          <span class="sf-option-label">Cashmere &amp; Wool</span>
+          <span class="sf-option-sub">Tactile, quiet luxury</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="4" data-v="Leather &amp; Suede">
+          <span class="sf-option-emoji">🖤</span>
+          <span class="sf-option-label">Leather &amp; Suede</span>
+          <span class="sf-option-sub">Edge, attitude, durability</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="4" data-v="Silk &amp; Satin">
+          <span class="sf-option-emoji">🕊️</span>
+          <span class="sf-option-label">Silk &amp; Satin</span>
+          <span class="sf-option-sub">Luminous, sensual, refined</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="4" data-v="Denim &amp; Cotton">
+          <span class="sf-option-emoji">👖</span>
+          <span class="sf-option-label">Denim &amp; Cotton</span>
+          <span class="sf-option-sub">Casual, utilitarian, grounded</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="4" data-v="Technical &amp; Performance">
+          <span class="sf-option-emoji">🧬</span>
+          <span class="sf-option-label">Technical &amp; Performance</span>
+          <span class="sf-option-sub">Nylon, mesh, innovative fabrics</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="4" data-v="Natural &amp; Textured">
+          <span class="sf-option-emoji">🌿</span>
+          <span class="sf-option-label">Natural &amp; Textured</span>
+          <span class="sf-option-sub">Linen, bouclé, raw weaves</span>
+          <span class="sf-option-check"></span>
+        </div>
+      </div>
+      <div class="sf-nav">
+        <button class="sf-btn" onclick="prevStep(4)">← Back</button>
+        <button class="sf-btn primary" onclick="nextStep(4)">Next →</button>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="sf-step" data-step="5">
+      <p class="sf-step-label">Question 5 of 9</p>
+      <h2 class="sf-question">Where do you find your <em>style inspiration</em>?</h2>
+      <div class="sf-options two-col">
+        <div class="sf-option" data-q="5" data-v="Runway &amp; Fashion Week">
+          <span class="sf-option-emoji">👗</span>
+          <span class="sf-option-label">Runway &amp; Fashion Week</span>
+          <span class="sf-option-sub">High fashion, designer collections</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="5" data-v="Street Style &amp; Subculture">
+          <span class="sf-option-emoji">📸</span>
+          <span class="sf-option-label">Street Style &amp; Subculture</span>
+          <span class="sf-option-sub">Real people, scenes, movements</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="5" data-v="Art &amp; Architecture">
+          <span class="sf-option-emoji">🎭</span>
+          <span class="sf-option-label">Art &amp; Architecture</span>
+          <span class="sf-option-sub">Galleries, museums, design</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="5" data-v="Film &amp; Music">
+          <span class="sf-option-emoji">🎬</span>
+          <span class="sf-option-label">Film &amp; Music</span>
+          <span class="sf-option-sub">Costume, video, performance</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="5" data-v="Social Media &amp; Creators">
+          <span class="sf-option-emoji">📱</span>
+          <span class="sf-option-label">Social Media &amp; Creators</span>
+          <span class="sf-option-sub">TikTok, Pinterest, Instagram</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="5" data-v="Travel &amp; Culture">
+          <span class="sf-option-emoji">✈️</span>
+          <span class="sf-option-label">Travel &amp; Culture</span>
+          <span class="sf-option-sub">Global dress traditions, places</span>
+          <span class="sf-option-check"></span>
+        </div>
+      </div>
+      <div class="sf-nav">
+        <button class="sf-btn" onclick="prevStep(5)">← Back</button>
+        <button class="sf-btn primary" onclick="nextStep(5)">Next →</button>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="sf-step" data-step="6">
+      <p class="sf-step-label">Question 6 of 9</p>
+      <h2 class="sf-question">How do you feel about <em>trends</em>?</h2>
+      <div class="sf-options two-col">
+        <div class="sf-option" data-q="6" data-v="I lead them">
+          <span class="sf-option-emoji">🚀</span>
+          <span class="sf-option-label">I lead them</span>
+          <span class="sf-option-sub">I'm wearing it before anyone else</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="6" data-v="I adopt selectively">
+          <span class="sf-option-emoji">🎯</span>
+          <span class="sf-option-label">I adopt selectively</span>
+          <span class="sf-option-sub">Only if it fits my existing style</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="6" data-v="I observe but rarely follow">
+          <span class="sf-option-emoji">🔭</span>
+          <span class="sf-option-label">I observe but rarely follow</span>
+          <span class="sf-option-sub">Interested, but my style is my own</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="6" data-v="I ignore them completely">
+          <span class="sf-option-emoji">🧭</span>
+          <span class="sf-option-label">I ignore them completely</span>
+          <span class="sf-option-sub">Timeless over trending, always</span>
+          <span class="sf-option-check"></span>
+        </div>
+      </div>
+      <div class="sf-nav">
+        <button class="sf-btn" onclick="prevStep(6)">← Back</button>
+        <button class="sf-btn primary" onclick="nextStep(6)">Next →</button>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="sf-step" data-step="7">
+      <p class="sf-step-label">Question 7 of 9</p>
+      <h2 class="sf-question">What does getting dressed <em>mean to you</em>?</h2>
+      <div class="sf-options two-col">
+        <div class="sf-option" data-q="7" data-v="Self-expression &amp; identity">
+          <span class="sf-option-emoji">🪞</span>
+          <span class="sf-option-label">Self-expression &amp; identity</span>
+          <span class="sf-option-sub">Clothes communicate who I am</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="7" data-v="Armour &amp; confidence">
+          <span class="sf-option-emoji">⚔️</span>
+          <span class="sf-option-label">Armour &amp; confidence</span>
+          <span class="sf-option-sub">I dress to feel powerful</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="7" data-v="Art &amp; creativity">
+          <span class="sf-option-emoji">🎨</span>
+          <span class="sf-option-label">Art &amp; creativity</span>
+          <span class="sf-option-sub">My body is a canvas</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="7" data-v="Comfort &amp; ease">
+          <span class="sf-option-emoji">☁️</span>
+          <span class="sf-option-label">Comfort &amp; ease</span>
+          <span class="sf-option-sub">I want to feel good, not perform</span>
+          <span class="sf-option-check"></span>
+        </div>
+      </div>
+      <div class="sf-nav">
+        <button class="sf-btn" onclick="prevStep(7)">← Back</button>
+        <button class="sf-btn primary" onclick="nextStep(7)">Next →</button>
+      </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="sf-step" data-step="8">
+      <p class="sf-step-label">Question 8 of 9</p>
+      <h2 class="sf-question">Which <em>luxury house</em> do you feel closest to?</h2>
+      <div class="sf-options three-col">
+        <div class="sf-option" data-q="8" data-v="Bottega Veneta">
+          <span class="sf-option-emoji">🟤</span>
+          <span class="sf-option-label">Bottega Veneta</span>
+          <span class="sf-option-sub">Understated, intrecciato, refined</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="8" data-v="Maison Margiela">
+          <span class="sf-option-emoji">⬜</span>
+          <span class="sf-option-label">Maison Margiela</span>
+          <span class="sf-option-sub">Deconstructed, anonymous, conceptual</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="8" data-v="Jacquemus">
+          <span class="sf-option-emoji">☀️</span>
+          <span class="sf-option-label">Jacquemus</span>
+          <span class="sf-option-sub">Playful, Mediterranean, sculptural</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="8" data-v="Rick Owens">
+          <span class="sf-option-emoji">🌑</span>
+          <span class="sf-option-label">Rick Owens</span>
+          <span class="sf-option-sub">Dark, monumental, totemic</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="8" data-v="Prada / Miu Miu">
+          <span class="sf-option-emoji">🔺</span>
+          <span class="sf-option-label">Prada / Miu Miu</span>
+          <span class="sf-option-sub">Intellectual, subversive, eclectic</span>
+          <span class="sf-option-check"></span>
+        </div>
+        <div class="sf-option" data-q="8" data-v="None of these">
+          <span class="sf-option-emoji">🧭</span>
+          <span class="sf-option-label">None of these</span>
+          <span class="sf-option-sub">My aesthetic is its own thing</span>
+          <span class="sf-option-check"></span>
+        </div>
+      </div>
+      <div class="sf-nav">
+        <button class="sf-btn" onclick="prevStep(8)">← Back</button>
+        <button class="sf-btn primary" onclick="nextStep(8)">Next →</button>
+      </div>
+    </div>
+
+    <!-- Q9 — open text -->
+    <div class="sf-step" data-step="9">
+      <p class="sf-step-label">Question 9 of 9</p>
+      <h2 class="sf-question">Is there anything else you want us to know <em>before we help you find your style?</em></h2>
+      <textarea
+        class="sf-textarea"
+        id="openText"
+        placeholder="e.g. I'm a designer looking for emerging references, I want to dress more intentionally, I love 90s minimalism but also want to incorporate more colour…"
+      ></textarea>
+      <div class="sf-nav">
+        <button class="sf-btn" onclick="prevStep(9)">← Back</button>
+        <button class="sf-btn primary" onclick="showResults()">See my style →</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Results ── -->
+  <div class="sf-results" id="resultsContainer">
+
+    <p class="sf-results-label">Your Style Profile</p>
+    <h2 class="sf-results-title" id="resultsTitle">Your aesthetic is <em>—</em></h2>
+    <p class="sf-results-sub">Based on your answers across 9 dimensions</p>
+
+    <div class="sf-profile-card">
+      <p class="sf-profile-section-label">Aesthetic Direction</p>
+      <p class="sf-profile-value" id="resultAesthetic">—</p>
+      <p class="sf-profile-section-label">Signature Palette</p>
+      <p class="sf-profile-value" id="resultPalette">—</p>
+      <p class="sf-profile-section-label">Brands You May Align With</p>
+      <div class="sf-brand-grid" id="resultBrands"></div>
+    </div>
+
+    <div class="sf-summary-box" id="summaryBox"></div>
+
+    <div class="sf-results-nav">
+      <button class="sf-btn" onclick="downloadResults()">↓ Download results</button>
+      <a href="home.html" class="sf-btn">← Back to home</a>
+      <button class="sf-btn" onclick="restartQuiz()">Retake quiz</button>
+    </div>
+
+  </div>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script>
+  const TOTAL = 9;
+  const answers = {};
+  let currentStep = 1;
+
+  // Brand map based on answers
+  const brandMap = {
+    "Minimal & Refined":           ["Bottega Veneta", "The Row", "Jil Sander", "Loro Piana", "Brunello Cucinelli"],
+    "Avant-garde & Experimental":  ["Maison Margiela", "Rick Owens", "Comme des Garçons", "Y/Project", "Raf Simons"],
+    "Romantic & Editorial":        ["Simone Rocha", "Valentino", "Dior", "Giambattista Valli", "Erdem"],
+    "Streetwear & Cultural":       ["Balenciaga", "Off-White", "Kiko Kostadinov", "Stone Island", "A-COLD-WALL"],
+    "Classic & Tailored":          ["Thom Browne", "Brioni", "Savile Row", "Giorgio Armani", "Max Mara"],
+    "Eclectic & Vintage":          ["Marni", "Dries Van Noten", "Marc Jacobs", "Anna Sui", "Vivienne Westwood"],
+  };
+
+  function updateProgress() {
+    const pct = ((currentStep - 1) / TOTAL) * 100;
+    document.getElementById("progressBar").style.width = pct + "%";
+  }
+
+  function nextStep(step) {
+    if (step < 9 && !answers[step]) return; // require selection for option questions
+    const current = document.querySelector(`.sf-step[data-step="${step}"]`);
+    const next = document.querySelector(`.sf-step[data-step="${step + 1}"]`);
+    if (!next) return;
+    gsap.to(current, { opacity: 0, x: -30, duration: 0.3, onComplete: () => {
+      current.classList.remove("active");
+      current.style.opacity = ""; current.style.transform = "";
+      next.classList.add("active");
+      gsap.from(next, { opacity: 0, x: 30, duration: 0.4, ease: "power2.out" });
+      currentStep = step + 1;
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }});
+  }
+
+  function prevStep(step) {
+    const current = document.querySelector(`.sf-step[data-step="${step}"]`);
+    const prev = document.querySelector(`.sf-step[data-step="${step - 1}"]`);
+    if (!prev) return;
+    gsap.to(current, { opacity: 0, x: 30, duration: 0.3, onComplete: () => {
+      current.classList.remove("active");
+      current.style.opacity = ""; current.style.transform = "";
+      prev.classList.add("active");
+      gsap.from(prev, { opacity: 0, x: -30, duration: 0.4, ease: "power2.out" });
+      currentStep = step - 1;
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }});
+  }
+
+  // Option selection
+  document.querySelectorAll(".sf-option").forEach(opt => {
+    opt.addEventListener("click", () => {
+      const q = opt.dataset.q;
+      // deselect siblings
+      document.querySelectorAll(`.sf-option[data-q="${q}"]`).forEach(o => o.classList.remove("selected"));
+      opt.classList.add("selected");
+      answers[parseInt(q)] = opt.dataset.v;
+    });
+  });
+
+  function showResults() {
+    answers[9] = document.getElementById("openText").value || "—";
+    document.getElementById("progressBar").style.width = "100%";
+
+    // Build results
+    const style  = answers[1] || "—";
+    const palette = answers[2] || "—";
+    const brands = brandMap[style] || ["Explore Volna for matches"];
+
+    document.getElementById("resultsTitle").innerHTML =
+      `Your aesthetic is <em>${style}</em>`;
+    document.getElementById("resultAesthetic").innerHTML =
+      `<em>${style}</em> — ${palette}`;
+    document.getElementById("resultPalette").textContent = palette;
+
+    const brandGrid = document.getElementById("resultBrands");
+    brandGrid.innerHTML = brands.map(b =>
+      `<span class="sf-brand-pill">${b}</span>`
+    ).join("");
+
+    // Summary
+    const qLabels = [
+      "Style", "Palette", "Silhouette", "Materials",
+      "Inspiration", "Trend stance", "Dressing means", "Closest house", "Extra context"
+    ];
+    const summaryBox = document.getElementById("summaryBox");
+    summaryBox.innerHTML = qLabels.map((label, i) =>
+      `<div class="sf-summary-row">
+        <span class="sf-summary-q">${label}</span>
+        <span class="sf-summary-a">${answers[i + 1] || "—"}</span>
+      </div>`
+    ).join("");
+
+    // Transition
+    const quiz = document.getElementById("quizContainer");
+    const results = document.getElementById("resultsContainer");
+    gsap.to(quiz, { opacity: 0, y: -20, duration: 0.4, onComplete: () => {
+      quiz.style.display = "none";
+      results.classList.add("active");
+      gsap.from(results, { opacity: 0, y: 30, duration: 0.6, ease: "power2.out" });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }});
+  }
+
+  function restartQuiz() {
+    Object.keys(answers).forEach(k => delete answers[k]);
+    document.querySelectorAll(".sf-option").forEach(o => o.classList.remove("selected"));
+    document.getElementById("openText").value = "";
+
+    const results = document.getElementById("resultsContainer");
+    const quiz    = document.getElementById("quizContainer");
+    gsap.to(results, { opacity: 0, duration: 0.3, onComplete: () => {
+      results.classList.remove("active");
+      quiz.style.display = "";
+      document.querySelectorAll(".sf-step").forEach(s => s.classList.remove("active"));
+      document.querySelector('.sf-step[data-step="1"]').classList.add("active");
+      currentStep = 1;
+      updateProgress();
+      gsap.from(quiz, { opacity: 0, y: 20, duration: 0.4 });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }});
+  }
+
+  function downloadResults() {
+    const style   = answers[1] || "—";
+    const palette = answers[2] || "—";
+    const brands  = (brandMap[style] || []).join(", ");
+    const qLabels = [
+      "Style","Palette","Silhouette","Materials",
+      "Inspiration","Trend stance","Dressing means","Closest house","Extra context"
+    ];
+    let text = "VOLNA — MY STYLE PROFILE\n";
+    text += "=".repeat(32) + "\n\n";
+    text += `Aesthetic Direction: ${style}\n`;
+    text += `Signature Palette:   ${palette}\n`;
+    text += `Brand Matches:       ${brands}\n\n`;
+    text += "FULL SUMMARY\n" + "-".repeat(32) + "\n";
+    qLabels.forEach((label, i) => {
+      text += `${label}: ${answers[i + 1] || "—"}\n`;
+    });
+    text += "\n— volnatrends.com";
+
+    const blob = new Blob([text], { type: "text/plain" });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement("a");
+    a.href = url; a.download = "volna-style-profile.txt";
+    a.click(); URL.revokeObjectURL(url);
+  }
+
+  updateProgress();
+</script>
+</body>
+</html>
