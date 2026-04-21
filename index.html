@@ -108,11 +108,18 @@
   /* ── Seal mascot ── */
   .home-seal {
     position: relative;
-    width: 180px;
-    height: 180px;
-    margin-bottom: 2rem;
+    width: 160px;
+    height: 160px;
+    margin-bottom: 1.5rem;
     opacity: 0;
     animation: fadeUp 0.9s ease 0.4s forwards;
+    flex-shrink: 0;
+  }
+  #home-seal-rig {
+    width: 160px;
+    height: 160px;
+    position: relative;
+    cursor: default;
   }
   .home-seal .s-part {
     position: absolute;
@@ -121,12 +128,7 @@
     height: auto;
     image-rendering: pixelated;
     pointer-events: none;
-  }
-  #home-seal-rig {
-    width: 180px;
-    height: 180px;
-    position: relative;
-    cursor: default;
+    transform-origin: center center;
   }
 
   /* ── Welcome text ── */
@@ -319,55 +321,61 @@
 <p class="home-footer">Volna &mdash; Independent Fashion Intelligence</p>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
 <script>
-  gsap.registerPlugin(MotionPathPlugin);
-
-  // Float
+  // 1. Gentle float
   gsap.to("#home-seal-rig", {
-    y: -12,
-    duration: 2.5,
+    y: -10,
+    duration: 2.8,
     repeat: -1,
     yoyo: true,
     ease: "sine.inOut"
   });
 
-  // Spinning eyes
-  gsap.to(".s-eyes", {
-    rotation: 360,
-    transformOrigin: "center center",
-    duration: 8,
-    repeat: -1,
-    ease: "none"
-  });
+  // 2. Occasional blink every 4-7 seconds
+  function scheduleBlink() {
+    const delay = 4000 + Math.random() * 3000;
+    setTimeout(() => {
+      gsap.to(".s-eyes", {
+        scaleY: 0.08,
+        transformOrigin: "center 40%",
+        duration: 0.08,
+        yoyo: true,
+        repeat: 1,
+        ease: "power2.in",
+        onComplete: scheduleBlink
+      });
+    }, delay);
+  }
+  scheduleBlink();
 
-  // Star twinkle
-  gsap.to(".s-stars", {
-    opacity: 0.4,
-    scale: 0.9,
-    duration: 1.5,
-    repeat: -1,
-    yoyo: true,
-    ease: "sine.inOut"
-  });
-
-  // Hover wave
-  const rig = document.querySelector("#home-seal-rig");
-  const rightFlipper = document.querySelector(".s-r-flipper");
-  if (rig && rightFlipper) {
-    rig.addEventListener("mouseenter", () => {
-      gsap.to(rightFlipper, {
-        rotation: 20,
-        transformOrigin: "20% 20%",
-        duration: 0.3,
+  // 3. Occasional right flipper wave every 6-10 seconds
+  function scheduleWave() {
+    const delay = 6000 + Math.random() * 4000;
+    setTimeout(() => {
+      gsap.to(".s-r-flipper", {
+        rotation: 22,
+        transformOrigin: "20% 15%",
+        duration: 0.25,
         repeat: 5,
         yoyo: true,
-        ease: "power1.inOut"
+        ease: "power1.inOut",
+        onComplete: scheduleWave
       });
-    });
+    }, delay);
   }
+  scheduleWave();
 
-  // Stagger button hover underline feel
+  // 4. Star twinkle
+  gsap.to(".s-stars", {
+    opacity: 0.5,
+    scale: 0.92,
+    duration: 1.8,
+    repeat: -1,
+    yoyo: true,
+    ease: "sine.inOut"
+  });
+
+  // Stagger button animation delays
   document.querySelectorAll(".home-btn").forEach((btn, i) => {
     btn.style.animationDelay = (0.9 + i * 0.08) + "s";
   });
