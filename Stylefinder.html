@@ -781,6 +781,7 @@
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
   const TOTAL = 9;
   const answers = {};
@@ -907,29 +908,144 @@
   }
 
   function downloadResults() {
-    const style   = answers[1] || "—";
-    const palette = answers[2] || "—";
-    const brands  = (brandMap[style] || []).join(", ");
-    const qLabels = [
-      "Style","Palette","Silhouette","Materials",
-      "Inspiration","Trend stance","Dressing means","Closest house","Extra context"
-    ];
-    let text = "VOLNA — MY STYLE PROFILE\n";
-    text += "=".repeat(32) + "\n\n";
-    text += `Aesthetic Direction: ${style}\n`;
-    text += `Signature Palette:   ${palette}\n`;
-    text += `Brand Matches:       ${brands}\n\n`;
-    text += "FULL SUMMARY\n" + "-".repeat(32) + "\n";
-    qLabels.forEach((label, i) => {
-      text += `${label}: ${answers[i + 1] || "—"}\n`;
-    });
-    text += "\n— volnatrends.com";
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+    const W = 210; const H = 297;
+    const margin = 24;
+    let y = 0;
 
-    const blob = new Blob([text], { type: "text/plain" });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement("a");
-    a.href = url; a.download = "volna-style-profile.txt";
-    a.click(); URL.revokeObjectURL(url);
+    // Background
+    doc.setFillColor(200, 201, 204);
+    doc.rect(0, 0, W, H, "F");
+
+    // Header bar
+    doc.setFillColor(185, 186, 190);
+    doc.rect(0, 0, W, 28, "F");
+
+    // Wordmark
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11);
+    doc.setTextColor(15, 15, 16);
+    doc.setCharSpace(4);
+    doc.text("VOLNA", margin, 17);
+    doc.setCharSpace(0);
+
+    // Right label
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(7);
+    doc.setTextColor(82, 82, 90);
+    doc.text("STYLE PROFILE", W - margin, 17, { align: "right" });
+
+    y = 48;
+
+    // Aesthetic headline
+    const style = answers[1] || "—";
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(7);
+    doc.setTextColor(138, 138, 146);
+    doc.text("YOUR AESTHETIC DIRECTION", margin, y);
+    y += 7;
+
+    doc.setFont("helvetica", "bolditalic");
+    doc.setFontSize(26);
+    doc.setTextColor(15, 15, 16);
+    const titleLines = doc.splitTextToSize(style, W - margin * 2);
+    doc.text(titleLines, margin, y);
+    y += titleLines.length * 10 + 4;
+
+    // Divider
+    doc.setDrawColor(15, 15, 16);
+    doc.setLineWidth(0.3);
+    doc.line(margin, y, W - margin, y);
+    y += 10;
+
+    // Profile card — two columns
+    const col1 = margin;
+    const col2 = W / 2 + 4;
+    const palette = answers[2] || "—";
+    const brands  = (brandMap[style] || ["Explore Volna for matches"]).join(", ");
+
+    // Col 1
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(6.5);
+    doc.setTextColor(138, 138, 146);
+    doc.text("PALETTE", col1, y);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.setTextColor(37, 37, 39);
+    doc.text(palette, col1, y + 6);
+
+    // Col 2
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(6.5);
+    doc.setTextColor(138, 138, 146);
+    doc.text("CLOSEST HOUSE", col2, y);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.setTextColor(37, 37, 39);
+    doc.text(answers[8] || "—", col2, y + 6);
+    y += 20;
+
+    // Brand matches
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(6.5);
+    doc.setTextColor(138, 138, 146);
+    doc.text("BRAND MATCHES", col1, y);
+    y += 6;
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    doc.setTextColor(37, 37, 39);
+    const brandLines = doc.splitTextToSize(brands, W - margin * 2);
+    doc.text(brandLines, col1, y);
+    y += brandLines.length * 5 + 10;
+
+    // Divider
+    doc.setDrawColor(15, 15, 16);
+    doc.setLineWidth(0.3);
+    doc.line(margin, y, W - margin, y);
+    y += 10;
+
+    // Full summary
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(7);
+    doc.setTextColor(138, 138, 146);
+    doc.text("FULL SUMMARY", margin, y);
+    y += 8;
+
+    const qLabels = [
+      "Style",       "Palette",     "Silhouette",  "Materials",
+      "Inspiration", "Trend stance","Dressing means","Closest house","Extra context"
+    ];
+
+    qLabels.forEach((label, i) => {
+      if (y > H - 30) { doc.addPage(); y = 24; }
+      // Row bg
+      doc.setFillColor(190, 191, 195);
+      doc.rect(margin, y - 4, W - margin * 2, 8, "F");
+      // Label
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(6.5);
+      doc.setTextColor(82, 82, 90);
+      doc.text(label.toUpperCase(), margin + 3, y + 1);
+      // Answer
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8);
+      doc.setTextColor(15, 15, 16);
+      const ans = String(answers[i + 1] || "—");
+      const ansLines = doc.splitTextToSize(ans, W - margin * 2 - 50);
+      doc.text(ansLines, W - margin - 3, y + 1, { align: "right" });
+      y += ansLines.length > 1 ? ansLines.length * 5 + 4 : 11;
+    });
+
+    // Footer
+    doc.setFillColor(185, 186, 190);
+    doc.rect(0, H - 16, W, 16, "F");
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(7);
+    doc.setTextColor(82, 82, 90);
+    doc.text("volnatrends.com — Fashion Intelligence for Independent Creatives", W / 2, H - 7, { align: "center" });
+
+    doc.save("volna-style-profile.pdf");
   }
 
   updateProgress();
