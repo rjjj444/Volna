@@ -108,8 +108,8 @@
   /* ── Seal mascot ── */
   .home-seal {
     position: relative;
-    width: 200px;
-    height: 355px;
+    width: 180px;
+    height: 320px;
     margin-bottom: 1rem;
     opacity: 0;
     animation: fadeUp 0.9s ease 0.4s forwards;
@@ -120,20 +120,15 @@
     height: 100%;
     position: relative;
   }
+  /* All layers are full 768x1365 canvas — stack directly */
   .home-seal .s-part {
     position: absolute;
+    top: 0; left: 0;
+    width: 100%;
     height: auto;
     image-rendering: pixelated;
     pointer-events: none;
   }
-  /* Left Flipper = full composite base layer, fills the canvas */
-  .s-l-flipper { left: 9.24%;  top: 12.38%; width: 86.59%; }
-  /* Right Flipper overlay — animates independently */
-  .s-r-flipper { left: 63.41%; top: 38.97%; width: 32.42%; }
-  /* Eyes overlay */
-  .s-eyes      { left: 29.17%; top: 17.58%; width: 66.67%; }
-  /* Stars overlay */
-  .s-stars     { left: 11.07%; top: 33.11%; width: 84.77%; }
 
   /* ── Welcome text ── */
   .home-welcome {
