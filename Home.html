@@ -221,6 +221,44 @@
     z-index: 10;
   }
 
+  /* ── Top header nav ── */
+  .home-header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.4rem 3rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(200,201,204,0.85);
+    backdrop-filter: blur(20px);
+  }
+  .home-header-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem; font-weight: 600;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--white); text-decoration: none;
+  }
+  .home-header-links {
+    display: flex; gap: 2rem; list-style: none;
+  }
+  .home-header-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--white-muted); text-decoration: none;
+    transition: color 0.25s;
+    position: relative;
+  }
+  .home-header-links a::after {
+    content: ''; position: absolute; bottom: -3px; left: 0;
+    width: 100%; height: 1px; background: var(--white);
+    transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+  }
+  .home-header-links a:hover { color: var(--white); }
+  .home-header-links a:hover::after { transform: scaleX(1); }
+
   /* ── Animations ── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(16px); }
@@ -241,6 +279,14 @@
 <body>
 
 <div class="paper-coarse" aria-hidden="true"></div>
+
+<header class="home-header">
+  <a href="home.html" class="home-header-logo">Volna</a>
+  <ul class="home-header-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="privacy.html">Privacy</a></li>
+  </ul>
+</header>
 
 <div class="home-wrap">
 
