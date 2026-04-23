@@ -344,29 +344,32 @@
   });
 
   // 2. The Waving Animation (Triggers every 10 seconds)
-  function performWave() {
+ function performWave() {
     const flipper = document.querySelector(".s-r-flipper");
     
-    // The wave "sequence"
-    const tl = gsap.timeline({ onComplete: () => setTimeout(performWave, 10000) });
+    // Create the timeline
+    const tl = gsap.timeline({ 
+      onComplete: () => setTimeout(performWave, 10000) 
+    });
 
     tl.to(flipper, {
-      rotation: -30,
-      transformOrigin: "20% 50%", // Adjust these % if the flipper still "drifts"
-      duration: 0.3,
+      // Pinning the top-left area where the flipper meets the neck/shoulder
+      transformOrigin: "25% 20%", 
+      rotation: 20, // Tilt outward
+      duration: 0.4,
       ease: "power2.out"
     })
     .to(flipper, {
-      rotation: -15,
-      duration: 0.15,
+      rotation: 40, // Shake between 20 and 40 degrees
+      duration: 0.12,
       repeat: 5,
       yoyo: true,
       ease: "sine.inOut"
     })
     .to(flipper, {
       rotation: 0,
-      duration: 0.5,
-      ease: "back.out(1.7)"
+      duration: 0.6,
+      ease: "back.out(1.5)"
     });
   }
 
