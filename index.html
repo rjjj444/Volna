@@ -272,13 +272,11 @@
   }
 
 /* ── Updated Flipper Animation ── */
-  .waving-hand {
-    /* Using percentages ensures the pivot stays on the seal's shoulder */
-    transform-origin: 65% 15%; 
-    animation: wave 2s ease-in-out infinite;
+.waving-hand {
     display: inline-block;
-    /* Ensures the layer is visible and active */
-    z-index: 5; 
+    z-index: 5;
+    /* This ensures it starts in a natural position */
+    transform: rotate(0deg); 
   }
 
   @keyframes wave {
@@ -336,7 +334,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script>
-  // 1. Gentle float — slowed down
+  // 1. Gentle float for the whole seal
   gsap.to("#home-seal-rig", {
     y: -10,
     duration: 4.5,
@@ -345,7 +343,37 @@
     ease: "sine.inOut"
   });
 
-  // 2. Occasional blink every 5-9 seconds
+  // 2. The Waving Animation (Triggers every 10 seconds)
+  function performWave() {
+    const flipper = document.querySelector(".s-r-flipper");
+    
+    // The wave "sequence"
+    const tl = gsap.timeline({ onComplete: () => setTimeout(performWave, 10000) });
+
+    tl.to(flipper, {
+      rotation: -30,
+      transformOrigin: "20% 50%", // Adjust these % if the flipper still "drifts"
+      duration: 0.3,
+      ease: "power2.out"
+    })
+    .to(flipper, {
+      rotation: -15,
+      duration: 0.15,
+      repeat: 5,
+      yoyo: true,
+      ease: "sine.inOut"
+    })
+    .to(flipper, {
+      rotation: 0,
+      duration: 0.5,
+      ease: "back.out(1.7)"
+    });
+  }
+
+  // Start the first wave after 2 seconds
+  setTimeout(performWave, 2000);
+
+  // 3. Occasional blink
   function scheduleBlink() {
     const delay = 5000 + Math.random() * 4000;
     setTimeout(() => {
@@ -362,7 +390,7 @@
   }
   scheduleBlink();
 
-  // 3. Star twinkle — slowed down
+  // 4. Star twinkle
   gsap.to(".s-stars", {
     opacity: 0.5,
     scale: 0.92,
@@ -372,7 +400,7 @@
     ease: "sine.inOut"
   });
 
-  // Stagger button animation delays
+  // Stagger button animation
   document.querySelectorAll(".home-btn").forEach((btn, i) => {
     btn.style.animationDelay = (0.9 + i * 0.08) + "s";
   });
