@@ -271,9 +271,21 @@
     50%      { transform: translateY(-10px); }
   }
 
-  @keyframes starTwinkle {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%      { opacity: 0.4; transform: scale(0.88); }
+  /* ── Flipper wave animation ── */
+  .waving-hand {
+    animation: wave 2.8s 0.6s infinite;
+    transform-origin: 63% 39%;
+    display: inline-block;
+  }
+  @keyframes wave {
+    0%   { transform: rotate(0deg) translateY(0px); }
+    20%  { transform: rotate(-80deg) translateY(-20px); }
+    30%  { transform: rotate(-65deg) translateY(-20px); }
+    40%  { transform: rotate(-85deg) translateY(-20px); }
+    50%  { transform: rotate(-65deg) translateY(-20px); }
+    60%  { transform: rotate(-85deg) translateY(-20px); }
+    80%  { transform: rotate(-80deg) translateY(-20px); }
+    100% { transform: rotate(0deg) translateY(0px); }
   }
 </style>
 </head>
@@ -296,12 +308,14 @@
   <!-- Seal mascot -->
   <div class="home-seal">
     <div id="home-seal-rig">
-      <!-- Base: Left Flipper layer = full composite seal -->
+      <!-- Layer 1: Body — no right flipper, eye holes cut out -->
+      <img src="Gemini_Generated_Image_yg5wtsyg5wtsyg5w/Seal-body.png" class="s-part s-body">
+      <!-- Layer 2: Left Flipper composite — fills eyes + left flipper -->
       <img src="Gemini_Generated_Image_yg5wtsyg5wtsyg5w/Seal-left-flipper.png" class="s-part s-l-flipper">
-      <!-- Animated overlays -->
+      <!-- Layer 3: Right Flipper — animates independently on top of body -->
       <img src="Gemini_Generated_Image_yg5wtsyg5wtsyg5w/Seal-right-flipper.png" class="s-part s-r-flipper waving-hand">
-      <img src="Gemini_Generated_Image_yg5wtsyg5wtsyg5w/Seal-eyes.png"         class="s-part s-eyes">
-      <img src="Gemini_Generated_Image_yg5wtsyg5wtsyg5w/Seal-stars.png"        class="s-part s-stars">
+      <!-- Layer 4: Stars — twinkle overlay -->
+      <img src="Gemini_Generated_Image_yg5wtsyg5wtsyg5w/Seal-stars.png" class="s-part s-stars">
     </div>
   </div>
 
@@ -335,7 +349,7 @@
   function scheduleBlink() {
     const delay = 5000 + Math.random() * 4000;
     setTimeout(() => {
-      gsap.to(".s-eyes", {
+      gsap.to(".seal-eyes", {
         scaleY: 0.08,
         transformOrigin: "center 40%",
         duration: 0.1,
@@ -348,29 +362,7 @@
   }
   scheduleBlink();
 
-  // 3. Occasional right flipper wave every 8-14 seconds 
-.waving-hand {
-  animation: wave 2.8s 0.6s infinite;
-  transform-origin: 63% 39%;
-  display: inline-block;
-}
-@keyframes wave {
-  /*Flipperwave/* Phase 1 — raise the flipper up overhead */
-  0%   { transform: rotate(0deg) translateY(0px); }
-  20%  { transform: rotate(-80deg) translateY(-20px); }
-
-  /*Flipperwave/* Phase 2 — wave back and forth while raised */
-  30%  { transform: rotate(-65deg) translateY(-20px); }
-  40%  { transform: rotate(-85deg) translateY(-20px); }
-  50%  { transform: rotate(-65deg) translateY(-20px); }
-  60%  { transform: rotate(-85deg) translateY(-20px); }
-
-  /*Flipperwave/* Phase 3 — lower back down */
-  80%  { transform: rotate(-80deg) translateY(-20px); }
-  100% { transform: rotate(0deg) translateY(0px); }
-}
-
-  // 4. Star twinkle — slowed down
+  // 3. Star twinkle — slowed down
   gsap.to(".s-stars", {
     opacity: 0.5,
     scale: 0.92,
