@@ -21,23 +21,6 @@
     --accent:        #0f0f10;
   }
 
-  .waving-hand {
-  animation: wave 2.1s 0.6s infinite;
-  transform-origin: 75% 75%;
-  display: inline-block;
-}
-
-@keyframes wave {
-  0% { transform: rotate(0deg); }
-  10% { transform: rotate(16deg); }
-  20% { transform: rotate(-6deg); }
-  30% { transform: rotate(16deg); }
-  40% { transform: rotate(-4deg); }
-  50% { transform: rotate(16deg); }
-  60% { transform: rotate(0deg); }
-  100% { transform: rotate(0deg); }
-}
-  
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
 
@@ -365,8 +348,27 @@
   }
   scheduleBlink();
 
-  // 3. Occasional right flipper wave every 8-14 seconds (Code no longer included)
+  // 3. Occasional right flipper wave every 8-14 seconds 
+.waving-hand {
+  animation: wave 2.8s 0.6s infinite;
+  transform-origin: 63% 39%;
+  display: inline-block;
+}
+@keyframes wave {
+  /*Flipperwave/* Phase 1 — raise the flipper up overhead */
+  0%   { transform: rotate(0deg) translateY(0px); }
+  20%  { transform: rotate(-80deg) translateY(-20px); }
 
+  /*Flipperwave/* Phase 2 — wave back and forth while raised */
+  30%  { transform: rotate(-65deg) translateY(-20px); }
+  40%  { transform: rotate(-85deg) translateY(-20px); }
+  50%  { transform: rotate(-65deg) translateY(-20px); }
+  60%  { transform: rotate(-85deg) translateY(-20px); }
+
+  /*Flipperwave/* Phase 3 — lower back down */
+  80%  { transform: rotate(-80deg) translateY(-20px); }
+  100% { transform: rotate(0deg) translateY(0px); }
+}
 
   // 4. Star twinkle — slowed down
   gsap.to(".s-stars", {
