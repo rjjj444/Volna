@@ -345,33 +345,36 @@
 
   // 2. The Waving Animation (Triggers every 10 seconds)
  function performWave() {
-    const flipper = document.querySelector(".s-r-flipper");
-    
-    // Create the timeline
-    const tl = gsap.timeline({ 
-      onComplete: () => setTimeout(performWave, 10000) 
-    });
+  const flipper = document.querySelector(".s-r-flipper");
+  
+  // The timeline allows us to chain different movements together
+  const tl = gsap.timeline({ 
+    onComplete: () => setTimeout(performWave, 10000) 
+  });
 
-    tl.to(flipper, {
-      // Pinning the top-left area where the flipper meets the neck/shoulder
-      transformOrigin: "25% 20%", 
-      rotation: -20, // Tilt outward
-      duration: 0.4,
-      ease: "power2.out"
-    })
-    .to(flipper, {
-      rotation: -40, // Shake between 20 and 40 degrees
-      duration: 0.12,
-      repeat: 5,
-      yoyo: true,
-      ease: "sine.inOut"
-    })
-    .to(flipper, {
-      rotation: 0,
-      duration: 0.6,
-      ease: "back.out(1.5)"
-    });
-  }
+  tl.to(flipper, {
+    // Pinning the shoulder
+    transformOrigin: "20% 40%", 
+    // Phase 1: High Wind-up (Lifting the flipper high like the lizard)
+    rotation: 50, 
+    duration: 0.4,
+    ease: "back.out(1.5)"
+  })
+  .to(flipper, {
+    // Phase 2: Rapid Shake (The 'vibrating' wave effect)
+    rotation: 35, 
+    duration: 0.08, // Very fast
+    repeat: 7,      // Multiple shakes
+    yoyo: true,
+    ease: "sine.inOut"
+  })
+  .to(flipper, {
+    // Phase 3: Smooth Reset (Gently bringing the arm back down)
+    rotation: 0,
+    duration: 0.8,
+    ease: "power2.inOut"
+  });
+}
 
   // Start the first wave after 2 seconds
   setTimeout(performWave, 2000);
