@@ -271,28 +271,21 @@
     50%      { transform: translateY(-10px); }
   }
 
-  /* ── Flipper wave animation ── */
+/* ── Updated Flipper Animation ── */
   .waving-hand {
-/* ── Flipper wave animation ── */
-  .waving-hand {
-    /* Pivot point roughly at the seal's shoulder */
-    transform-origin: 110px 145px; 
-    /* Increased speed to match the energetic video reference */
+    /* Using percentages ensures the pivot stays on the seal's shoulder */
+    transform-origin: 65% 15%; 
     animation: wave 2s ease-in-out infinite;
     display: inline-block;
+    /* Ensures the layer is visible and active */
+    z-index: 5; 
   }
 
   @keyframes wave {
-    0%   { transform: rotate(0deg); }
-    10%  { transform: rotate(-25deg); } /* Initial lift */
-    20%  { transform: rotate(-15deg); } /* First shake */
-    30%  { transform: rotate(-25deg); }
-    40%  { transform: rotate(-15deg); } /* Second shake */
-    50%  { transform: rotate(-25deg); }
-    60%  { transform: rotate(-15deg); } /* Third shake */
-    70%  { transform: rotate(-25deg); }
-    85%  { transform: rotate(0deg); }   /* Return to rest */
-    100% { transform: rotate(0deg); }   /* Pause at bottom */
+    0%, 100% { transform: rotate(0deg); }
+    10%, 30%, 50%, 70% { transform: rotate(-25deg); } /* The "Up" position */
+    20%, 40%, 60% { transform: rotate(-10deg); }      /* The "Shake" position */
+    85% { transform: rotate(0deg); }                  /* Return to rest */
   }
 </style>
 </head>
