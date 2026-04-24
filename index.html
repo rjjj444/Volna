@@ -46,7 +46,7 @@
   body::before {
     content: '';
     position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.35 0 0 0 0 0.28 0 0 0 0 0.20 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.35 0 0 0 0 0.28 0 0 0 0 0.20 0 0 0 0.55 0'/%3E%3C/filter%3E%3C/rect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
     background-size: 256px 256px;
     opacity: 0.10;
     pointer-events: none; z-index: 998;
@@ -120,7 +120,6 @@
     height: 100%;
     position: relative;
   }
-  /* All layers are full 768x1365 canvas — stack directly */
   .home-seal .s-part {
     position: absolute;
     top: 0; left: 0;
@@ -187,15 +186,6 @@
     white-space: nowrap;
   }
 
-  .home-btn::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: var(--white);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    border-radius: 100px;
-  }
-
   .home-btn:hover {
     color: var(--black);
     border-color: var(--accent);
@@ -208,7 +198,7 @@
     position: relative; z-index: 1;
   }
 
-  /* ── Footer mark ── */
+  /* ── Footer ── */
   .home-footer {
     position: fixed;
     bottom: 2rem;
@@ -252,38 +242,18 @@
     transition: color 0.25s;
     position: relative;
   }
-  .home-header-links a::after {
-    content: ''; position: absolute; bottom: -3px; left: 0;
-    width: 100%; height: 1px; background: var(--white);
-    transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
-  }
-  .home-header-links a:hover { color: var(--white); }
-  .home-header-links a:hover::after { transform: scaleX(1); }
 
-  /* ── Animations ── */
+  /* ── Flipper Base Class ── */
+  .s-r-flipper {
+    display: inline-block;
+    z-index: 5;
+    /* Static pivot to prevent drifting */
+    transform-origin: 18% 42%;
+  }
+
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes sealFloat {
-    0%, 100% { transform: translateY(0px); }
-    50%      { transform: translateY(-10px); }
-  }
-
-/* ── Updated Flipper Animation ── */
-.waving-hand {
-    display: inline-block;
-    z-index: 5;
-    /* This ensures it starts in a natural position */
-    transform: rotate(0deg); 
-  }
-
-  @keyframes wave {
-    0%, 100% { transform: rotate(0deg); }
-    10%, 30%, 50%, 70% { transform: rotate(-25deg); } /* The "Up" position */
-    20%, 40%, 60% { transform: rotate(-10deg); }      /* The "Shake" position */
-    85% { transform: rotate(0deg); }                  /* Return to rest */
   }
 </style>
 </head>
@@ -300,19 +270,13 @@
 </header>
 
 <div class="home-wrap">
-
   <p class="home-wordmark">Intelligence for Independent Fashion</p>
 
-  <!-- Seal mascot -->
   <div class="home-seal">
     <div id="home-seal-rig">
-      <!-- Layer 1: Body — has left flipper, no right flipper, eye holes -->
       <img src="Gemini_Generated_Image_yg5wtsyg5wtsyg5w/Seal-body.png" class="s-part s-body">
-      <!-- Layer 2: Eyes — sits in the eye holes -->
       <img src="Gemini_Generated_Image_yg5wtsyg5wtsyg5w/Seal-eyes.png" class="s-part s-eyes">
-      <!-- Layer 3: Right Flipper — animates on top, no ghost underneath -->
-      <img src="Gemini_Generated_Image_yg5wtsyg5wtsyg5w/Seal-right-flipper.png" class="s-part s-r-flipper waving-hand">
-      <!-- Layer 4: Stars — twinkle overlay -->
+      <img src="Gemini_Generated_Image_yg5wtsyg5wtsyg5w/Seal-right-flipper.png" class="s-part s-r-flipper">
       <img src="Gemini_Generated_Image_yg5wtsyg5wtsyg5w/Seal-stars.png" class="s-part s-stars">
     </div>
   </div>
@@ -320,21 +284,20 @@
   <h1 class="home-welcome">Welcome to <em>Volna</em></h1>
   <p class="home-sub">Fashion intelligence — where would you like to go?</p>
 
-  <nav class="home-nav" aria-label="Main navigation">
+  <nav class="home-nav">
     <a href="style-finder.html"  class="home-btn"><span>Find my style</span></a>
     <a href="analytics.html"     class="home-btn"><span>Market analytics</span></a>
     <a href="designers.html"     class="home-btn"><span>Designers &amp; brands you might like</span></a>
     <a href="creators.html"      class="home-btn"><span>Creators who align with your style</span></a>
     <a href="lookbook.html"      class="home-btn"><span>Make me a lookbook</span></a>
   </nav>
-
 </div>
 
 <p class="home-footer">Volna &mdash; Independent Fashion Intelligence</p>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script>
-  // 1. Gentle float for the whole seal
+  // 1. Gentle float
   gsap.to("#home-seal-rig", {
     y: -10,
     duration: 4.5,
@@ -343,53 +306,44 @@
     ease: "sine.inOut"
   });
 
-  // 2. The Waving Animation (Triggers every 10 seconds)
- function performWave() {
-  const flipper = document.querySelector(".s-r-flipper");
-  
-  // The timeline allows us to chain different movements together
-  const tl = gsap.timeline({ 
-    onComplete: () => setTimeout(performWave, 10000) 
-  });
+  // 2. High-energy Lizard Wave (Triggers every 10 seconds)
+  function performWave() {
+    const flipper = document.querySelector(".s-r-flipper");
+    const tl = gsap.timeline({ 
+      onComplete: () => setTimeout(performWave, 10000) 
+    });
 
-  tl.to(flipper, {
-    // Pinning the shoulder
-    transformOrigin: "20% 2%", 
-    // Phase 1: High Wind-up (Lifting the flipper high like the lizard)
-    rotation: 50, 
-    duration: 0.4,
-    ease: "back.out(1.5)"
-  })
-  .to(flipper, {
-    // Phase 2: Rapid Shake (The 'vibrating' wave effect)
-    rotation: 35, 
-    duration: 0.08, // Very fast
-    repeat: 7,      // Multiple shakes
-    yoyo: true,
-    ease: "sine.inOut"
-  })
-  .to(flipper, {
-    // Phase 3: Smooth Reset (Gently bringing the arm back down)
-    rotation: 0,
-    duration: 0.8,
-    ease: "power2.inOut"
-  });
-}
-
-  // Start the first wave after 2 seconds
+    tl.to(flipper, {
+      rotation: -55, // Lifted high and away
+      duration: 0.45,
+      ease: "back.out(1.7)"
+    })
+    .to(flipper, {
+      rotation: -40, // Quick shake
+      duration: 0.07,
+      repeat: 9,
+      yoyo: true,
+      ease: "sine.inOut"
+    })
+    .to(flipper, {
+      rotation: 0,
+      duration: 0.8,
+      ease: "power2.inOut"
+    });
+  }
   setTimeout(performWave, 2000);
 
-  // 3. Occasional blink
+  // 3. Slower, more organic blink
   function scheduleBlink() {
-    const delay = 5000 + Math.random() * 4000;
+    const delay = 4000 + Math.random() * 5000;
     setTimeout(() => {
       gsap.to(".s-eyes", {
-        scaleY: 0.08,
+        scaleY: 0.05,
         transformOrigin: "center 40%",
-        duration: 0.1,
+        duration: 0.35, // Slower closing/opening
         yoyo: true,
         repeat: 1,
-        ease: "power2.in",
+        ease: "sine.inOut",
         onComplete: scheduleBlink
       });
     }, delay);
@@ -398,15 +352,14 @@
 
   // 4. Star twinkle
   gsap.to(".s-stars", {
-    opacity: 0.5,
-    scale: 0.92,
+    opacity: 0.4,
+    scale: 0.9,
     duration: 3,
     repeat: -1,
     yoyo: true,
     ease: "sine.inOut"
   });
 
-  // Stagger button animation
   document.querySelectorAll(".home-btn").forEach((btn, i) => {
     btn.style.animationDelay = (0.9 + i * 0.08) + "s";
   });
