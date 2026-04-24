@@ -306,22 +306,25 @@
     ease: "sine.inOut"
   });
 
-  // 2. High-energy Lizard Wave (Triggers every 10 seconds)
+ // ── 1. The Waving Animation ──
   function performWave() {
     const flipper = document.querySelector(".s-r-flipper");
+    
     const tl = gsap.timeline({ 
       onComplete: () => setTimeout(performWave, 10000) 
     });
 
     tl.to(flipper, {
-      rotation: -55, // Lifted high and away
-      duration: 0.45,
+      // Pinning the top-right corner where it meets the shoulder
+      transformOrigin: "85% 15%", 
+      rotation: 45, // Swing the tip UP and OUT
+      duration: 0.5,
       ease: "back.out(1.7)"
     })
     .to(flipper, {
-      rotation: -40, // Quick shake
-      duration: 0.07,
-      repeat: 9,
+      rotation: 25, // Rapid shake between 45 and 25 degrees
+      duration: 0.08,
+      repeat: 7,
       yoyo: true,
       ease: "sine.inOut"
     })
@@ -331,16 +334,16 @@
       ease: "power2.inOut"
     });
   }
-  setTimeout(performWave, 2000);
 
-  // 3. Slower, more organic blink
+  // ── 2. The Blinking Animation ──
   function scheduleBlink() {
-    const delay = 4000 + Math.random() * 5000;
+    const delay = 5000 + Math.random() * 4000;
     setTimeout(() => {
       gsap.to(".s-eyes", {
-        scaleY: 0.05,
-        transformOrigin: "center 40%",
-        duration: 0.35, // Slower closing/opening
+        scaleY: 0, // Fully close the eye
+        // Pin to the bottom so the "lid" closes downward
+        transformOrigin: "50% 100%", 
+        duration: 0.4, // Slower, sleepier blink
         yoyo: true,
         repeat: 1,
         ease: "sine.inOut",
