@@ -307,51 +307,51 @@
   });
 
  // ── 1. The Waving Animation ──
-  function performWave() {
-    const flipper = document.querySelector(".s-r-flipper");
+ // function performWave() {
+ //   const flipper = document.querySelector(".s-r-flipper");
     
-    const tl = gsap.timeline({ 
-      onComplete: () => setTimeout(performWave, 10000) 
-    });
+  //  const tl = gsap.timeline({ 
+  //    onComplete: () => setTimeout(performWave, 10000) 
+  //  });
 
-    tl.to(flipper, {
+  //  tl.to(flipper, {
       // Pinning the top-right corner where it meets the shoulder
-      transformOrigin: "85% 15%", 
-      rotation: 45, // Swing the tip UP and OUT
-      duration: 0.5,
-      ease: "back.out(1.7)"
-    })
-    .to(flipper, {
-      rotation: 25, // Rapid shake between 45 and 25 degrees
-      duration: 0.08,
-      repeat: 7,
-      yoyo: true,
-      ease: "sine.inOut"
-    })
-    .to(flipper, {
-      rotation: 0,
-      duration: 0.8,
-      ease: "power2.inOut"
-    });
-  }
+  //    transformOrigin: "85% 15%", 
+  //    rotation: 45, // Swing the tip UP and OUT
+  //    duration: 0.5,
+  //    ease: "back.out(1.7)"
+  //  })
+  //  .to(flipper, {
+  //    rotation: 25, // Rapid shake between 45 and 25 degrees
+  //    duration: 0.08,
+  //    repeat: 7,
+  //    yoyo: true,
+  //    ease: "sine.inOut"
+  //  })
+  //  .to(flipper, {
+  //    rotation: 0,
+  //    duration: 0.8,
+  //    ease: "power2.inOut"
+  //  });
+ // }
 
   // ── 2. The Blinking Animation ──
-  function scheduleBlink() {
-    const delay = 5000 + Math.random() * 4000;
-    setTimeout(() => {
-      gsap.to(".s-eyes", {
-        scaleY: 0, // Fully close the eye
-        // Pin to the bottom so the "lid" closes downward
-        transformOrigin: "50% 100%", 
-        duration: 0.4, // Slower, sleepier blink
-        yoyo: true,
-        repeat: 1,
-        ease: "sine.inOut",
-        onComplete: scheduleBlink
-      });
-    }, delay);
-  }
-  scheduleBlink();
+ // function scheduleBlink() {
+ //   const delay = 5000 + Math.random() * 4000;
+ //   setTimeout(() => {
+ //     gsap.to(".s-eyes", {
+ //       scaleY: 0, // Fully close the eye
+ //       // Pin to the bottom so the "lid" closes downward
+ //       transformOrigin: "50% 100%", 
+ //       duration: 0.4, // Slower, sleepier blink
+ //       yoyo: true,
+ //       repeat: 1,
+ //       ease: "sine.inOut",
+ //       onComplete: scheduleBlink
+ //     });
+ //   }, delay);
+ // }
+ // scheduleBlink();
 
   // 4. Star twinkle
   gsap.to(".s-stars", {
