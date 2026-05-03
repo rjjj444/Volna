@@ -3,367 +3,479 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Volna — Home</title>
+<title>Volna — Intelligence for Independent Fashion</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;0,600;1,200;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --black:         #c8c9cc;
-    --black-deep:    #bdbec2;
-    --surface:       #c2c3c7;
-    --surface-raise: #b8b9bd;
-    --white:         #0f0f10;
-    --white-dim:     #252527;
-    --white-muted:   #52525a;
-    --white-ghost:   #8a8a92;
-    --border:        rgba(15,15,16,0.13);
-    --border-strong: rgba(15,15,16,0.26);
-    --accent:        #0f0f10;
+    --ink:       #0a0a0b;
+    --ink-soft:  #141416;
+    --chalk:     #f0ede8;
+    --chalk-dim: #c8c4bc;
+    --chalk-ghost: #6e6a63;
+    --gold:      #b8a882;
+    --gold-dim:  #8a7d63;
+    --border:    rgba(240,237,232,0.1);
+    --border-mid: rgba(240,237,232,0.2);
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
 
   body {
-    background:
-      radial-gradient(ellipse 120% 80% at 30% 40%, rgba(210,212,218,0.55) 0%, transparent 65%),
-      radial-gradient(ellipse 80% 60% at 80% 10%,  rgba(195,198,205,0.35) 0%, transparent 55%),
-      radial-gradient(ellipse 100% 80% at 10% 90%, rgba(215,216,220,0.45) 0%, transparent 60%),
-      #c8c9cc;
-    color: var(--white);
+    background: var(--ink);
+    color: var(--chalk);
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-weight: 300;
-    line-height: 1.7;
-    overflow-x: hidden;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    overflow-x: hidden;
   }
 
-  /* Paper texture */
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.35 0 0 0 0 0.28 0 0 0 0 0.20 0 0 0 0.55 0'/%3E%3C/filter%3E%3C/rect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
-    background-size: 256px 256px;
-    opacity: 0.10;
-    pointer-events: none; z-index: 998;
-  }
-
-  body::after {
-    content: '';
-    position: fixed; inset: 0;
-    pointer-events: none; z-index: 1;
-    background-image:
-      linear-gradient(90deg, rgba(10,10,10,0.18) 1px, transparent 1px),
-      linear-gradient(0deg,  rgba(10,10,10,0.18) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(10,10,10,0.18) 1px, transparent 1px),
-      linear-gradient(0deg,  rgba(10,10,10,0.18) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(10,10,10,0.18) 1px, transparent 1px),
-      linear-gradient(0deg,  rgba(10,10,10,0.18) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(10,10,10,0.18) 1px, transparent 1px),
-      linear-gradient(0deg,  rgba(10,10,10,0.18) 1px, transparent 1px);
-    background-size: 28px 1px, 1px 28px, 28px 1px, 1px 28px, 28px 1px, 1px 28px, 28px 1px, 1px 28px;
-    background-position:
-      24px 24px, 24px 24px,
-      calc(100% - 24px) 24px, calc(100% - 24px) 24px,
-      24px calc(100% - 24px), 24px calc(100% - 24px),
-      calc(100% - 24px) calc(100% - 24px), calc(100% - 24px) calc(100% - 24px);
-    background-repeat: no-repeat;
-  }
-
-  .paper-coarse {
-    position: fixed; inset: 0; pointer-events: none; z-index: 997;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='q'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.25' numOctaves='6' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.30 0 0 0 0 0.24 0 0 0 0 0.16 0 0 0 0.28 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23q)'/%3E%3C/svg%3E");
-    background-size: 512px 512px;
-    opacity: 0.07;
-  }
-
-  /* ── Main layout ── */
-  .home-wrap {
-    position: relative; z-index: 10;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
-    padding: 2rem;
-    text-align: center;
-  }
-
-  /* ── Wordmark ── */
-  .home-wordmark {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.42em;
-    text-transform: uppercase;
-    color: var(--white-muted);
-    opacity: 0;
-    animation: fadeUp 0.7s ease 0.2s forwards;
-    margin-bottom: 2.5rem;
-  }
-
-  /* ── Seal mascot ── */
-  .home-seal {
-    position: relative;
-    width: 180px;
-    height: 320px;
-    margin-bottom: 1rem;
-    opacity: 0;
-    animation: fadeUp 0.9s ease 0.4s forwards;
-    flex-shrink: 0;
-  }
-  #home-seal-rig {
-    width: 100%;
-    height: 100%;
-    position: relative;
-  }
-  .home-seal .s-part {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%;
-    height: auto;
-    image-rendering: pixelated;
-    pointer-events: none;
-  }
-
-  /* ── Welcome text ── */
-  .home-welcome {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    font-weight: 300;
-    letter-spacing: 0.04em;
-    color: var(--white-dim);
-    line-height: 1.2;
-    margin-bottom: 0.5rem;
-    opacity: 0;
-    animation: fadeUp 0.9s ease 0.6s forwards;
-  }
-  .home-welcome em {
-    font-style: italic;
-    color: var(--white);
-  }
-
-  .home-sub {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.58rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--white-ghost);
-    margin-bottom: 3.5rem;
-    opacity: 0;
-    animation: fadeUp 0.9s ease 0.75s forwards;
-  }
-
-  /* ── Nav buttons ── */
-  .home-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    justify-content: center;
-    max-width: 700px;
-    opacity: 0;
-    animation: fadeUp 0.9s ease 0.9s forwards;
-  }
-
-  .home-btn {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--white-muted);
-    text-decoration: none;
-    padding: 0.85rem 1.6rem;
-    border: 1px solid var(--border-strong);
-    border-radius: 100px;
-    background: rgba(200,201,204,0.5);
-    backdrop-filter: blur(12px);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  .home-btn:hover {
-    color: var(--black);
-    border-color: var(--accent);
-    background: rgba(15,15,16,0.08);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(15,15,16,0.12);
-  }
-
-  .home-btn span {
-    position: relative; z-index: 1;
-  }
-
-  /* ── Footer ── */
-  .home-footer {
+  /* ── Full bleed background ── */
+  .bg-layer {
     position: fixed;
-    bottom: 2rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.52rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--white-ghost);
+    inset: 0;
+    z-index: 0;
+  }
+  /* The user uploads their image to GitHub as 'bg-hero.jpg' */
+  .bg-image {
+    position: absolute;
+    inset: 0;
+    background-image: url('the_movement.jpg');
+    background-size: cover;
+    background-position: center 20%;
+    background-repeat: no-repeat;
     opacity: 0;
-    animation: fadeUp 0.9s ease 1.2s forwards;
-    z-index: 10;
+    transition: opacity 2s ease;
+  }
+  .bg-image.loaded { opacity: 0.38; }
+  /* Dark gradient overlay — heavier at bottom so text is always readable */
+  .bg-gradient {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom,
+        rgba(10,10,11,0.55) 0%,
+        rgba(10,10,11,0.25) 35%,
+        rgba(10,10,11,0.45) 65%,
+        rgba(10,10,11,0.92) 100%
+      ),
+      linear-gradient(to right,
+        rgba(10,10,11,0.4) 0%,
+        transparent 40%,
+        transparent 60%,
+        rgba(10,10,11,0.4) 100%
+      );
+  }
+  /* Grain overlay for texture */
+  .bg-grain {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    opacity: 0.6;
+    mix-blend-mode: overlay;
   }
 
-  /* ── Top header nav ── */
-  .home-header {
+  /* ── Header ── */
+  .v-header {
     position: fixed;
     top: 0; left: 0; right: 0;
     z-index: 100;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.4rem 3rem;
+    padding: 1.6rem 3rem;
     border-bottom: 1px solid var(--border);
-    background: rgba(200,201,204,0.85);
-    backdrop-filter: blur(20px);
+    background: rgba(10,10,11,0.6);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    opacity: 0;
+    animation: fadeDown 0.8s ease 0.3s forwards;
   }
-  .home-header-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.2rem; font-weight: 600;
-    letter-spacing: 0.3em; text-transform: uppercase;
-    color: var(--white); text-decoration: none;
+
+  /* ── SVG Wordmark Logo ── */
+  .v-logo-link { text-decoration: none; display: flex; align-items: center; }
+  .v-logo-svg { height: 28px; width: auto; }
+
+  .v-header-nav {
+    display: flex; gap: 2.5rem; list-style: none; align-items: center;
   }
-  .home-header-links {
-    display: flex; gap: 2rem; list-style: none;
-  }
-  .home-header-links a {
+  .v-header-nav a {
     font-family: 'DM Mono', monospace;
-    font-size: 0.58rem; letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--white-muted); text-decoration: none;
-    transition: color 0.25s;
+    font-size: 0.56rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--chalk-ghost); text-decoration: none;
+    transition: color 0.3s;
     position: relative;
   }
+  .v-header-nav a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 100%; height: 1px;
+    background: var(--gold);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  }
+  .v-header-nav a:hover { color: var(--chalk); }
+  .v-header-nav a:hover::after { transform: scaleX(1); }
 
-  /* ── Flipper Base Class ── */
-  .s-r-flipper {
-    display: inline-block;
-    z-index: 5;
-    /* Static pivot to prevent drifting */
-    transform-origin: 18% 42%;
+  /* ── Main content ── */
+  .v-main {
+    position: relative; z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 5vw 5rem;
   }
 
+  /* ── Eyebrow ── */
+  .v-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.52rem; letter-spacing: 0.42em; text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.8s forwards;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .v-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 2rem; height: 1px;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  /* ── Hero headline ── */
+  .v-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 200;
+    line-height: 1.0;
+    letter-spacing: -0.01em;
+    color: var(--chalk);
+    max-width: 720px;
+    margin-bottom: 1.8rem;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 1s forwards;
+  }
+  .v-headline em {
+    font-style: italic;
+    color: var(--chalk-dim);
+    font-weight: 200;
+  }
+
+  /* ── Subtext ── */
+  .v-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--chalk-ghost);
+    margin-bottom: 3.5rem;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 1.15s forwards;
+    max-width: 400px;
+    line-height: 1.8;
+  }
+
+  /* ── Navigation pills ── */
+  .v-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 1.3s forwards;
+  }
+
+  .v-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.56rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--chalk-dim);
+    text-decoration: none;
+    padding: 0.8rem 1.6rem;
+    border: 1px solid var(--border-mid);
+    border-radius: 2px;
+    background: rgba(240,237,232,0.04);
+    backdrop-filter: blur(12px);
+    transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .v-btn::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: var(--gold);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+  .v-btn:hover {
+    color: var(--chalk);
+    border-color: rgba(184,168,130,0.4);
+    background: rgba(240,237,232,0.08);
+  }
+  .v-btn:hover::before { transform: scaleX(1); }
+
+  .v-btn.primary {
+    background: var(--chalk);
+    color: var(--ink);
+    border-color: var(--chalk);
+    font-weight: 400;
+  }
+  .v-btn.primary::before { background: var(--gold); }
+  .v-btn.primary:hover {
+    background: var(--chalk-dim);
+    border-color: var(--chalk-dim);
+    color: var(--ink);
+  }
+
+  /* ── Seal mascot — repositioned bottom right ── */
+  .v-seal {
+    position: fixed;
+    bottom: 3rem; right: 4vw;
+    z-index: 20;
+    width: 140px; height: 250px;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.6s forwards;
+    mix-blend-mode: screen;
+  }
+  #home-seal-rig {
+    width: 100%; height: 100%;
+    position: relative;
+  }
+  .s-part {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: auto;
+    image-rendering: pixelated;
+    pointer-events: none;
+    filter: brightness(0.9) contrast(1.1);
+  }
+
+  /* ── Flipper wave ── */
+  .waving-hand {
+    animation: wave 2.8s 0.6s infinite;
+    transform-origin: 114px 125px;
+    display: inline-block;
+  }
+  @keyframes wave {
+    0%   { transform: rotate(0deg); }
+    15%  { transform: rotate(-12deg); }
+    30%  { transform: rotate(-5deg); }
+    45%  { transform: rotate(-14deg); }
+    60%  { transform: rotate(-5deg); }
+    75%  { transform: rotate(-12deg); }
+    90%  { transform: rotate(-3deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  /* ── Footer line ── */
+  .v-footer {
+    position: fixed;
+    bottom: 1.4rem; left: 5vw;
+    z-index: 20;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.48rem; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--chalk-ghost);
+    opacity: 0;
+    animation: fadeUp 0.8s ease 1.8s forwards;
+    display: flex; align-items: center; gap: 1.5rem;
+  }
+  .v-footer::after {
+    content: '';
+    display: inline-block;
+    width: 3rem; height: 1px;
+    background: var(--chalk-ghost);
+    opacity: 0.4;
+  }
+
+  /* ── Scroll indicator ── */
+  .v-scroll {
+    position: fixed;
+    right: 2rem; top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeIn 1s ease 2s forwards;
+  }
+  .v-scroll-line {
+    width: 1px; height: 60px;
+    background: linear-gradient(to bottom, transparent, var(--chalk-ghost));
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  .v-scroll-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.44rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--chalk-ghost);
+    writing-mode: vertical-rl;
+  }
+  @keyframes scrollPulse {
+    0%,100% { opacity: 0.3; }
+    50%      { opacity: 0.8; }
+  }
+
+  /* ── Animations ── */
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
+    from { opacity: 0; transform: translateY(24px); }
     to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 640px) {
+    .v-header { padding: 1.2rem 1.5rem; }
+    .v-main { padding: 0 6vw 4rem; }
+    .v-scroll { display: none; }
+    .v-seal { width: 100px; height: 178px; right: 2vw; bottom: 2rem; }
+    .v-header-nav { gap: 1.5rem; }
   }
 </style>
 </head>
 <body>
 
-<div class="paper-coarse" aria-hidden="true"></div>
+<!-- Background layers -->
+<div class="bg-layer">
+  <div class="bg-image" id="bgImage"></div>
+  <div class="bg-gradient"></div>
+  <div class="bg-grain"></div>
+</div>
 
-<header class="home-header">
-  <a href="home.html" class="home-header-logo">Volna</a>
-  <ul class="home-header-links">
+<!-- Header -->
+<header class="v-header">
+  <!-- SVG Wordmark: Cormorant serif VOLNA with a needle-and-thread detail on the V -->
+  <a href="index.html" class="v-logo-link" aria-label="Volna home">
+    <svg class="v-logo-svg" viewBox="0 0 220 36" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Volna">
+      <!-- V with needle-thread detail -->
+      <!-- Main V strokes -->
+      <path d="M2 4 L14 32 L26 4" stroke="#f0ede8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <!-- Needle — a fine diagonal line through the top-right of the V -->
+      <line x1="24" y1="2" x2="18" y2="14" stroke="#b8a882" stroke-width="0.8" stroke-linecap="round"/>
+      <!-- Needle eye (small oval at tip) -->
+      <ellipse cx="24.4" cy="1.8" rx="1.2" ry="0.7" transform="rotate(-35 24.4 1.8)" stroke="#b8a882" stroke-width="0.7" fill="none"/>
+      <!-- Thread — a fine curved line looping down from needle -->
+      <path d="M23 3.5 C20 8 22 14 17 16 C13 18 11 15 14 32" stroke="#b8a882" stroke-width="0.6" stroke-linecap="round" fill="none" opacity="0.7"/>
+
+      <!-- O -->
+      <ellipse cx="38" cy="18" rx="9" ry="14" stroke="#f0ede8" stroke-width="1.2" fill="none"/>
+
+      <!-- L -->
+      <line x1="54" y1="4" x2="54" y2="32" stroke="#f0ede8" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="54" y1="32" x2="67" y2="32" stroke="#f0ede8" stroke-width="1.2" stroke-linecap="round"/>
+
+      <!-- N -->
+      <line x1="74" y1="32" x2="74" y2="4" stroke="#f0ede8" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="74" y1="4" x2="87" y2="32" stroke="#f0ede8" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="87" y1="32" x2="87" y2="4" stroke="#f0ede8" stroke-width="1.2" stroke-linecap="round"/>
+
+      <!-- A -->
+      <path d="M98 32 L107 4 L116 32" stroke="#f0ede8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <!-- A crossbar -->
+      <line x1="101" y1="22" x2="113" y2="22" stroke="#f0ede8" stroke-width="1.0" stroke-linecap="round"/>
+
+      <!-- Hairline rule beneath wordmark -->
+      <line x1="2" y1="35.5" x2="116" y2="35.5" stroke="#b8a882" stroke-width="0.5" opacity="0.6"/>
+    </svg>
+  </a>
+
+  <ul class="v-header-nav">
     <li><a href="about.html">About</a></li>
     <li><a href="privacy.html">Privacy</a></li>
   </ul>
 </header>
 
-<div class="home-wrap">
-  <p class="home-wordmark">Intelligence for Independent Fashion</p>
-
-  <div class="home-seal">
-    <div id="home-seal-rig">
-      <img src="Gemini_Generated_Image_yg5wtsyg5wtsyg5w/Seal-body.png" class="s-part s-body">
-      <img src="Gemini_Generated_Image_yg5wtsyg5wtsyg5w/Seal-eyes.png" class="s-part s-eyes">
-      <img src="Gemini_Generated_Image_yg5wtsyg5wtsyg5w/Seal-right-flipper.png" class="s-part s-r-flipper">
-      <img src="Gemini_Generated_Image_yg5wtsyg5wtsyg5w/Seal-left-flipper.png" class="s-part s-r-flipper">
-      <img src="Gemini_Generated_Image_yg5wtsyg5wtsyg5w/Seal-stars.png" class="s-part s-stars">
-    </div>
-  </div>
-
-  <h1 class="home-welcome">Welcome to <em>Volna</em></h1>
-  <p class="home-sub">Fashion intelligence — where would you like to go?</p>
-
-  <nav class="home-nav">
-    <a href="style-finder.html"  class="home-btn"><span>Find my style</span></a>
-    <a href="analytics.html"     class="home-btn"><span>Market analytics</span></a>
-    <a href="lookbook.html"      class="home-btn"><span>Make me a lookbook</span></a>
-  </nav>
+<!-- Scroll indicator -->
+<div class="v-scroll" aria-hidden="true">
+  <div class="v-scroll-line"></div>
+  <span class="v-scroll-label">Scroll</span>
 </div>
 
-<p class="home-footer">Volna &mdash; Independent Fashion Intelligence</p>
+<!-- Main content -->
+<main class="v-main">
+
+  <p class="v-eyebrow">Intelligence for Independent Fashion</p>
+
+  <h1 class="v-headline">
+    The data<br>
+    advantage<br>
+    <em>already have.</em>
+  </h1>
+
+  <p class="v-sub">Trend forecasting, aesthetic positioning, and cross-platform signal analysis — built for independent designers, stylists, and creative professionals.</p>
+
+  <nav class="v-nav" aria-label="Main navigation">
+    <a href="style-finder.html" class="v-btn primary"><span>Find my style</span></a>
+    <a href="analytics.html"   class="v-btn"><span>Market analytics</span></a>
+    <a href="lookbook.html"    class="v-btn"><span>Make me a lookbook</span></a>
+  </nav>
+
+</main>
+
+<!-- Seal mascot -->
+<div class="v-seal">
+  <div id="home-seal-rig">
+    <img src="Gemini_Generated_Image_yg5wtsyg5wtsyg5w/Seal-body.png" class="s-part s-body">
+    <img src="Gemini_Generated_Image_yg5wtsyg5wtsyg5w/Seal-eyes.png" class="s-part s-eyes">
+    <img src="Gemini_Generated_Image_yg5wtsyg5wtsyg5w/Seal-right-flipper.png" class="s-part s-r-flipper waving-hand">
+    <img src="Gemini_Generated_Image_yg5wtsyg5wtsyg5w/Seal-stars.png" class="s-part s-stars">
+  </div>
+</div>
+
+<!-- Footer -->
+<p class="v-footer" aria-label="Volna — Independent Fashion Intelligence">Volna &mdash; Independent Fashion Intelligence</p>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script>
-  // 1. Gentle float
+  // ── Background image fade in ──
+  const bg = document.getElementById("bgImage");
+  const img = new Image();
+  img.onload = () => bg.classList.add("loaded");
+  img.src = "the_movement.jpg";
+
+  // ── Seal animations ──
   gsap.to("#home-seal-rig", {
-    y: -10,
-    duration: 4.5,
-    repeat: -1,
-    yoyo: true,
-    ease: "sine.inOut"
+    y: -10, duration: 4.5, repeat: -1, yoyo: true, ease: "sine.inOut"
   });
 
- // ── 1. The Waving Animation ──
- // function performWave() {
- //   const flipper = document.querySelector(".s-r-flipper");
-    
-  //  const tl = gsap.timeline({ 
-  //    onComplete: () => setTimeout(performWave, 10000) 
-  //  });
+  function scheduleBlink() {
+    const delay = 5000 + Math.random() * 4000;
+    setTimeout(() => {
+      gsap.to(".s-eyes", {
+        scaleY: 0.08,
+        transformOrigin: "center 40%",
+        duration: 0.1,
+        yoyo: true, repeat: 1,
+        ease: "power2.in",
+        onComplete: scheduleBlink
+      });
+    }, delay);
+  }
+  scheduleBlink();
 
-  //  tl.to(flipper, {
-      // Pinning the top-right corner where it meets the shoulder
-  //    transformOrigin: "85% 15%", 
-  //    rotation: 45, // Swing the tip UP and OUT
-  //    duration: 0.5,
-  //    ease: "back.out(1.7)"
-  //  })
-  //  .to(flipper, {
-  //    rotation: 25, // Rapid shake between 45 and 25 degrees
-  //    duration: 0.08,
-  //    repeat: 7,
-  //    yoyo: true,
-  //    ease: "sine.inOut"
-  //  })
-  //  .to(flipper, {
-  //    rotation: 0,
-  //    duration: 0.8,
-  //    ease: "power2.inOut"
-  //  });
- // }
-
-  // ── 2. The Blinking Animation ──
- // function scheduleBlink() {
- //   const delay = 5000 + Math.random() * 4000;
- //   setTimeout(() => {
- //     gsap.to(".s-eyes", {
- //       scaleY: 0, // Fully close the eye
- //       // Pin to the bottom so the "lid" closes downward
- //       transformOrigin: "50% 100%", 
- //       duration: 0.4, // Slower, sleepier blink
- //       yoyo: true,
- //       repeat: 1,
- //       ease: "sine.inOut",
- //       onComplete: scheduleBlink
- //     });
- //   }, delay);
- // }
- // scheduleBlink();
-
-  // 4. Star twinkle
   gsap.to(".s-stars", {
-    opacity: 0.4,
-    scale: 0.9,
-    duration: 3,
-    repeat: -1,
-    yoyo: true,
-    ease: "sine.inOut"
+    opacity: 0.5, scale: 0.92,
+    duration: 3, repeat: -1, yoyo: true, ease: "sine.inOut"
   });
 
-  document.querySelectorAll(".home-btn").forEach((btn, i) => {
-    btn.style.animationDelay = (0.9 + i * 0.08) + "s";
+  // ── Subtle parallax on bg image ──
+  document.addEventListener("mousemove", (e) => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 12;
+    const y = (e.clientY / window.innerHeight - 0.5) * 8;
+    gsap.to(".bg-image", {
+      x: x, y: y,
+      duration: 2.5, ease: "power1.out"
+    });
   });
 </script>
 </body>
