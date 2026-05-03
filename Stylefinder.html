@@ -8,43 +8,64 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --black:         #c8c9cc;
-    --white:         #0f0f10;
-    --white-dim:     #252527;
-    --white-muted:   #52525a;
-    --white-ghost:   #8a8a92;
-    --border:        rgba(15,15,16,0.13);
-    --border-strong: rgba(15,15,16,0.26);
-    --accent:        #0f0f10;
+    --white:         #f0ede8;
+    --white-dim:     #d8d5d0;
+    --white-muted:   #a8a5a0;
+    --white-ghost:   #6e6b66;
+    --border:        rgba(240,237,232,0.12);
+    --border-strong: rgba(240,237,232,0.22);
+    --accent:        #f0ede8;
+    --black:         #0a0a0b;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
-    background:
-      radial-gradient(ellipse 120% 80% at 30% 40%, rgba(210,212,218,0.55) 0%, transparent 65%),
-      radial-gradient(ellipse 80% 60% at 80% 10%,  rgba(195,198,205,0.35) 0%, transparent 55%),
-      radial-gradient(ellipse 100% 80% at 10% 90%, rgba(215,216,220,0.45) 0%, transparent 60%),
-      #c8c9cc;
-    color: var(--white);
+    background: #0a0a0b;
+    color: #f0ede8;
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-weight: 300;
     line-height: 1.7;
     overflow-x: hidden;
     min-height: 100vh;
   }
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
+
+  /* ── Background image layers ── */
+  .bg-layer {
+    position: fixed; inset: 0; z-index: 0;
+    pointer-events: none;
+  }
+  .bg-slide {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 1.2s cubic-bezier(0.4,0,0.2,1);
+  }
+  .bg-slide.active { opacity: 0.42; }
+  .bg-overlay {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(to bottom,
+        rgba(10,10,11,0.65) 0%,
+        rgba(10,10,11,0.3) 40%,
+        rgba(10,10,11,0.5) 70%,
+        rgba(10,10,11,0.95) 100%
+      );
+  }
+  .bg-grain {
+    position: absolute; inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.35 0 0 0 0 0.28 0 0 0 0 0.20 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
     background-size: 256px 256px;
-    opacity: 0.10;
-    pointer-events: none; z-index: 998;
+    opacity: 0.12;
+    mix-blend-mode: overlay;
   }
+
   .paper-coarse {
     position: fixed; inset: 0; pointer-events: none; z-index: 997;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='q'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.25' numOctaves='6' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.30 0 0 0 0 0.24 0 0 0 0 0.16 0 0 0 0.28 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23q)'/%3E%3C/svg%3E");
     background-size: 512px 512px;
-    opacity: 0.07;
+    opacity: 0.05;
   }
 
   /* Header */
@@ -144,7 +165,7 @@
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.25rem; font-weight: 300;
     color: var(--white);
-    background: rgba(255,255,255,0.6);
+    background: rgba(240,237,232,0.08);
     border: 1px solid var(--border-strong);
     border-radius: 8px;
     padding: 1rem 1.2rem;
@@ -310,6 +331,12 @@
 <body>
 
 <div class="paper-coarse" aria-hidden="true"></div>
+
+<!-- Background image layer -->
+<div class="bg-layer" id="bgLayer">
+  <div class="bg-overlay"></div>
+  <div class="bg-grain"></div>
+</div>
 
 <header class="sf-header">
   <a href="index.html" class="sf-header-logo">Volna</a>
@@ -544,6 +571,52 @@
   const SUPABASE_URL  = "https://kufeivbnbwqhorwarxpx.supabase.co";
   const SUPABASE_KEY  = "%%SUPABASE_ANON_KEY%%";
 
+  // ── Background image system ──
+  const ALL_IMAGES = [
+    'bg-01.jpg','bg-02.jpg','bg-03.jpg','bg-04.jpg','bg-05.jpg',
+    'bg-06.jpg','bg-07.jpg','bg-08.jpg','bg-09.jpg','bg-10.jpg',
+    'bg-11.jpg','bg-12.jpg','bg-13.jpg','bg-14.jpg','bg-15.jpg',
+    'bg-16.jpg','bg-17.jpg','bg-18.jpg','bg-19.jpg','bg-20.jpg'
+  ];
+
+  // Fisher-Yates shuffle
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  // Assign one unique image per question (9 questions, 20 images)
+  var shuffled = shuffle(ALL_IMAGES);
+  var stepImages = shuffled.slice(0, 9); // one per step, no repeats
+
+  // Pre-create slide divs
+  var bgLayer = document.getElementById('bgLayer');
+  var slides = stepImages.map(function(src) {
+    var div = document.createElement('div');
+    div.className = 'bg-slide';
+    div.style.backgroundImage = 'url(' + src + ')';
+    // Insert before overlay so overlay sits on top
+    bgLayer.insertBefore(div, bgLayer.firstChild);
+    return div;
+  });
+
+  var currentSlide = -1;
+  function showBgSlide(index) {
+    if (index === currentSlide) return;
+    if (currentSlide >= 0) slides[currentSlide].classList.remove('active');
+    if (index >= 0 && index < slides.length) {
+      slides[index].classList.add('active');
+      currentSlide = index;
+    }
+  }
+
+  // Show first image immediately
+  showBgSlide(0);
+
   const TOTAL = 9;
   const answers = {};
   let currentStep = 1;
@@ -579,6 +652,8 @@
     var cur = document.querySelector(".sf-step[data-step='"+from+"']");
     var tgt = document.querySelector(".sf-step[data-step='"+to+"']");
     if (!tgt) return;
+    // Change background when moving to a new step (steps are 1-indexed, slides 0-indexed)
+    if (to >= 1 && to <= 9) showBgSlide(to - 1);
     gsap.to(cur, { opacity:0, x:dir==="forward"?-24:24, duration:0.28, ease:"power2.in", onComplete: function() {
       cur.classList.remove("active"); gsap.set(cur,{opacity:1,x:0});
       tgt.classList.add("active");
@@ -593,6 +668,10 @@
     document.querySelectorAll(".sf-result-screen,.sf-loading,.sf-error").forEach(function(el){
       el.classList.remove("active");
     });
+    // Dim background on result screens
+    if (currentSlide >= 0) {
+      slides[currentSlide].style.opacity = (id === 'quizContainer') ? '' : '0.2';
+    }
     var t = document.getElementById(id);
     if (!t) return;
     t.classList.add("active");
