@@ -194,13 +194,22 @@
 .sf-input::placeholder { color: var(--white-ghost); font-style: normal; }
 .sf-input:focus { border-color: var(--white); }
   
-  .sf-input-nudge {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.5rem; letter-spacing: 0.14em;
-    color: var(--white-ghost); margin-bottom: 2.5rem; min-height: 1rem;
-  }
+.sf-input-nudge {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.5rem; letter-spacing: 0.14em;
+  color: var(--white-ghost); margin-bottom: 2.5rem; min-height: 1rem;
+}
 
-  .sf-nav { display: flex; gap: 1rem; align-items: center; }
+.sf-caveat {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  color: var(--white-ghost);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+  .sf-nav { display: flex; gap: 1rem; align-items: center; justify-content: center; }
   .sf-btn {
     font-family: 'DM Mono', monospace;
     font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase;
@@ -385,9 +394,9 @@
       <p class="sf-hint">Don't overthink it &mdash; just describe what you actually wear, not what you wish you wore.</p>
       <textarea class="sf-input" id="a1" rows="1" style="font-family: 'Playfair Display', Georgia, serif; font-style: normal;" placeholder="e.g. Mostly black, lots of layers, never anything too fitted..." oninput="autoResize(this); updateNudge(1)"></textarea>
       <p class="sf-input-nudge" id="nudge1"></p>
+      <p class="sf-caveat">Not sure? Just write "I don't know" — our analysis works with that too.</p>
       <div class="sf-nav">
         <button class="sf-btn primary" onclick="nextStep(1)">Continue &rarr;</button>
-        <button class="sf-skip" onclick="skipStep(1)">Skip</button>
       </div>
     </div>
 
