@@ -23,12 +23,16 @@
     background: #0a0a0b;
     color: #f0ede8;
     font-family: 'Playfair Display', Georgia, serif;
-    font-weight: 300;
+    font-weight: 400;
     line-height: 1.7;
     overflow-x: hidden;
     min-height: 100vh;
   }
 
+  input, textarea, button, select {
+    font-family: inherit;
+  }
+  
   /* ── Background image layers ── */
   .bg-layer {
     position: fixed; inset: 0; z-index: 0;
@@ -162,26 +166,28 @@
     border-radius: 6px;
     display: inline-block;
   }
-  .sf-input {
-    width: 100%;
-    padding: 1.1rem 0;
-    font-family: 'Playfair Display', serif;
-    font-size: 1.25rem; font-weight: 300;
-    color: var(--white);
-    background: rgba(240,237,232,0.08);
-    border: 1px solid var(--border-strong);
-    border-radius: 8px;
-    padding: 1rem 1.2rem;
-    outline: none;
-    transition: border-color 0.3s;
-    margin-bottom: 0.5rem;
-    resize: none;
-    overflow: hidden;
-    min-height: 52px;
-  }
-  .sf-input::placeholder { color: var(--white-ghost); font-style: italic; }
-  .sf-input:focus { border-bottom-color: var(--white); }
+.sf-input, .sf-input::placeholder {
+  font-family: 'Playfair Display', Georgia, serif;
+}
 
+.sf-input {
+  width: 100%;
+  padding: 1rem 1.2rem;
+  font-size: 1.25rem; font-weight: 300;
+  color: var(--white);
+  background: rgba(240,237,232,0.08);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.3s;
+  margin-bottom: 0.5rem;
+  resize: none;
+  overflow: hidden;
+  min-height: 52px;
+}
+.sf-input::placeholder { color: var(--white-ghost); font-style: italic; }
+.sf-input:focus { border-color: var(--white); }
+  
   .sf-input-nudge {
     font-family: 'DM Mono', monospace;
     font-size: 0.5rem; letter-spacing: 0.14em;
@@ -369,7 +375,7 @@
 
     <div class="sf-step active" data-step="1">
       <p class="sf-step-label">01 &mdash; 09</p>
-      <h2 class="sf-question">How would you describe your personal style <em>right now?</em></h2>
+      <h2 class="sf-question">How would you describe your personal style right now? </h2>
       <p class="sf-hint">Don't overthink it &mdash; just describe what you actually wear, not what you wish you wore.</p>
       <textarea class="sf-input" id="a1" rows="1" placeholder="e.g. Mostly black, lots of layers, never anything too fitted&hellip;" oninput="autoResize(this); updateNudge(1)"></textarea>
       <p class="sf-input-nudge" id="nudge1"></p>
