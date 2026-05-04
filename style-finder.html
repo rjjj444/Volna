@@ -166,9 +166,16 @@
     border-radius: 6px;
     display: inline-block;
   }
-.sf-input, .sf-input::placeholder {
+.sf-input::placeholder {
   font-family: 'Playfair Display', Georgia, serif;
+  color: var(--white-ghost);
+  font-style: italic;
 }
+
+::-webkit-input-placeholder { font-family: 'Playfair Display', Georgia, serif; }
+::-moz-placeholder          { font-family: 'Playfair Display', Georgia, serif; }
+:-ms-input-placeholder      { font-family: 'Playfair Display', Georgia, serif; }
+::placeholder               { font-family: 'Playfair Display', Georgia, serif; }
 
 .sf-input {
   width: 100%;
