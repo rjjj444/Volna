@@ -8,43 +8,64 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --black:         #c8c9cc;
-    --white:         #0f0f10;
-    --white-dim:     #252527;
-    --white-muted:   #52525a;
-    --white-ghost:   #8a8a92;
-    --border:        rgba(15,15,16,0.13);
-    --border-strong: rgba(15,15,16,0.26);
-    --accent:        #0f0f10;
+    --white:         #f0ede8;
+    --white-dim:     #d8d5d0;
+    --white-muted:   #a8a5a0;
+    --white-ghost:   #6e6b66;
+    --border:        rgba(240,237,232,0.12);
+    --border-strong: rgba(240,237,232,0.22);
+    --accent:        #f0ede8;
+    --black:         #0a0a0b;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
-    background:
-      radial-gradient(ellipse 120% 80% at 30% 40%, rgba(210,212,218,0.55) 0%, transparent 65%),
-      radial-gradient(ellipse 80% 60% at 80% 10%,  rgba(195,198,205,0.35) 0%, transparent 55%),
-      radial-gradient(ellipse 100% 80% at 10% 90%, rgba(215,216,220,0.45) 0%, transparent 60%),
-      #c8c9cc;
-    color: var(--white);
+    background: #0a0a0b;
+    color: #f0ede8;
     font-family: 'Playfair Display', Georgia, serif;
     font-weight: 300;
     line-height: 1.7;
     overflow-x: hidden;
     min-height: 100vh;
   }
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
+
+  /* ── Background image layers ── */
+  .bg-layer {
+    position: fixed; inset: 0; z-index: 0;
+    pointer-events: none;
+  }
+  .bg-slide {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 1.2s cubic-bezier(0.4,0,0.2,1);
+  }
+  .bg-slide.active { opacity: 0.42; }
+  .bg-overlay {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(to bottom,
+        rgba(10,10,11,0.65) 0%,
+        rgba(10,10,11,0.3) 40%,
+        rgba(10,10,11,0.5) 70%,
+        rgba(10,10,11,0.95) 100%
+      );
+  }
+  .bg-grain {
+    position: absolute; inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.35 0 0 0 0 0.28 0 0 0 0 0.20 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
     background-size: 256px 256px;
-    opacity: 0.10;
-    pointer-events: none; z-index: 998;
+    opacity: 0.12;
+    mix-blend-mode: overlay;
   }
+
   .paper-coarse {
     position: fixed; inset: 0; pointer-events: none; z-index: 997;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='q'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.25' numOctaves='6' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.30 0 0 0 0 0.24 0 0 0 0 0.16 0 0 0 0.28 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23q)'/%3E%3C/svg%3E");
     background-size: 512px 512px;
-    opacity: 0.07;
+    opacity: 0.05;
   }
 
   /* Header */
@@ -116,7 +137,7 @@
 
   .sf-step-label {
     font-family: 'DM Mono', monospace;
-    font-size: 0.65rem; letter-spacing: 0.24em; text-transform: uppercase;
+    font-size: 0.52rem; letter-spacing: 0.32em; text-transform: uppercase;
     color: var(--white-ghost); margin-bottom: 1.2rem;
     display: flex; align-items: center; gap: 1rem;
   }
@@ -144,7 +165,7 @@
     font-family: 'Playfair Display', serif;
     font-size: 1.25rem; font-weight: 300;
     color: var(--white);
-    background: rgba(255,255,255,0.6);
+    background: rgba(240,237,232,0.08);
     border: 1px solid var(--border-strong);
     border-radius: 8px;
     padding: 1rem 1.2rem;
@@ -216,7 +237,7 @@
   .sf-results-title em { font-style: italic; }
   .sf-results-sub {
     font-family: 'DM Mono', monospace;
-    font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+    font-size: 0.55rem; letter-spacing: 0.16em; text-transform: uppercase;
     color: var(--white-ghost); margin-bottom: 3rem;
     padding-bottom: 2rem; border-bottom: 1px solid var(--border-strong);
   }
@@ -224,7 +245,7 @@
   .sf-profile-section { margin-bottom: 2rem; }
   .sf-profile-label {
     font-family: 'DM Mono', monospace;
-    font-size: 0.64rem; letter-spacing: 0.22em; text-transform: uppercase;
+    font-size: 0.5rem; letter-spacing: 0.28em; text-transform: uppercase;
     color: var(--white-ghost); margin-bottom: 0.5rem;
   }
   .sf-profile-body {
@@ -254,11 +275,68 @@
     from { opacity: 0; transform: translateY(20px); }
     to   { opacity: 1; transform: translateY(0); }
   }
+
+  /* ── Loading screen ── */
+  .sf-loading { display: none; width: 100%; max-width: 640px; text-align: center; }
+  .sf-loading.active { display: block; }
+  .sf-loading-label { font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--white-ghost); margin-bottom: 2rem; }
+  .sf-loading-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 300; line-height: 1.2; color: var(--white-dim); margin-bottom: 3rem; }
+  .sf-loading-title em { font-style: italic; color: var(--white); }
+  .sf-loading-dots { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1.5rem; }
+  .sf-loading-dots span { width: 6px; height: 6px; border-radius: 50%; background: var(--white-ghost); animation: dotPulse 1.4s ease-in-out infinite; }
+  .sf-loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .sf-loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes dotPulse { 0%,80%,100% { opacity:0.3; transform:scale(0.8); } 40% { opacity:1; transform:scale(1.2); } }
+  .sf-loading-status { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.18em; color: var(--white-ghost); min-height: 1.2rem; }
+
+  /* ── Result screens ── */
+  .sf-result-screen { display: none; width: 100%; max-width: 640px; }
+  .sf-result-screen.active { display: block; }
+  .sf-result-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.52rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--white-ghost); margin-bottom: 0.8rem; }
+  .sf-result-title { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 300; line-height: 1.15; color: var(--white); margin-bottom: 0.4rem; }
+  .sf-result-title em { font-style: italic; }
+  .sf-result-sub { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--white-ghost); margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-strong); }
+  .sf-section { margin-bottom: 2.5rem; }
+  .sf-section-label { font-family: 'DM Mono', monospace; font-size: 0.5rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--white-ghost); margin-bottom: 0.6rem; }
+  .sf-section-body { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 300; color: var(--white-dim); line-height: 1.7; }
+  .sf-section-body em { font-style: italic; color: var(--white); }
+
+  /* Step pips */
+  .sf-result-step-indicator { display: flex; gap: 0.5rem; margin-bottom: 2rem; }
+  .sf-result-step-pip { height: 2px; flex: 1; background: var(--border-strong); transition: background 0.4s; }
+  .sf-result-step-pip.done { background: var(--white); }
+  .sf-result-step-pip.active { background: var(--white-muted); }
+
+  /* Cards */
+  .sf-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.75rem; margin-top: 0.5rem; }
+  .sf-card { background: rgba(200,201,204,0.45); backdrop-filter: blur(8px); border: 1px solid var(--border-strong); border-radius: 12px; padding: 1.2rem 1.1rem; }
+  .sf-card-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 400; color: var(--white); margin-bottom: 0.3rem; }
+  .sf-card-meta { font-family: 'DM Mono', monospace; font-size: 0.5rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white-ghost); margin-bottom: 0.5rem; }
+  .sf-card-reason { font-family: 'Playfair Display', serif; font-size: 0.9rem; font-weight: 300; color: var(--white-dim); line-height: 1.5; font-style: italic; }
+
+  /* Colours */
+  .sf-colour-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem; }
+  .sf-colour-chip { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.8rem; border: 1px solid var(--border-strong); border-radius: 100px; background: rgba(200,201,204,0.3); }
+  .sf-colour-dot { width: 10px; height: 10px; border-radius: 50%; border: 1px solid rgba(15,15,16,0.2); flex-shrink: 0; }
+  .sf-colour-name { font-family: 'DM Mono', monospace; font-size: 0.5rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white-muted); }
+
+  /* Error */
+  .sf-error { display: none; width: 100%; max-width: 640px; text-align: center; }
+  .sf-error.active { display: block; }
+  .sf-error-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 300; color: var(--white-dim); margin-bottom: 0.5rem; }
+  .sf-error-msg { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.14em; color: var(--white-ghost); margin-bottom: 2rem; line-height: 1.7; }
+
 </style>
 </head>
 <body>
 
 <div class="paper-coarse" aria-hidden="true"></div>
+
+<!-- Background image layer -->
+<div class="bg-layer" id="bgLayer">
+  <div class="bg-overlay"></div>
+  <div class="bg-grain"></div>
+</div>
 
 <header class="sf-header">
   <a href="index.html" class="sf-header-logo" style="text-decoration:none; display:flex; align-items:center;">
@@ -397,36 +475,98 @@
       <p class="sf-input-nudge" id="nudge9"></p>
       <div class="sf-nav">
         <button class="sf-btn" onclick="prevStep(9)">&larr; Back</button>
-        <button class="sf-btn primary" onclick="showResults()">See my style &rarr;</button>
+        <button class="sf-btn primary" onclick="runAnalysis()">Map my style &rarr;</button>
       </div>
     </div>
 
   </div>
 
-  <!-- Results -->
-  <div class="sf-results" id="resultsContainer">
-    <p class="sf-results-eyebrow">Your Style Profile</p>
-    <h2 class="sf-results-title">Style <em>intelligence</em><br>mapped.</h2>
-    <p class="sf-results-sub">Based on your responses across 9 questions &mdash; volnatrends.com</p>
 
-    <div class="sf-profile-section">
-      <p class="sf-profile-label">How you dress</p>
-      <p class="sf-profile-body" id="resultStyle">&mdash;</p>
-    </div>
-    <div class="sf-profile-section">
-      <p class="sf-profile-label">Your colour territory</p>
-      <p class="sf-profile-body" id="resultColour">&mdash;</p>
-    </div>
-    <div class="sf-profile-section">
-      <p class="sf-profile-label">Brands in your orbit</p>
-      <p class="sf-profile-body" id="resultBrands">&mdash;</p>
-    </div>
+  <!-- ── Loading ── -->
+  <div class="sf-loading" id="loadingScreen">
+    <p class="sf-loading-label">Volna Intelligence</p>
+    <h2 class="sf-loading-title">Reading your <em>aesthetic</em>&hellip;</h2>
+    <div class="sf-loading-dots"><span></span><span></span><span></span></div>
+    <p class="sf-loading-status" id="loadingStatus">Analysing your answers&hellip;</p>
+  </div>
 
-    <div class="sf-summary" id="summaryBox"></div>
+  <!-- ── Error ── -->
+  <div class="sf-error" id="errorScreen">
+    <h2 class="sf-error-title">Something went wrong.</h2>
+    <p class="sf-error-msg" id="errorMsg">We couldn't complete your analysis. Please try again.</p>
+    <button class="sf-btn primary" onclick="retryAnalysis()">Try again</button>
+  </div>
 
+  <!-- ── Screen 1: Profile ── -->
+  <div class="sf-result-screen" id="screenProfile">
+    <div class="sf-result-step-indicator">
+      <div class="sf-result-step-pip active"></div>
+      <div class="sf-result-step-pip"></div>
+      <div class="sf-result-step-pip"></div>
+    </div>
+    <p class="sf-result-eyebrow">Your Style Profile</p>
+    <h2 class="sf-result-title" id="profileTitle">Your aesthetic is <em>&mdash;</em></h2>
+    <p class="sf-result-sub" id="profileSub">&mdash;</p>
+    <div class="sf-section">
+      <p class="sf-section-label">Aesthetic Direction</p>
+      <p class="sf-section-body" id="profileAesthetic">&mdash;</p>
+    </div>
+    <div class="sf-section">
+      <p class="sf-section-label">Your Colour Territory</p>
+      <div class="sf-colour-row" id="profileColours"></div>
+    </div>
+    <div class="sf-section">
+      <p class="sf-section-label">Signature Materials</p>
+      <p class="sf-section-body" id="profileMaterials">&mdash;</p>
+    </div>
+    <div class="sf-section">
+      <p class="sf-section-label">Style Icons</p>
+      <p class="sf-section-body" id="profileIcons">&mdash;</p>
+    </div>
     <div class="sf-results-nav">
-      <button class="sf-btn" onclick="downloadResults()">&darr; Download as PDF</button>
-      <a href="index.html" class="sf-btn">&larr; Back to home</a>
+      <button class="sf-btn primary" onclick="showScreen('screenDesigners')">Designers for you &rarr;</button>
+      <button class="sf-btn" onclick="downloadResults()">&darr; Download PDF</button>
+      <button class="sf-btn" onclick="restartQuiz()">Start over</button>
+    </div>
+  </div>
+
+  <!-- ── Screen 2: Designers ── -->
+  <div class="sf-result-screen" id="screenDesigners">
+    <div class="sf-result-step-indicator">
+      <div class="sf-result-step-pip done"></div>
+      <div class="sf-result-step-pip active"></div>
+      <div class="sf-result-step-pip"></div>
+    </div>
+    <p class="sf-result-eyebrow">Designers &amp; Brands</p>
+    <h2 class="sf-result-title">Labels in your <em>orbit.</em></h2>
+    <p class="sf-result-sub">Selected for your aesthetic &mdash; not just your budget</p>
+    <div class="sf-card-grid" id="designerGrid"></div>
+    <div class="sf-results-nav" style="margin-top:2rem;">
+      <button class="sf-btn primary" onclick="showScreen('screenCreators')">Creators to follow &rarr;</button>
+      <button class="sf-btn" onclick="showScreen('screenProfile')">&larr; Your profile</button>
+      <button class="sf-btn" onclick="downloadResults()">&darr; Download PDF</button>
+    </div>
+  </div>
+
+  <!-- ── Screen 3: Creators ── -->
+  <div class="sf-result-screen" id="screenCreators">
+    <div class="sf-result-step-indicator">
+      <div class="sf-result-step-pip done"></div>
+      <div class="sf-result-step-pip done"></div>
+      <div class="sf-result-step-pip active"></div>
+    </div>
+    <p class="sf-result-eyebrow">Creators &amp; Style References</p>
+    <h2 class="sf-result-title">People who dress <em>like you think.</em></h2>
+    <p class="sf-result-sub">Stylists, models, editors and creatives aligned with your aesthetic</p>
+    <div class="sf-card-grid" id="creatorGrid"></div>
+    <div class="sf-section" style="margin-top:2rem;">
+      <p class="sf-section-label">Your Full Style Summary</p>
+      <div class="sf-summary" id="summaryBox"></div>
+    </div>
+    <div class="sf-results-nav">
+      <button class="sf-btn" onclick="downloadResults()">&darr; Download PDF</button>
+      <button class="sf-btn" onclick="showScreen('screenDesigners')">&larr; Designers</button>
+      <a href="index.html" class="sf-btn">&larr; Home</a>
       <button class="sf-btn" onclick="restartQuiz()">Start over</button>
     </div>
   </div>
@@ -436,178 +576,334 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
+  const ANTHROPIC_KEY = "%%ANTHROPIC_API_KEY%%";
+  const SUPABASE_URL  = "https://kufeivbnbwqhorwarxpx.supabase.co";
+  const SUPABASE_KEY  = "%%SUPABASE_ANON_KEY%%";
+
+  // ── Background image system ──
+  const ALL_IMAGES = [
+    'bg-01.jpg','bg-02.jpg','bg-03.jpg','bg-04.jpg','bg-05.jpg',
+    'bg-06.jpg','bg-07.jpg','bg-08.jpg','bg-09.jpg','bg-10.jpg',
+    'bg-11.jpg','bg-12.jpg','bg-13.jpg','bg-14.jpg','bg-15.jpg',
+    'bg-16.jpg','bg-17.jpg','bg-18.jpg','bg-19.jpg','bg-20.jpg'
+  ];
+
+  // Fisher-Yates shuffle
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  // Assign one unique image per question (9 questions, 20 images)
+  var shuffled = shuffle(ALL_IMAGES);
+  var stepImages = shuffled.slice(0, 9); // one per step, no repeats
+
+  // Pre-create slide divs
+  var bgLayer = document.getElementById('bgLayer');
+  var slides = stepImages.map(function(src) {
+    var div = document.createElement('div');
+    div.className = 'bg-slide';
+    div.style.backgroundImage = 'url(' + src + ')';
+    // Insert before overlay so overlay sits on top
+    bgLayer.insertBefore(div, bgLayer.firstChild);
+    return div;
+  });
+
+  var currentSlide = -1;
+  function showBgSlide(index) {
+    if (index === currentSlide) return;
+    if (currentSlide >= 0) slides[currentSlide].classList.remove('active');
+    if (index >= 0 && index < slides.length) {
+      slides[index].classList.add('active');
+      currentSlide = index;
+    }
+  }
+
+  // Show first image immediately
+  showBgSlide(0);
+
   const TOTAL = 9;
   const answers = {};
   let currentStep = 1;
+  let analysisResult = null;
 
   const questions = [
-    "How you dress right now",
-    "Colours you reach for",
-    "Last outfit that felt right",
-    "Who you dress for",
-    "What you save and bookmark",
-    "What you never wear",
-    "Where you are in your style",
-    "Brands in your orbit",
-    "Anything else"
+    "How you dress right now","Colours you reach for","Last outfit that felt right",
+    "Who you dress for","What you save and bookmark","What you never wear",
+    "Where you are in your style","Brands in your orbit","Anything else"
   ];
 
-  function autoResize(el) {
-    el.style.height = "auto";
-    el.style.height = el.scrollHeight + "px";
-  }
+  function autoResize(el) { el.style.height="auto"; el.style.height=el.scrollHeight+"px"; }
 
   function updateNudge(step) {
-    const val = document.getElementById("a" + step).value.trim();
-    const nudge = document.getElementById("nudge" + step);
-    nudge.textContent = (val.length > 0 && val.length < 15)
-      ? "Keep going — the more specific, the better your profile."
-      : "";
+    var val = document.getElementById("a"+step).value.trim();
+    var nudge = document.getElementById("nudge"+step);
+    nudge.textContent = (val.length>0 && val.length<15) ? "Keep going — the more specific, the better your profile." : "";
   }
 
   function updateProgress() {
-    document.getElementById("progressBar").style.width =
-      (((currentStep - 1) / TOTAL) * 100) + "%";
+    document.getElementById("progressBar").style.width = (((currentStep-1)/TOTAL)*100)+"%";
   }
 
   function nextStep(step) {
-    const val = document.getElementById("a" + step).value.trim();
+    var val = document.getElementById("a"+step).value.trim();
     if (val) answers[step] = val;
-    goToStep(step, step + 1, "forward");
+    goToStep(step, step+1, "forward");
   }
+  function prevStep(step) { goToStep(step, step-1, "back"); }
+  function skipStep(step) { goToStep(step, step+1, "forward"); }
 
-  function prevStep(step) {
-    goToStep(step, step - 1, "back");
-  }
-
-  function skipStep(step) {
-    answers[step] = "—";
-    goToStep(step, step + 1, "forward");
-  }
-
-  function goToStep(from, to, direction) {
-    const current = document.querySelector(".sf-step[data-step='" + from + "']");
-    const target  = document.querySelector(".sf-step[data-step='" + to + "']");
-    if (!target) return;
-    const outX = direction === "forward" ? -24 : 24;
-    const inX  = direction === "forward" ?  24 : -24;
-    gsap.to(current, { opacity: 0, x: outX, duration: 0.28, ease: "power2.in", onComplete: function() {
-      current.classList.remove("active");
-      gsap.set(current, { opacity: 1, x: 0 });
-      target.classList.add("active");
-      gsap.fromTo(target, { opacity: 0, x: inX }, { opacity: 1, x: 0, duration: 0.36, ease: "power2.out" });
-      currentStep = to;
-      updateProgress();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      setTimeout(function() {
-        var input = target.querySelector(".sf-input");
-        if (input) input.focus();
-      }, 380);
+  function goToStep(from, to, dir) {
+    var cur = document.querySelector(".sf-step[data-step='"+from+"']");
+    var tgt = document.querySelector(".sf-step[data-step='"+to+"']");
+    if (!tgt) return;
+    // Change background when moving to a new step (steps are 1-indexed, slides 0-indexed)
+    if (to >= 1 && to <= 9) showBgSlide(to - 1);
+    gsap.to(cur, { opacity:0, x:dir==="forward"?-24:24, duration:0.28, ease:"power2.in", onComplete: function() {
+      cur.classList.remove("active"); gsap.set(cur,{opacity:1,x:0});
+      tgt.classList.add("active");
+      gsap.fromTo(tgt,{opacity:0,x:dir==="forward"?24:-24},{opacity:1,x:0,duration:0.36,ease:"power2.out"});
+      currentStep=to; updateProgress();
+      window.scrollTo({top:0,behavior:"smooth"});
+      setTimeout(function(){ var inp=tgt.querySelector(".sf-input"); if(inp) inp.focus(); },380);
     }});
   }
 
-  function showResults() {
+  function showScreen(id) {
+    document.querySelectorAll(".sf-result-screen,.sf-loading,.sf-error").forEach(function(el){
+      el.classList.remove("active");
+    });
+    // Dim background on result screens
+    if (currentSlide >= 0) {
+      slides[currentSlide].style.opacity = (id === 'quizContainer') ? '' : '0.2';
+    }
+    var t = document.getElementById(id);
+    if (!t) return;
+    t.classList.add("active");
+    gsap.fromTo(t,{opacity:0,y:20},{opacity:1,y:0,duration:0.5,ease:"power2.out"});
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+
+  function setStatus(msg) { document.getElementById("loadingStatus").textContent = msg; }
+
+  async function querySupabase() {
+    try {
+      var resp = await fetch(SUPABASE_URL+"/rest/v1/search_index?select=*&limit=40", {
+        headers: { "apikey": SUPABASE_KEY, "Authorization": "Bearer "+SUPABASE_KEY }
+      });
+      if (!resp.ok) return [];
+      return await resp.json() || [];
+    } catch(e) { return []; }
+  }
+
+  async function callClaude(userAnswers, dbData) {
+    var dbContext = dbData.length > 0
+      ? "Volna database context:\n" + JSON.stringify(dbData.slice(0,20))
+      : "Volna database is not yet populated — use your fashion knowledge directly.";
+
+    var prompt = [
+      "You are Volna's style intelligence engine. Analyse these user responses and produce a precise, consistent style profile.",
+      "IMPORTANT: Be deterministic — the same inputs must always produce the same profile. Be specific, not generic.",
+      "",
+      "USER RESPONSES:",
+      questions.map(function(q,i){ return (i+1)+". "+q+": "+(userAnswers[i+1]||"Not answered"); }).join("\n"),
+      "",
+      dbContext,
+      "",
+      "Return ONLY valid JSON — no markdown, no explanation — matching this exact structure:",
+      JSON.stringify({
+        aesthetic_title: "2-4 word aesthetic name",
+        aesthetic_subtitle: "One precise sentence describing their style identity",
+        aesthetic_description: "2-3 sentences of rich specific aesthetic analysis",
+        colours: [
+          {name:"colour name",hex:"#rrggbb"},
+          {name:"colour name",hex:"#rrggbb"},
+          {name:"colour name",hex:"#rrggbb"},
+          {name:"colour name",hex:"#rrggbb"}
+        ],
+        materials: "2-3 sentences on materials and textures that suit them",
+        style_icons: "3-5 specific people who embody this aesthetic with a brief note on each",
+        designers: [
+          {name:"Brand",category:"Ready-to-Wear / Emerging / Archive",reason:"One specific sentence on alignment with their answers"},
+          {name:"...",category:"...",reason:"..."},
+          {name:"...",category:"...",reason:"..."},
+          {name:"...",category:"...",reason:"..."},
+          {name:"...",category:"...",reason:"..."}
+        ],
+        creators: [
+          {name:"Creator",category:"Stylist / Model / Editor / Photographer",reason:"One specific sentence on aesthetic alignment"},
+          {name:"...",category:"...",reason:"..."},
+          {name:"...",category:"...",reason:"..."},
+          {name:"...",category:"...",reason:"..."},
+          {name:"...",category:"...",reason:"..."}
+        ]
+      }, null, 2)
+    ].join("\n");
+
+    var resp = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": ANTHROPIC_KEY,
+        "anthropic-version": "2023-06-01",
+        "anthropic-dangerous-direct-browser-access": "true"
+      },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1500,
+        temperature: 0,
+        messages: [{role:"user", content: prompt}]
+      })
+    });
+
+    if (!resp.ok) throw new Error("Analysis failed ("+resp.status+"). Check your API key is set up in GitHub Secrets.");
+    var data = await resp.json();
+    var text = data.content[0].text.trim().replace(/^```json\s*/i,"").replace(/```\s*$/i,"").trim();
+    return JSON.parse(text);
+  }
+
+  async function runAnalysis() {
     var val = document.getElementById("a9").value.trim();
     if (val) answers[9] = val;
     document.getElementById("progressBar").style.width = "100%";
+    document.getElementById("quizContainer").style.display = "none";
 
-    document.getElementById("resultStyle").textContent  = answers[1] || "Not answered";
-    document.getElementById("resultColour").textContent = answers[2] || "Not answered";
-    document.getElementById("resultBrands").textContent = answers[8] || "Not answered";
+    var loading = document.getElementById("loadingScreen");
+    loading.classList.add("active");
+    gsap.fromTo(loading,{opacity:0,y:20},{opacity:1,y:0,duration:0.4});
 
-    var summaryBox = document.getElementById("summaryBox");
-    summaryBox.innerHTML = questions.map(function(label, i) {
-      return '<div class="sf-summary-row"><span class="sf-summary-q">' + label +
-        '</span><span class="sf-summary-a">' + (answers[i + 1] || "—") + '</span></div>';
+    try {
+      setStatus("Searching the Volna database\u2026");
+      var dbData = await querySupabase();
+
+      setStatus("Mapping your aesthetic\u2026");
+      var result = await callClaude(answers, dbData);
+      analysisResult = result;
+
+      setStatus("Building your profile\u2026");
+      renderResults(result);
+
+      loading.classList.remove("active");
+      showScreen("screenProfile");
+    } catch(err) {
+      loading.classList.remove("active");
+      document.getElementById("errorMsg").textContent = err.message || "We couldn't complete your analysis. Please try again.";
+      showScreen("errorScreen");
+    }
+  }
+
+  function retryAnalysis() {
+    document.getElementById("errorScreen").classList.remove("active");
+    runAnalysis();
+  }
+
+  function renderResults(r) {
+    document.getElementById("profileTitle").innerHTML = "Your aesthetic is <em>"+r.aesthetic_title+"</em>";
+    document.getElementById("profileSub").textContent = r.aesthetic_subtitle;
+    document.getElementById("profileAesthetic").textContent = r.aesthetic_description;
+    document.getElementById("profileMaterials").textContent = r.materials;
+    document.getElementById("profileIcons").textContent = r.style_icons;
+
+    document.getElementById("profileColours").innerHTML = (r.colours||[]).map(function(c){
+      return '<div class="sf-colour-chip"><div class="sf-colour-dot" style="background:'+c.hex+'"></div><span class="sf-colour-name">'+c.name+'</span></div>';
     }).join("");
 
-    var quiz = document.getElementById("quizContainer");
-    var results = document.getElementById("resultsContainer");
-    gsap.to(quiz, { opacity: 0, y: -16, duration: 0.35, ease: "power2.in", onComplete: function() {
-      quiz.style.display = "none";
-      results.classList.add("active");
-      gsap.fromTo(results, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" });
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }});
+    document.getElementById("designerGrid").innerHTML = (r.designers||[]).map(function(d){
+      return '<div class="sf-card"><div class="sf-card-name">'+d.name+'</div><div class="sf-card-meta">'+d.category+'</div><div class="sf-card-reason">'+d.reason+'</div></div>';
+    }).join("");
+
+    document.getElementById("creatorGrid").innerHTML = (r.creators||[]).map(function(c){
+      return '<div class="sf-card"><div class="sf-card-name">'+c.name+'</div><div class="sf-card-meta">'+c.category+'</div><div class="sf-card-reason">'+c.reason+'</div></div>';
+    }).join("");
+
+    document.getElementById("summaryBox").innerHTML = questions.map(function(label,i){
+      return '<div class="sf-summary-row"><span class="sf-summary-q">'+label+'</span><span class="sf-summary-a">'+(answers[i+1]||"—")+'</span></div>';
+    }).join("");
   }
 
   function restartQuiz() {
-    Object.keys(answers).forEach(function(k) { delete answers[k]; });
-    document.querySelectorAll(".sf-input").forEach(function(el) {
-      el.value = ""; el.style.height = "auto";
-    });
-    document.querySelectorAll(".sf-input-nudge").forEach(function(el) { el.textContent = ""; });
-    var results = document.getElementById("resultsContainer");
-    var quiz    = document.getElementById("quizContainer");
-    gsap.to(results, { opacity: 0, duration: 0.3, onComplete: function() {
-      results.classList.remove("active");
-      quiz.style.display = "";
-      document.querySelectorAll(".sf-step").forEach(function(s) { s.classList.remove("active"); });
-      document.querySelector(".sf-step[data-step='1']").classList.add("active");
-      currentStep = 1;
-      updateProgress();
-      gsap.fromTo(quiz, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.4 });
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }});
+    Object.keys(answers).forEach(function(k){ delete answers[k]; });
+    analysisResult = null;
+    document.querySelectorAll(".sf-input").forEach(function(el){ el.value=""; el.style.height="auto"; });
+    document.querySelectorAll(".sf-input-nudge").forEach(function(el){ el.textContent=""; });
+    document.querySelectorAll(".sf-result-screen,.sf-loading,.sf-error").forEach(function(el){ el.classList.remove("active"); });
+    var quiz = document.getElementById("quizContainer");
+    quiz.style.display = "";
+    document.querySelectorAll(".sf-step").forEach(function(s){ s.classList.remove("active"); });
+    document.querySelector(".sf-step[data-step='1']").classList.add("active");
+    currentStep = 1; updateProgress();
+    gsap.fromTo(quiz,{opacity:0,y:16},{opacity:1,y:0,duration:0.4});
+    window.scrollTo({top:0,behavior:"smooth"});
   }
 
   function downloadResults() {
+    if (!analysisResult) { alert("Complete the quiz first to download your profile."); return; }
+    var r = analysisResult;
     var jsPDF = window.jspdf.jsPDF;
-    var doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
-    var W = 210; var H = 297; var margin = 24; var y = 0;
+    var doc = new jsPDF({orientation:"portrait",unit:"mm",format:"a4"});
+    var W=210, H=297, margin=24, y=0;
 
-    doc.setFillColor(200, 201, 204);
-    doc.rect(0, 0, W, H, "F");
-    doc.setFillColor(185, 186, 190);
-    doc.rect(0, 0, W, 28, "F");
+    doc.setFillColor(200,201,204); doc.rect(0,0,W,H,"F");
+    doc.setFillColor(185,186,190); doc.rect(0,0,W,28,"F");
+    doc.setFont("helvetica","bold"); doc.setFontSize(11); doc.setTextColor(15,15,16); doc.setCharSpace(4);
+    doc.text("VOLNA",margin,17); doc.setCharSpace(0);
+    doc.setFont("helvetica","normal"); doc.setFontSize(7); doc.setTextColor(82,82,90);
+    doc.text("STYLE PROFILE",W-margin,17,{align:"right"});
 
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(11);
-    doc.setTextColor(15, 15, 16);
-    doc.setCharSpace(4);
-    doc.text("VOLNA", margin, 17);
-    doc.setCharSpace(0);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(7);
-    doc.setTextColor(82, 82, 90);
-    doc.text("STYLE PROFILE", W - margin, 17, { align: "right" });
+    y=44;
+    doc.setFont("helvetica","bolditalic"); doc.setFontSize(20); doc.setTextColor(15,15,16);
+    doc.text(r.aesthetic_title||"Your Style",margin,y); y+=7;
+    doc.setFont("helvetica","italic"); doc.setFontSize(10); doc.setTextColor(82,82,90);
+    var sl=doc.splitTextToSize(r.aesthetic_subtitle||"",W-margin*2); doc.text(sl,margin,y); y+=sl.length*5+4;
+    doc.setDrawColor(15,15,16); doc.setLineWidth(0.3); doc.line(margin,y,W-margin,y); y+=10;
 
-    y = 46;
-    doc.setFont("helvetica", "bolditalic");
-    doc.setFontSize(22);
-    doc.setTextColor(15, 15, 16);
-    doc.text("Style intelligence, mapped.", margin, y);
-    y += 8;
-    doc.setDrawColor(15, 15, 16);
-    doc.setLineWidth(0.3);
-    doc.line(margin, y, W - margin, y);
-    y += 12;
+    function section(label, text) {
+      if(y>H-36){doc.addPage();y=24;}
+      doc.setFont("helvetica","bold"); doc.setFontSize(6.5); doc.setTextColor(138,138,146);
+      doc.text(label.toUpperCase(),margin,y); y+=5;
+      doc.setFont("helvetica","normal"); doc.setFontSize(9); doc.setTextColor(15,15,16);
+      var lines=doc.splitTextToSize(text||"—",W-margin*2); doc.text(lines,margin,y); y+=lines.length*5+8;
+      doc.setDrawColor(185,186,190); doc.setLineWidth(0.2); doc.line(margin,y-4,W-margin,y-4);
+    }
+    section("Aesthetic Direction", r.aesthetic_description);
+    section("Signature Materials", r.materials);
+    section("Style Icons", r.style_icons);
 
-    questions.forEach(function(label, i) {
-      if (y > H - 30) { doc.addPage(); y = 24; }
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(6.5);
-      doc.setTextColor(138, 138, 146);
-      doc.text(label.toUpperCase(), margin, y);
-      y += 5;
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(9);
-      doc.setTextColor(15, 15, 16);
-      var ans = String(answers[i + 1] || "—");
-      var lines = doc.splitTextToSize(ans, W - margin * 2);
-      doc.text(lines, margin, y);
-      y += lines.length * 5 + 8;
-      doc.setDrawColor(185, 186, 190);
-      doc.setLineWidth(0.2);
-      doc.line(margin, y - 4, W - margin, y - 4);
+    function cardSection(label, items) {
+      if(y>H-40){doc.addPage();y=24;}
+      doc.setFont("helvetica","bold"); doc.setFontSize(6.5); doc.setTextColor(138,138,146);
+      doc.text(label,margin,y); y+=7;
+      (items||[]).forEach(function(item){
+        if(y>H-30){doc.addPage();y=24;}
+        doc.setFont("helvetica","bold"); doc.setFontSize(9); doc.setTextColor(15,15,16);
+        doc.text(item.name,margin,y);
+        doc.setFont("helvetica","normal"); doc.setFontSize(7); doc.setTextColor(82,82,90);
+        doc.text(item.category, margin+doc.getTextWidth(item.name)+4, y); y+=5;
+        doc.setFont("helvetica","italic"); doc.setFontSize(8.5); doc.setTextColor(37,37,39);
+        var rl=doc.splitTextToSize(item.reason,W-margin*2); doc.text(rl,margin,y); y+=rl.length*4.5+5;
+      });
+    }
+    cardSection("DESIGNERS & BRANDS", r.designers);
+    cardSection("CREATORS & REFERENCES", r.creators);
+
+    if(y>H-40){doc.addPage();y=24;}
+    doc.setFont("helvetica","bold"); doc.setFontSize(6.5); doc.setTextColor(138,138,146);
+    doc.text("YOUR ANSWERS",margin,y); y+=7;
+    questions.forEach(function(label,i){
+      if(y>H-30){doc.addPage();y=24;}
+      doc.setFont("helvetica","bold"); doc.setFontSize(6.5); doc.setTextColor(138,138,146);
+      doc.text(label.toUpperCase(),margin,y); y+=4;
+      doc.setFont("helvetica","normal"); doc.setFontSize(9); doc.setTextColor(15,15,16);
+      var al=doc.splitTextToSize(String(answers[i+1]||"—"),W-margin*2); doc.text(al,margin,y); y+=al.length*5+6;
     });
 
-    doc.setFillColor(185, 186, 190);
-    doc.rect(0, H - 16, W, 16, "F");
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(7);
-    doc.setTextColor(82, 82, 90);
-    doc.text("volnatrends.com — Fashion Intelligence for Independent Creatives", W / 2, H - 7, { align: "center" });
+    doc.setFillColor(185,186,190); doc.rect(0,H-16,W,16,"F");
+    doc.setFont("helvetica","normal"); doc.setFontSize(7); doc.setTextColor(82,82,90);
+    doc.text("volnatrends.com — Fashion Intelligence for Independent Creatives",W/2,H-7,{align:"center"});
     doc.save("volna-style-profile.pdf");
   }
 
