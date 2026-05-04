@@ -135,7 +135,7 @@
   }
 
   /* Quiz */
-  .sf-quiz { width: 100%; max-width: 640px; }
+  .sf-quiz { width: 100%; max-width: 640px; text-align: center; }
   .sf-step { display: none; }
   .sf-step.active { display: block; }
 
@@ -202,11 +202,15 @@
 
 .sf-caveat {
   font-family: 'DM Mono', monospace;
-  font-size: 0.58rem;
+  font-size: 0.75rem;
   letter-spacing: 0.12em;
   color: var(--white-ghost);
+  background: rgba(10,10,11,0.45);
+  backdrop-filter: blur(8px);
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  display: inline-block;
   margin-bottom: 1.5rem;
-  text-align: center;
 }
 
   .sf-nav { display: flex; gap: 1rem; align-items: center; justify-content: center; }
