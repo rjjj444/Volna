@@ -155,17 +155,8 @@
     font-weight: 400; line-height: 1.2;
     color: var(--white-dim); margin-bottom: 0.6rem;
   }
-  .sf-question em { font-style: italic; color: var(--white); }
+  .sf-question em { font-style: normal; color: var(--white); }
 
-  .sf-hint {
-    font-size: 0.75rem;
-    color: var(--white-dim);
-    background: rgba(10,10,11,0.45);
-    backdrop-filter: blur(8px);
-    padding: 0.6rem 1rem;
-    border-radius: 6px;
-    display: inline-block;
-  }
 .sf-input::placeholder {
   font-family: 'Playfair Display', Georgia, serif;
   color: var(--white-ghost);
@@ -200,6 +191,19 @@
   color: var(--white-ghost); margin-bottom: 2.5rem; min-height: 1rem;
 }
 
+  .sf-hint {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--white);
+  background: rgba(10,10,11,0.45);
+  backdrop-filter: blur(8px);
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  }
+  
 .sf-caveat {
   font-family: 'DM Mono', monospace;
   font-size: 0.75rem;
